@@ -209,19 +209,21 @@ def build_report(case_id: str, review_path: Path) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Build a local demo closed-loop report from model review files.")
-    parser.add_argument("--case", default="case_001", choices=["case_001", "case_002", "case_003", "case_004"])
+    parser.add_argument("--case", default="case_001", help="Case id, for example case_005 or 005.")
     parser.add_argument("--review-file", type=Path, help="Optional explicit review/model-output markdown file.")
     args = parser.parse_args()
 
-    review_path = args.review_file or find_latest_review(args.case)
+    normalized_arg = args.case.strip().lower()
+    case_id = normalized_arg if normalized_arg.startswith("case_") else f"case_{normalized_arg}"
+    review_path = args.review_file or find_latest_review(case_id)
     if not review_path.is_absolute():
         review_path = ROOT / review_path
     if not review_path.exists():
         raise FileNotFoundError(review_path)
 
-    report = build_report(args.case, review_path)
+    report = build_report(case_id, review_path)
     OUT_DIR.mkdir(exist_ok=True)
-    out_path = OUT_DIR / f"{args.case}_closed_loop_report.md"
+    out_path = OUT_DIR / f"{case_id}_closed_loop_report.md"
     out_path.write_text(report, encoding="utf-8-sig")
     print(out_path)
     return 0

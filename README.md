@@ -246,6 +246,39 @@ python .\scripts\run_chatanywhere_smoke.py
 python .\scripts\run_model_test.py --case case_001
 ```
 
+任意 case 测试：
+
+```powershell
+python .\scripts\test_prompt_with_cases.py --case case_005
+python .\scripts\run_model_test.py --case case_005
+```
+
+新增 case 建议放在：
+
+```text
+case_data/
+  Case_005/
+    Brief.xxx
+    Proposal.xxx
+    客户内部资料.xxx
+    desk_research.xxx
+    Final Digital Diary DG.xxx
+```
+
+生成时会读取 Brief / Proposal / 客户内部资料 / desk research 等输入材料，并自动排除文件名中包含 `Final Digital Diary`、`Final DG`、`最终` 或 `标答` 的文件。
+
+如果要给新 case 补充品类、品牌、人群等信息，可在 case 文件夹内添加 `case_info.json`：
+
+```json
+{
+  "category": "品类",
+  "brand": "品牌",
+  "target_audience": "目标人群",
+  "has_idi": "是否有 IDI / 入户 / 后续访谈",
+  "extra_notes": "给模型的补充说明"
+}
+```
+
 注意：当前脚本是从原项目迁移过来的 demo 脚本，若在新目录独立运行，需要根据实际 case 文件位置调整输入路径。
 
 `DG_AGENT_CASE_ROOT` 指向包含 `Case_001`、`Case_002` 等原始材料文件夹的目录。当前包默认不搬运原始客户材料，只保留可复用规则、case card 和测试记录。
@@ -283,6 +316,12 @@ prompt 构建 -> 模型生成 -> 研究员 review -> gap 分类 -> 规则 / rubr
 
 ```powershell
 python .\scripts\build_demo_loop_report.py --case case_001
+```
+
+新 case 同样可以生成闭环报告：
+
+```powershell
+python .\scripts\build_demo_loop_report.py --case case_005
 ```
 
 这只能完成 demo 级闭环。公司数据库、公司后端、算法服务、历史最终版 DG 标答、批量评测、模型训练和生产回归门禁，仍需要进入工程环境后继续接入。

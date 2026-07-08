@@ -11,8 +11,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from prompt import ProjectInfo, build_generation_prompt
-from test_prompt_with_cases import load_case_inputs
+from prompt import build_generation_prompt
+from test_prompt_with_cases import case_dir_for_id, load_case_inputs, normalize_case_id, project_info_for_case
 
 
 OUT_DIR = ROOT / "tests" / "model_tests"
@@ -56,43 +56,29 @@ def call_chatanywhere(messages: list[dict[str, str]], model: str) -> str:
         raise RuntimeError(f"Unexpected response shape: {raw[:2000]}") from exc
 
 
-def project_info_for_case(case_id: str) -> ProjectInfo:
-    if case_id == "case_001":
-        return ProjectInfo(
-            category="口香糖",
-            brand="益达 / 绿箭",
-            target_audience="18-40 Urban Striver",
-            extra_notes="请基于 Case_001 的输入材料生成题目设计；不要参考 Final Digital Diary DG。",
-        )
-    if case_id == "case_002":
-        return ProjectInfo(
-            category="巧克力 / 零食",
-            brand="德芙 / Mars",
-            target_audience="巧克力目标消费者",
-            extra_notes="请基于 Case_002 的输入材料生成题目设计；不要参考 Final Digital Diary DG。",
-        )
-    raise ValueError(f"Unsupported case id: {case_id}")
-
-
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--case", default="case_001", choices=["case_001", "case_002"])
+    parser.add_argument("--case", default="case_001", help="Case id, for example case_005 or 005.")
+    parser.add_argument("--case-root", default=os.environ.get("DG_AGENT_CASE_ROOT", str(ROOT / "case_data")))
     parser.add_argument("--model", default=os.environ.get("CHATANYWHERE_MODEL", "gpt-5-mini"))
     args = parser.parse_args()
 
-    case_root = Path(os.environ.get("DG_AGENT_CASE_ROOT", ROOT / "case_data"))
-    case_dir = case_root / f"Case_{args.case[-3:]}"
+    case_id = normalize_case_id(args.case)
+    case_root = Path(args.case_root)
+    case_dir = case_dir_for_id(case_root, case_id)
     files = load_case_inputs(case_dir)
-    bundle = build_generation_prompt(project_info=project_info_for_case(args.case), files=files)
+    bundle = build_generation_prompt(project_info=project_info_for_case(case_id, case_dir), files=files)
 
     print(f"Calling model: {args.model}")
+    print(f"Case: {case_id}")
+    print(f"Case folder: {case_dir}")
     print(f"Selected cases: {', '.join(bundle.selected_case_ids) or 'none'}")
     print(f"Input files: {len(files)}")
 
     content = call_chatanywhere(bundle.to_openai_messages(), args.model)
 
     OUT_DIR.mkdir(exist_ok=True)
-    out_path = OUT_DIR / f"{args.case}_{args.model}_output.md"
+    out_path = OUT_DIR / f"{case_id}_{args.model}_output.md"
     out_path.write_text(content, encoding="utf-8-sig")
     print(f"Saved: {out_path}")
     return 0
