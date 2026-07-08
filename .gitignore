@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.env
+.env.local
+model_outputs/
+case_data/

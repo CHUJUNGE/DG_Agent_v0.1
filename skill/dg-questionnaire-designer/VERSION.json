@@ -1,0 +1,15 @@
+{
+  "skill_version": "0.1.0",
+  "generation_logic_version": "0.1.0",
+  "research_rules_version": "0.1.0",
+  "case_library_version": "0.1.0",
+  "fixed_template_version": "0.1.0",
+  "eval_rubric_version": "0.1.0",
+  "data_contracts_version": "0.1.0",
+  "status": "demo_stage_full_agent_skeleton",
+  "notes": [
+    "Demo implements the visible generation path.",
+    "Skill already defines the complete production agent workflow.",
+    "Gold-answer evaluation and training iteration are specified as interfaces and offline workflows."
+  ]
+}
