@@ -268,3 +268,21 @@ python .\scripts\run_model_test.py --case case_001
 - gap 聚类与规则候选生成。
 - 自动评估 rubric。
 - 模型 / skill / prompt / case library 的版本化回归测试。
+
+## 10. 闭环状态
+
+当前仓库已经补充一个本地 demo 闭环：
+
+```text
+prompt 构建 -> 模型生成 -> 研究员 review -> gap 分类 -> 规则 / rubric / 训练样本候选 -> skill 迭代
+```
+
+说明见 [docs/closed_loop_status.md](docs/closed_loop_status.md)。
+
+可用脚本：
+
+```powershell
+python .\scripts\build_demo_loop_report.py --case case_001
+```
+
+这只能完成 demo 级闭环。公司数据库、公司后端、算法服务、历史最终版 DG 标答、批量评测、模型训练和生产回归门禁，仍需要进入工程环境后继续接入。
