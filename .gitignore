@@ -5,3 +5,4 @@ __pycache__/
 .env.local
 model_outputs/
 case_data/
+gold_data/

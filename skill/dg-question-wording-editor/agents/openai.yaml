@@ -1,0 +1,4 @@
+interface:
+  display_name: "DG Question Wording Editor"
+  short_description: "Polish DG respondent-facing wording"
+  default_prompt: "Rewrite Digital Diary questions into natural respondent-facing Chinese while preserving research intent."

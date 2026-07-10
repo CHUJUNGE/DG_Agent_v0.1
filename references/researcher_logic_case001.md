@@ -1394,3 +1394,4 @@ Agent 规则：
 由研究员决定哪些字段进入最终问卷或平台导入版本。
 ```
 
+> Legacy source note: this file preserves raw researcher-logic extraction and historical wording examples. It is not the active rule surface for production agents. Active research-design rules live in `references/research_rules.md` and `references/generation_logic.md`; active respondent-facing wording rules live in `skill/dg-question-wording-editor/`.

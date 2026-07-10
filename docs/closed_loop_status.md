@@ -62,13 +62,13 @@ python .\scripts\build_demo_loop_report.py --case case_001
 
 ## 3. 为什么 Skill 仍需要工程环境继续迭代
 
-Skill 在当前阶段负责定义研究逻辑、生成流程、题面风格和评测标准。它不是数据库、后端、算法服务或训练系统的替代品。
+Skill 在当前阶段拆成两层：`dg-questionnaire-designer` 负责研究逻辑、生成流程和评测标准；`dg-question-wording-editor` 负责题面风格、自然度和负担控制。它们都不是数据库、后端、算法服务或训练系统的替代品。
 
 进入工程环境后，skill 需要继续迭代：
 
 - 从真实项目输入中验证规则是否稳定。
 - 从最终 DG 标答中发现当前规则覆盖不到的研究逻辑。
-- 根据批量 gap 更新 `research_rules.md`、`generation_logic.md`、case card 和 `eval_rubric.md`。
+- 根据批量 gap 更新 `research_rules.md`、`generation_logic.md`、case card、`eval_rubric.md`，以及独立 wording skill 的 style / rewrite / rubric references。
 - 把版本号与模型版本、prompt 版本、case library 版本绑定。
 - 通过回归测试判断 skill 更新是否让旧 case 退步。
 

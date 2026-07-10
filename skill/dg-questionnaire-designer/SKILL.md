@@ -1,6 +1,6 @@
 ---
 name: dg-questionnaire-designer
-description: Design Digital Diary / questionnaire question plans from research Briefs, Proposals, client materials, and researcher feedback. Use when the user asks to generate, review, revise, or systematize DG / Digital Diary modules, respondent-facing questions, research logic, case cards, prompt rules, or evaluation rubrics for consumer research questionnaire design.
+description: Design Digital Diary / questionnaire research plans from Briefs, Proposals, client materials, and researcher feedback. Use when the user asks to generate, review, revise, or systematize DG / Digital Diary project understanding, commercial and research questions, module structure, observation points, Diary vs IDI split, task logic, case cards, research rules, or evaluation rubrics. For respondent-facing wording polish, hand off to dg-question-wording-editor.
 ---
 
 # DG Questionnaire Designer
@@ -19,7 +19,8 @@ Project understanding
 -> Core research questions
 -> Module structure
 -> Module observation points
--> Respondent-facing questions
+-> Research-complete question draft
+-> Wording handoff
 -> Agent self-check
 -> Necessary confirmation questions
 ```
@@ -102,23 +103,24 @@ Do not write “建议题目示例”, “示例题”, or “建议题量”.
 
 Do not add research purpose, design explanation, or internal logic after every question.
 
-## Fixed Template
+## Wording Handoff
 
-When generating a “关于我 / About Me / 生活底色 / 基础画像” module, use these three opening questions exactly as questions 1-3 unless the user explicitly asks to change them:
+This skill owns research logic, not detailed respondent-facing style rules.
 
-1. 首先，让我们多了解一下你吧！色彩、MBTI、星座、关键词......可以用任何你觉得能代表自己的方式来介绍自己！欢迎多多分享照片，向我们展示真实的你～
-2. 和我们聊聊你的学业/工作吧！包括你所在的专业/行业、每天具体要做的事情（如果你有副业，也介绍一下吧！）
-3. 可以拍一段小视频，带我们“云参观”一下你的居住空间吗？（比如宿舍/家里的整体布局、你每天待得最久的地方，你最用心打理的一个角落）
+After generating or revising a research-complete DG draft, hand off the detailed wording pass to `dg-question-wording-editor` when:
 
-## Question Style
+- the user asks for more natural,口语化, less rigid, or less checklist-like wording;
+- the draft contains many parenthetical examples, hard counts, ranking/scoring language, or forced media uploads;
+- the next production step is a separate wording agent.
 
-Write respondent-facing questions as natural Diary tasks:
+Preserve in the handoff:
 
-- Prefer “请和我们聊聊”, “请描画一下”, “回想一下最近一次”, “如果方便可以”.
-- Avoid “每段用一行”, “至少/最多”, “按优先级”, “打分 1-5”, “必须上传” unless required by the project.
-- Use fewer parenthetical examples.
-- Keep brand/product intent hidden in early modules.
-- Make specificity come from real moments, scenes, people, before/after changes, and reasons.
+- module order and module purpose;
+- corresponding research questions;
+- required observation points;
+- Diary vs IDI split and task timing;
+- brand/product exposure constraints;
+- any fixed template or client-required wording.
 
 ## Revision Workflow
 
@@ -133,7 +135,7 @@ When the user gives feedback:
    - an eval rubric
    - a fixed template
 
-If the user says the output is “太死板 / 太像 checklist / 括号太多 / 太命令式”, rewrite the respondent-facing wording first.
+If the user says the output is “太死板 / 太像 checklist / 括号太多 / 太命令式”, preserve the research logic and route the affected sections through `dg-question-wording-editor`.
 
 ## Data-Driven Iteration Workflow
 
@@ -191,8 +193,8 @@ Before finalizing, check:
 
 - Does each module map to a core research question?
 - Are early modules about the person and life context, not the target brand?
-- Are Diary questions natural and answerable?
-- Are tasks too heavy?
+- Are Diary tasks logically answerable before wording polish?
+- Are tasks too heavy from a research-design perspective?
 - Are confirmation questions limited to at most 3?
 - Did the output avoid exposing internal research labels to respondents?
 

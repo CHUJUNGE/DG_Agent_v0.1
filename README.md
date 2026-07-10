@@ -122,7 +122,7 @@ demo 的用户可见层先实现“最短可用链路”：
 
 ## 5. Skill 化设计
 
-demo 阶段已经预留 skill 草案：
+demo 阶段已经预留 skill 草案，并已按多 agent 分工拆出题目设计与题面 wording 两层：
 
 ```text
 skill/dg-questionnaire-designer/
@@ -140,17 +140,36 @@ skill/dg-questionnaire-designer/
 │   └── case_004_45plus_health.md
 └── scripts/
     └── prompt.py
+
+skill/dg-question-wording-editor/
+├── SKILL.md
+├── VERSION.json
+├── references/
+│   ├── style_rules.md
+│   ├── rewrite_patterns.md
+│   ├── module_tone_guides.md
+│   └── wording_eval_rubric.md
+└── agents/
+    └── openai.yaml
 ```
 
-skill 的定位：
+`dg-questionnaire-designer` 的定位：
 
 - 当用户要求“根据 Brief / Proposal / 客户资料设计 Digital Diary 题目”时触发。
 - 先读取 `agent_workflow.md`、`generation_logic.md` 和 `research_rules.md`。
 - 根据项目类型选择相关 case card。
 - 输出 Markdown 题目设计方案。
+- 输出 `Wording Handoff`，为后续 wording agent 标记不能删除的研究意图、观察点、品牌暴露约束和负担风险。
 - 对用户修改意见进行局部迭代，不每次从零生成。
 - 在正式系统中作为“研究逻辑规范层”和“评测 rubric 来源”，与数据库标答、训练样本和模型版本一起迭代。
 - 当涉及后端、数据库、训练或评测时，读取 `data_contracts.md`、`eval_rubric.md` 和 `VERSION.json`。
+
+`dg-question-wording-editor` 的定位：
+
+- 当用户要求“更自然 / 更口语 / 不像 checklist / 减少括号 / 降低受访者负担”时触发。
+- 保留 designer agent 产出的研究意图、模块结构、观察点、Diary vs IDI 分工和品牌暴露顺序。
+- 专门改写受访者可见的引导语、题目、结束语和素材请求。
+- 维护固定 About Me 开场题、模块语气、坏例到好例改写模式和 wording 评估 rubric。
 
 后续迭代方法：
 
@@ -159,7 +178,7 @@ skill 的定位：
 - 正式阶段优先使用数据库中的最终版 DG 标答，让模型批量生成并自动对比，不再依赖研究员逐条标注。
 - 稳定规则进入 `research_rules.md`。
 - 流程级规则进入 `generation_logic.md`。
-- 可复用题面模板进入 skill references 或后续 `templates/`。
+- 可复用题面模板进入 `dg-question-wording-editor` 的 references 或后续 `templates/`。
 - 训练与自动迭代方法见 [docs/data_training_iteration.md](docs/data_training_iteration.md)。
 
 ## 6. 工程化接口预留

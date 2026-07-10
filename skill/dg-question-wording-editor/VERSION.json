@@ -1,0 +1,12 @@
+{
+  "skill_version": "0.1.0",
+  "style_rules_version": "0.1.0",
+  "rewrite_patterns_version": "0.1.0",
+  "module_tone_guides_version": "0.1.0",
+  "wording_eval_rubric_version": "0.1.0",
+  "status": "initial_split_from_questionnaire_designer",
+  "notes": [
+    "Initial standalone wording skill split from dg-questionnaire-designer.",
+    "Owns respondent-facing DG wording, fixed About Me wording, tone adaptation, burden reduction, and checklist-to-diary rewriting."
+  ]
+}

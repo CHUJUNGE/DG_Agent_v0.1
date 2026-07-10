@@ -1,7 +1,7 @@
 {
-  "skill_version": "0.1.1",
-  "generation_logic_version": "0.1.1",
-  "research_rules_version": "0.1.1",
+  "skill_version": "0.2.0",
+  "generation_logic_version": "0.2.0",
+  "research_rules_version": "0.2.0",
   "case_library_version": "0.1.0",
   "fixed_template_version": "0.1.0",
   "eval_rubric_version": "0.1.0",
@@ -11,6 +11,7 @@
     "Demo implements the visible generation path.",
     "Skill already defines the complete production agent workflow.",
     "Gold-answer evaluation and training iteration are specified as interfaces and offline workflows.",
-    "0.1.1 promotes Case_001 v3 review gaps into question wording, burden control, diary naturalness, and shopping-task naturalness rules."
+    "0.1.1 promotes Case_001 v3 review gaps into question wording, burden control, diary naturalness, and shopping-task naturalness rules.",
+    "0.2.0 splits respondent-facing wording rules into dg-question-wording-editor and keeps this skill focused on research logic, module planning, observation points, and wording handoff."
   ]
 }
