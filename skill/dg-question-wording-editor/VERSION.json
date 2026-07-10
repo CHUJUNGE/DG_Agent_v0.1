@@ -1,12 +1,16 @@
 {
-  "skill_version": "0.1.0",
-  "style_rules_version": "0.1.0",
-  "rewrite_patterns_version": "0.1.0",
-  "module_tone_guides_version": "0.1.0",
-  "wording_eval_rubric_version": "0.1.0",
-  "status": "initial_split_from_questionnaire_designer",
+  "skill_version": "0.1.4",
+  "style_rules_version": "0.1.4",
+  "rewrite_patterns_version": "0.1.1",
+  "module_tone_guides_version": "0.1.3",
+  "wording_eval_rubric_version": "0.1.1",
+  "status": "ai_gold_wording_rules_promoted",
   "notes": [
     "Initial standalone wording skill split from dg-questionnaire-designer.",
-    "Owns respondent-facing DG wording, fixed About Me wording, tone adaptation, burden reduction, and checklist-to-diary rewriting."
+    "Owns respondent-facing DG wording, fixed About Me wording, tone adaptation, burden reduction, and checklist-to-diary rewriting.",
+    "Promoted reviewed Claude Opus gold-data wording patterns: invitation verbs, checklist softening, returning-wave phrasing, scene reconstruction, video process invitation, conversational reason prompts, and technical hygiene checks.",
+    "0.1.2 promotes Case_005 KACO review wording rules: respondent-owned module titles, emotionally valuable intros/endings, contextual transitions, avoiding obvious yes/no and comparison prompts, light parenthetical probes, and photo-first media wording.",
+    "0.1.3 promotes product innovation wording rules: bounded future-product questions, concrete anchors, decomposed product criteria, reference-image prompts, and answerable metaphor wording.",
+    "0.1.4 makes first-person respondent-facing module titles mandatory by default and resolves the prior conflict that preserved research-style module names."
   ]
 }

@@ -127,3 +127,124 @@ After:
 ```text
 谢谢你先把日常情况讲清楚了。下面我们会继续看看这些小习惯在真实生活里是怎么发生的。
 ```
+
+## Please Explain Separately To Soft Follow-Up
+
+Before:
+
+```text
+请分别说明你最喜欢、最常买、最近新买、想买但没买的品牌及原因。
+```
+
+After:
+
+```text
+先挑一两个最近最有印象的例子聊聊吧：你当时看中它什么？如果还有其他想到的，也可以一起补充。
+```
+
+## Revisit Comparison To Natural Change
+
+Before:
+
+```text
+请和上次填答时相比，分别说明你的生活状态、购买习惯和品牌偏好发生了哪些变化。
+```
+
+After:
+
+```text
+这段时间有什么不一样吗？可以从生活状态、最近常买的东西，或你发现自己变了的地方说起。
+```
+
+Use this for returning-wave or longitudinal projects. Keep one clear time anchor if needed, then use "最近" or "这段时间" to avoid sounding like a tracking form.
+
+## Scene Reconstruction
+
+Before:
+
+```text
+请描述该次消费场景，包括时间、地点、人物、原因、感受。
+```
+
+After:
+
+```text
+让我们一起还原一下那次场景吧：大概是什么时候、在哪里、和谁一起？当时为什么会想到它，感觉怎么样？
+```
+
+Use "还原一下..." when the research needs details but the question should still feel like a shared recollection.
+
+## Fill-In Diary Trigger
+
+Before:
+
+```text
+请记录你今天的饮用行为，包括品牌、场景、原因和心情。
+```
+
+After:
+
+```text
+今天，我喝了______。当时是什么时间？你正在做什么，为什么想来一杯？
+```
+
+Use fill-in triggers sparingly for diary records where a concrete behavior is the entry point.
+
+## Video Process Invitation
+
+Before:
+
+```text
+请录制完整过程，并讲解每一步使用的产品、工具、手法和原因。
+```
+
+After:
+
+```text
+可以边做边和我们说说：你正在用什么、怎么用、为什么这样做。不用太正式，就像给朋友演示一样。
+```
+
+For long video tasks, keep only the minimum observation points in the question. Move detailed researcher needs to handoff or follow-up prompts.
+
+## Reason Prompt To Conversation
+
+Before:
+
+```text
+请说明原因。
+```
+
+After:
+
+```text
+为什么这么觉得？是什么让你这么选的？
+```
+
+Use reason follow-ups that sound like a real conversation. For scores, ask "为什么打这个分？如果有扣分，扣在哪里？"
+
+## Researcher-Facing Material Value To Respondent Context
+
+Before:
+
+```text
+任选其一并说明该素材能帮助我们理解什么。
+```
+
+After:
+
+```text
+如果方便，可以顺手发一张照片或一段语音，帮我们看看当时的情况。
+```
+
+Do not ask respondents to explain the research value of their own materials.
+
+## Gold Sample To Rewrite Pattern
+
+Use historical final DG samples to extract rewrite patterns, not to copy text.
+
+When converting a gold sample into a reusable pattern:
+
+- Remove project-specific category, brand, product, stimulus, audience, and internal labels.
+- Keep the respondent-facing move, such as "invite a real moment", "offer optional photo/audio/video", "ask before/during/after", or "soften a hard count".
+- Check the pattern against `style_rules.md` first. If it conflicts with fixed templates, brand exposure delay, or burden control, do not use it.
+- Prefer a generalized Before/After rule only after seeing the same move across multiple projects.

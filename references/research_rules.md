@@ -229,7 +229,7 @@ trigger
 每个板块使用固定格式：
 
 ```text
-板块x：xxx
+板块x：我/我的/我是/我怎么...xxx
 引导语：
 题目：
 1.
@@ -237,6 +237,8 @@ trigger
 ...
 结束语：
 ```
+
+详细题目设计里的受访者可见板块名必须默认使用第一人称“我 / 我的 / 我是 / 我怎么...”结构。研究型模块名只用于内部结构、模块目的或 handoff，不作为最终板块标题，除非客户明确要求固定标题。
 
 避免：
 
@@ -294,3 +296,161 @@ Designer agent handoff 给 wording agent 时，应附带：
 - 购物任务应包含购买前、购买中、购买后、卡点回顾，以及实际 eating experience。
 - 习惯养成模块应从正餐外吃喝图谱中选择具体产品，追问初尝、习惯养成、中断、变化和角色，不要只问口香糖。
 - 品牌与产品期待放最后，再进入品牌印象、品牌人格化、理想产品和 stimulus。
+
+## 21. Case_005 Promoted Designer Rules v0.2.3
+
+These rules come from the reviewed KACO / writing-instrument case. They are reusable design logic, not respondent-facing copy rules.
+
+### 21.1 Module size and merge judgment
+
+If a module has fewer than about 5 questions, do not keep it as a standalone module by default. Merge it with the adjacent module unless it is a genuinely independent task module, such as a shopping task, diary task, media mission, stimulus test, or screening branch.
+
+### 21.2 Baseline life context is required in every project
+
+Every project needs enough respondent life context before category or brand questions. Do not reduce the opening context to identity and routine only.
+
+At minimum, judge whether the study needs to understand life center of gravity, daily rhythm, work/study/rest pattern, interests, social circle, common places, where time and energy are spent, and everyday spending pattern. Screener data may provide percentages or quotas, but the DG should still capture the "why" behind spending and lifestyle choices when it matters to the category opportunity.
+
+For groups the research team may not know well, or where there is a clear generation/class/context gap, ask this context in more detail.
+
+### 21.3 Routine questions should avoid low-value timelines
+
+"Typical day" modules should not force a full morning-to-night transcript. Prefer normal wake/sleep window, main work/study blocks, lunch/evening rest or social time, rest-day places and activities, and category-relevant touchpoints. Ask about the respondent's normal pattern, not only the most recent day.
+
+### 21.4 Theme-relevant spaces beat generic space tours
+
+Space questions should narrow to the spaces where the studied behavior, category, or object actually lives. Do not ask for a generic home tour unless the study needs the full home context.
+
+### 21.5 Collect object systems before abstract usage logic
+
+For object-led categories, first collect the respondent's object ecosystem and classification logic, then ask usage scenes and choice logic. The inventory module should capture adjacent objects, storage, classification and reasons, daily-use vs collection vs backup vs gift objects, count, source, type, brand, and price/price band when relevant.
+
+### 21.6 Use prompts to complete commercial dimensions
+
+Parenthetical probes in design are useful when they help respondents cover dimensions they would not naturally separate, such as subcategory, source, price band, channel, or use occasion. Use prompts to complete the data structure, but avoid turning prompts into assumed answer options.
+
+### 21.7 Ask concrete "most" examples before abstract criteria
+
+Do not start with "what do you value when choosing X" if respondents are likely to answer with generic criteria. First ask for concrete examples: most used, favorite, most repurchased, most expensive, most reluctant to throw away, most idle/unused, best for gifting, etc. Then ask the respondent to explain what makes each one fit that role.
+
+### 21.8 Diary recording frequency rule
+
+If a behavior may happen more than about 5 times per day or is highly fragmented, do not ask respondents to record every occurrence. Use an end-of-day recap that lets them group occurrences by type, scene, or object used. Use every-occurrence recording only when the event is lower-frequency, has clear boundaries, or is routine but limited in count.
+
+### 21.9 Diary can include browsing and shopping touchpoints
+
+When a category is tied to discovery, browsing, store visits, trial, or purchase, the diary should capture those touchpoints if they naturally occur. Respondents only record the steps that happened: browsed, visited, tried, compared, bought, gave up, or got stuck.
+
+### 21.10 Distinguish habits from one-off journeys
+
+Do not force a detailed "most recent purchase journey" for light, low-cost, high-frequency categories if one purchase cannot represent normal behavior. Ask everyday buying habits instead. Use a detailed one-off journey only when the category has high decision value, clear shopping friction, service experience, trial-to-buy questions, or when the research goal needs step-by-step journey evidence.
+
+### 21.11 Product innovation needs bounded imagination and metaphor
+
+For product innovation, do not ask only broad questions such as "what should the future product be like." Bound the imagination using the proposal's hypotheses and opportunity directions. When innovation involves emotional projection, identity, or object attachment, include metaphor/role prompts.
+
+### 21.12 Media modality choice
+
+Images are preferred when the research needs object inventory, storage/classification, visual evaluation criteria, ideal product form, or hard-to-visualize metaphors. Videos should not be mandatory unless the task requires process, movement, walkthrough, or demonstration.
+## 22. Product Innovation Design Logic v0.2.4
+
+These rules come from the product-innovation researcher logic note. Product innovation DG design must be grounded in real consumers, real scenes, and real needs. Do not treat social-media novelty, performative trend content, or "fancy emerging things" as innovation evidence unless the study can verify that they are real in life.
+
+### 22.1 Core principle: product innovation is change interpretation
+
+The core job of product innovation research is to interpret change and translate it into concrete product opportunities.
+
+Always diagnose which type of change the project is trying to understand:
+
+- people / cohort change: a new or changing target group, generation, class, life stage, or adoption wave;
+- cognition change: the category/product role in life has changed, or the evaluation standard for "good" has changed;
+- lifestyle change: new routines, life centers, social patterns, interest structures, or ideal-life gaps create new scenes;
+- scene and need change: old scenes expand, shrink, fragment, intensify, or generate new unmet needs;
+- usage and object-system change: what people use, carry, store, replace, combine, or classify has shifted.
+
+Do not ask consumers directly to summarize these abstract changes. The agent must build questions that collect facts first, then let analysis infer change.
+
+### 22.2 Product innovation must move from concrete to abstract
+
+For every product innovation project, structure questions from concrete facts to abstract meaning:
+
+```text
+life facts
+-> category scenes and needs
+-> current product / solution system
+-> scene-product matching logic
+-> concrete evaluation standards
+-> cognition, role, metaphor, and change
+-> bounded future / innovation opportunities
+```
+
+Avoid starting with "How has this product changed?", "What does this category mean to you?", or "What future product do you want?"
+
+### 22.3 Decide how much lifestyle depth is needed
+
+All product innovation projects need some lifestyle context, but the depth depends on the innovation source.
+
+Use heavier lifestyle modules when the project is driven by cohort/generation change, the target group is unfamiliar, the proposal asks how the target group's life has changed, or the category role may be changing because the respondent's social-cultural context changed.
+
+Use lighter lifestyle context when the project is high-frequency line extension with no major target-group shift, the path from broad lifestyle to product requirement would be too long, or current category scenes, usage details, evaluation criteria, or product form are more directly actionable.
+
+Even when lifestyle is lighter, still cover life center of gravity, rhythm, interests/social circle, and ideal life vs reality gap if they can explain product opportunities.
+
+### 22.4 Lifestyle is a collection of scenes
+
+Treat lifestyle as the respondent's scene system. To understand lifestyle efficiently, collect life center of gravity, life rhythm, interests and social circle, and ideal life image vs reality gap.
+
+For product innovation, the ideal-life section should usually be shallow and opportunity-oriented. It matters because product ideas, naming, claims, and emotional benefits may connect to life pain points and aspirations, but it should not become a brand-positioning deep dive unless the project asks for that.
+
+### 22.5 Scene and need are inseparable
+
+In product innovation, a "valuable new scene" is not merely a new place or activity. It must generate or reveal a new, stronger, more frequent, or more actionable need.
+
+When asking scene change, probe which scenes are new, more frequent, less frequent, disappeared, newly category-relevant, or stronger in need. Also distinguish scenes that are only variants of old needs and therefore have low innovation value.
+
+Use proposal hypotheses or known behavior types to make scene probes specific. Broad "what changed" questions should be broken into more specific scene probes.
+
+### 22.6 Cognition has two layers
+
+Product innovation must capture cognition change in two layers:
+
+1. category/product role: what role the product plays in life, how close/far it feels, and what kind of object/person/relationship it resembles;
+2. evaluation standard: what now counts as "good", "useful", "beautiful", "safe", "convenient", "worth buying", or "worth sharing."
+
+Both layers should be asked through concrete tasks, examples, sorting, reference images, metaphors, and comparison.
+
+### 22.7 Role cognition requires metaphor and classification
+
+For abstract category roles, use metaphor and classification: what person/object/relationship the product feels like, what other objects it is mentally grouped with, and whether it is closer to tool, self-expression object, emotional object, social object, collection, companion, or basic utility.
+
+Ask how its role changed from past to now, and what role the respondent hopes it will play in the future.
+
+### 22.8 Evaluation standards must be decomposed by category
+
+Never accept "good-looking", "easy to use", "safe", "good quality", or "good value" as final innovation inputs. Decompose each into category-specific sensory, functional, usage, emotional, identity, form, and physical-detail dimensions.
+
+Ask for concrete references and images when standards involve appearance, form, sensory imagination, or ideal product examples.
+
+### 22.9 Current product system before future innovation
+
+Before asking future product ideas, first understand current scenes and needs, current products/solutions, scene-product matching, substitutability, carry/storage/gift/collection/abandonment logic, purchase and usage habits, and concrete criteria for "good."
+
+Only after this should the questionnaire ask about role change, cognition change, and future innovation directions.
+
+### 22.10 Innovation output may be big or small
+
+Do not assume product innovation must be disruptive. Some categories need safe, stable, incremental innovation.
+
+If the target group has broadened from niche to mass, common baseline needs may become more important than niche aspirations. Innovation may focus on reliability, protection, stability, ease, affordability, or no-trouble use rather than surprising new features.
+
+### 22.11 Example application: writing instruments
+
+For a writing-instrument innovation project, include target lifestyle change, writing scene change, current pen/stationery system, scene-pen mapping, substitutability, carried vs desk vs collection pens, buying/usage habits, decomposed criteria, and role/metaphor change.
+
+### 22.12 Example application: mid/low-end cat food
+
+For a mass pet-food innovation project, diagnose whether broader pet ownership makes common baseline needs more important. Probe pet cognition differences, practical companion-style needs, and concrete product-form details such as particle size, thickness, shape, chewability, convenience, and acceptance.
+
+### 22.13 Product innovation self-check
+
+Before finalizing a product innovation DG, check whether the design identified the change source, collected concrete facts before abstract meaning, connected lifestyle to category scenes and product needs, asked scene change specifically, decomposed evaluation standards, included role/metaphor when needed, avoided unbounded future imagination, and distinguished disruptive innovation from safe/stable incremental innovation.

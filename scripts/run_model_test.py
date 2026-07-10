@@ -60,7 +60,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--case", default="case_001", help="Case id, for example case_005 or 005.")
     parser.add_argument("--case-root", default=os.environ.get("DG_AGENT_CASE_ROOT", str(ROOT / "case_data")))
-    parser.add_argument("--model", default=os.environ.get("CHATANYWHERE_MODEL", "gpt-5-mini"))
+    parser.add_argument("--model", default=os.environ.get("CHATANYWHERE_MODEL", "claude-opus-4-6"))
     args = parser.parse_args()
 
     case_id = normalize_case_id(args.case)

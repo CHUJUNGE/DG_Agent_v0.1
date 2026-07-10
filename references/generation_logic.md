@@ -311,7 +311,7 @@ Agent 需要提取：
 ```markdown
 ## 4. 详细题目设计
 
-### 板块1：模块名
+### 板块1：我/我的/我是/我怎么...模块名
 
 引导语：
 
@@ -336,6 +336,7 @@ Agent 需要提取：
 - 必要时要求照片、视频、语音、截图或实物记录。
 - 不要输出“建议题目示例”“示例题”“建议题量”等字样。
 - 不要在每道题后面堆研究目的、设计说明、内部解释；这些可放在模块结构总览、内部提示或 handoff。
+- 详细题目设计中的受访者可见板块名必须默认使用第一人称“我 / 我的 / 我是 / 我怎么...”结构，让受访者感觉这是关于自己的任务。研究型名称如“场景图谱 / 消费与使用图谱 / 购买 journey / 产品期待 / 评价标准”只能放在内部模块结构、模块目的或 handoff 中；除非客户强制标题，否则不要作为最终板块名。
 
 模块内容规则：
 
@@ -593,3 +594,55 @@ model output:
 ```
 
 只有当 gap 涉及模块缺失、顺序错误、研究问题覆盖不足、Diary vs IDI 分工错误、任务设计不合理时，才更新本文件或 `research_rules.md`。
+## Product Innovation Generation Protocol v0.2.4
+
+When the commercial problem is product innovation, line extension, new product opportunity, product upgrade, new form, new function, new SKU, or concept direction, apply this protocol before writing modules.
+
+### Step A: diagnose the innovation source
+
+Identify whether the project depends on target group/cohort change, lifestyle change, scene and need change, category/product role cognition change, evaluation-standard change, or current product-system / usage-behavior change.
+
+If the input does not say which one matters, infer from the proposal. If still unclear and it changes module design, list one confirmation question.
+
+### Step B: choose lifestyle depth
+
+Use heavier life context when innovation depends on cohort/generation change or unfamiliar target lives. Use lighter life context when the project is closer to frequent SKU innovation and category usage is the main evidence.
+
+Lifestyle questions should not remain a standalone portrait. Each lifestyle point must have a path to category scenes, needs, product role, or product criteria.
+
+### Step C: build modules from facts to opportunity
+
+For product innovation, prefer this module logic unless the proposal requires otherwise:
+
+```text
+1. About me / life context
+2. Current lifestyle scenes and changes
+3. Category-specific scenes and needs
+4. Current product / solution / object system
+5. Scene-product matching and substitutability
+6. Buying, usage, replacement, carry/storage habits
+7. Concrete evaluation standards and references
+8. Product/category role, cognition, metaphor, and change
+9. Bounded future product / opportunity imagination
+10. Stimulus / concept / price test if required and suitably late
+```
+
+For object-led categories, the product/object system may move before category scenes if it helps respondents recall concrete usage.
+
+### Step D: turn change into question design
+
+Do not ask "what changed" only once at a high level. Convert change into specific probes: past/now/hoped future, more/less/new/disappeared, manual vs digital/automated, scene A vs scene B, high-intensity vs low-intensity, private vs social, fixed place vs mobile, daily-use vs collection/gifting/self-expression.
+
+### Step E: decompose criteria before innovation ideation
+
+Before asking for future products, collect category-specific standards for what is good, beautiful, easy, safe, valuable, worth sharing, or worth repurchasing. Require concrete examples, comparisons, and references when possible.
+
+### Step F: bound future imagination
+
+Future / ideal product questions must be bounded by the opportunity direction, such as product that represents me, product I want to carry every day, product for this pain point, product for this scene, product suitable as a gift/social object, or one product I could use for the next few years.
+
+Avoid fully open "future product" questions unless the study is explicitly exploratory ideation and has already captured current concrete criteria.
+
+### Step G: product innovation handoff
+
+In Wording Handoff, mark the change source, modules that preserve the change-to-opportunity chain, future questions needing bounded wording, photo/reference needs for criteria or product form, and whether stimulus/concept/price testing is included or should be left to IDI.

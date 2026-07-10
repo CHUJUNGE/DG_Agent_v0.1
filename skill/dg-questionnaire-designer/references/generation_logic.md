@@ -311,7 +311,7 @@ Agent 需要提取：
 ```markdown
 ## 4. 详细题目设计
 
-### 板块1：模块名
+### 板块1：我/我的/我是/我怎么...模块名
 
 引导语：
 
@@ -336,6 +336,7 @@ Agent 需要提取：
 - 必要时要求照片、视频、语音、截图或实物记录。
 - 不要输出“建议题目示例”“示例题”“建议题量”等字样。
 - 不要在每道题后面堆研究目的、设计说明、内部解释；这些可放在模块结构总览、内部提示或 handoff。
+- 详细题目设计中的受访者可见板块名必须默认使用第一人称“我 / 我的 / 我是 / 我怎么...”结构，让受访者感觉这是关于自己的任务。研究型名称如“场景图谱 / 消费与使用图谱 / 购买 journey / 产品期待 / 评价标准”只能放在内部模块结构、模块目的或 handoff 中；除非客户强制标题，否则不要作为最终板块名。
 
 模块内容规则：
 
@@ -593,3 +594,228 @@ model output:
 ```
 
 只有当 gap 涉及模块缺失、顺序错误、研究问题覆盖不足、Diary vs IDI 分工错误、任务设计不合理时，才更新本文件或 `research_rules.md`。
+---
+
+## 10. Gold Data Pattern 使用逻辑
+
+当系统提供 `gold_data/reports/designer_patterns.json` 时，生成流程可以在 Step 2-4 之间读取其统计信息，用于辅助判断：
+
+- 当前项目是否接近历史高频模块结构。
+- 是否遗漏了常见基础模块、日记模块、任务模块或收尾模块。
+- 图片、视频、选择题、打分题、排序题是否明显重于历史常态。
+- 首模块是否过早进入品类、品牌、产品或刺激物。
+
+但 gold data pattern 不是生成模板。决策优先级必须是：
+
+```text
+当前 Brief / Proposal / 客户要求
+-> research_rules.md / generation_logic.md / case cards
+-> gold_data pattern
+```
+
+如果 pattern 与当前项目材料或现有规则冲突：
+
+- 以当前项目材料和现有规则为主。
+- 不要为了贴近历史高频结构而牺牲当前研究问题。
+- 在 Agent 自检或 eval report 中记录该差异，作为后续人工 review 或规则候选。
+
+Gold data pattern 只能帮助 agent 做结构检索、风险提示和回归评估，不应直接导致复制历史 final DG 题目。
+
+---
+
+## 11. Promoted Designer Checks from AI Gold Distillation v0.2.1
+
+Designer agent 在生成或修订 DG 草稿时，必须执行以下检查，并把需要研究员判断的内容放入 Agent 检核摘要或最多 3 个必要确认问题中。
+
+### 11.1 模块完整性检查
+
+输出前检查每个模块：
+
+- 是否有明确模块标题。
+- 是否至少包含 1 道题。
+- 是否有模块目的或对应研究问题。
+- 是否存在“未命名模块”“空模块”“占位模块”“test / 测试字符串 / HTML 标签”等非正式内容。
+
+如果发现空模块、未命名模块或无题模块，不得作为最终方案直接输出。应删除、补全，或列为必要确认问题。
+
+### 11.2 媒体与复杂任务检查
+
+统计方案中的媒体请求和复杂任务：
+
+- 强制照片 / 视频 / 语音 / 截图数量。
+- 长视频、完整流程录制、逐步骤演示数量。
+- 实物排序、货架审计、空间参观、拼图/合成图片等复杂物理任务数量。
+- 每日重复媒体请求的频率。
+
+如媒体任务过多、过重或重复，应：
+
+1. 优先改为可选素材或代表性素材。
+2. 集中采集可复用素材。
+3. 将复杂演示建议转入 IDI / 入户 / Diary+IDI。
+4. 在 wording handoff 中标注负担风险。
+
+### 11.3 素材复用检查
+
+如果早期模块已经采集产品、工具、设备、囤货、空间或截图素材，后续模块应尽量引用已有素材。
+
+不要重复要求同类照片。只有当后续任务需要新的时刻、场景或过程证据时，才再次请求素材。
+
+### 11.4 多次事件结构检查
+
+如果项目会记录多次日内事件，输出应采用“每次一条 / 分段填写”的结构，而不是一个超长题面。
+
+适用场景包括：
+
+- 多次零食、饮品、餐次、游戏、购物触点。
+- 多次护肤、化妆、使用、试用、服用、制作。
+- 多个场景或多次情绪变化。
+
+如果平台限制必须合并，给出清晰分段模板，并在 handoff 中提示可拆分风险。
+
+### 11.5 工作日 / 休息日处理检查
+
+判断工作日与休息日是否需要拆分：
+
+- 如果差异本身服务研究问题，保留拆分。
+- 如果两组问题高度重复，合并为典型一天并用对比题收差异。
+- 如果材料不明确，列为确认点，而不是机械生成两个重复模块。
+
+### 11.6 品牌暴露检查
+
+检查首模块和前段模块是否出现品牌、产品、包装、广告、概念或刺激物。
+
+- 没有明确研究理由时，应延后到行为、品类图谱、日记或期待模块之后。
+- 必须前置时，在模块目的和 Agent 检核中说明理由。
+
+### 11.7 敏感数值与量表检查
+
+检查是否存在：
+
+- 精确房价、收入、消费金额、支出等敏感数值题。
+- 大量 1-5、1-10 或认同度量表。
+- 开头模块集中打分。
+
+优先改为区间、大致估算、开放追问或后移。若客户明确要求量化 baseline，保留但标注负担和解释风险。
+
+### 11.8 续季画像压缩检查
+
+如果项目是持续追踪、续季或回访：
+
+- 检查本轮是否重复采集前轮已知画像。
+- About Me / 近况模块是否聚焦变化，而不是重新完整画像。
+- 若保留较长画像模块，模块目的中是否说明本轮仍需要这些信息。
+
+### 11.9 全家福追问结构检查
+
+如果早期采集了产品、设备、工具、囤货或空间全家福：
+
+- 后续是否引用已有素材。
+- “最喜欢 / 最常买 / 新买 / 想买未买 / 不再用”等维度是否拆成独立追问。
+- 是否避免在一题中堆叠多个分类维度。
+
+### 11.10 空间模块和视频总量检查
+
+如果项目按多个空间或房间拆分：
+
+- 检查各空间模块题目是否高度重复。
+- 如果重复度高，建议改为按研究维度组织，把空间作为题内分段。
+- 统计独立空间视频数量；超过 3-4 段时，建议合并或降级次要空间素材形式。
+
+### 11.11 重复日记模块目的检查
+
+如果方案包含 3 个及以上结构高度重复的日记模块：
+
+- 检查模块标题是否清楚标注日期、工作日/休息日或轮次。
+- 检查模块目的是否说明多天记录和差异假设。
+- 若缺少说明，合并模块、减少天数，或列为必要确认点。
+
+### 11.12 slogan 与定位语暴露检查
+
+品牌暴露检查应包含显性品牌名、产品名、包装、广告、概念、slogan、定位语、刺激物文本和客户策略语言。
+
+如果前段模块出现这些内容且没有研究理由，应延后或在 Agent 检核摘要中标注前置暴露风险。
+## Product Innovation Generation Protocol v0.2.4
+
+When the commercial problem is product innovation, line extension, new product opportunity, product upgrade, new form, new function, new SKU, or concept direction, apply this protocol before writing modules.
+
+### Step A: diagnose the innovation source
+
+Identify which change source the project depends on:
+
+- target group / cohort change;
+- lifestyle change;
+- scene and need change;
+- category/product role cognition change;
+- evaluation-standard change;
+- current product-system or usage-behavior change.
+
+If the input does not say which one matters, infer from the proposal. If still unclear and it changes module design, list one confirmation question.
+
+### Step B: choose lifestyle depth
+
+Use a heavier life-context module when innovation depends on cohort/generation change or unfamiliar target lives. Use a lighter life-context module when the project is closer to frequent SKU innovation and category usage is the main evidence.
+
+Lifestyle questions should not remain a standalone portrait. Each lifestyle point must have a path to category scenes, needs, product role, or product criteria.
+
+### Step C: build modules from facts to opportunity
+
+For product innovation, prefer this module logic unless the proposal requires otherwise:
+
+```text
+1. About me / life context
+2. Current lifestyle scenes and changes
+3. Category-specific scenes and needs
+4. Current product / solution / object system
+5. Scene-product matching and substitutability
+6. Buying, usage, replacement, carry/storage habits
+7. Concrete evaluation standards and references
+8. Product/category role, cognition, metaphor, and change
+9. Bounded future product / opportunity imagination
+10. Stimulus / concept / price test if required and suitably late
+```
+
+For object-led categories, the product/object system may move before category scenes if it helps respondents recall concrete usage.
+
+### Step D: turn change into question design
+
+Do not ask "what changed" only once at a high level. Convert change into specific probes:
+
+- past / now / hoped future;
+- more / less / new / disappeared;
+- still manual vs digital/automated vs outsourced;
+- scene A vs scene B;
+- high-intensity vs low-intensity;
+- private vs social;
+- fixed place vs mobile;
+- daily-use vs collection / gifting / self-expression.
+
+Use proposal hypotheses to generate category-specific probes.
+
+### Step E: decompose criteria before innovation ideation
+
+Before asking for future products, force the draft to collect category-specific standards for what is good, beautiful, easy, safe, valuable, worth sharing, or worth repurchasing.
+
+Require concrete examples, comparisons, and references when possible. This prevents innovation output from staying at "good-looking / useful / affordable."
+
+### Step F: bound future imagination
+
+Future / ideal product questions must be bounded by the opportunity direction. Examples:
+
+- product that best represents me;
+- product I want to carry every day;
+- product that solves this specific pain point;
+- product for this specific scene;
+- product suitable as a gift/social object;
+- one product I could use for the next few years.
+
+Avoid fully open "future product" questions unless the study is explicitly exploratory ideation and has already captured current concrete criteria.
+
+### Step G: product innovation handoff
+
+In Wording Handoff, mark:
+
+- which change source the design is based on;
+- which modules must be preserved to keep the change-to-opportunity chain intact;
+- which future/ideal product questions need bounded wording;
+- where photos/references are important for evaluation standards or product form;
+- whether stimulus/concept/price testing is included or should be left to IDI.

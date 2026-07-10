@@ -1,10 +1,10 @@
 {
-  "skill_version": "0.2.0",
-  "generation_logic_version": "0.2.0",
-  "research_rules_version": "0.2.0",
+  "skill_version": "0.2.5",
+  "generation_logic_version": "0.2.5",
+  "research_rules_version": "0.2.5",
   "case_library_version": "0.1.0",
   "fixed_template_version": "0.1.0",
-  "eval_rubric_version": "0.1.0",
+  "eval_rubric_version": "0.1.2",
   "data_contracts_version": "0.1.0",
   "status": "demo_stage_full_agent_skeleton",
   "notes": [
@@ -12,6 +12,11 @@
     "Skill already defines the complete production agent workflow.",
     "Gold-answer evaluation and training iteration are specified as interfaces and offline workflows.",
     "0.1.1 promotes Case_001 v3 review gaps into question wording, burden control, diary naturalness, and shopping-task naturalness rules.",
-    "0.2.0 splits respondent-facing wording rules into dg-question-wording-editor and keeps this skill focused on research logic, module planning, observation points, and wording handoff."
+    "0.2.0 splits respondent-facing wording rules into dg-question-wording-editor and keeps this skill focused on research logic, module planning, observation points, and wording handoff.",
+    "0.2.1 promotes AI-distilled designer rules from gold DG data: media burden, material reuse, repeated-event structure, workday/rest-day handling, brand exposure checks, sensitive numeric/rating controls, About Me drift, and module hygiene.",
+    "0.2.2 promotes reviewed Claude Opus designer rules: returning-wave profile compression, family-photo probe structure, space-module repetition control, multi-space video thresholds, repeated diary rationale, and slogan/positioning exposure checks.",
+    "0.2.3 promotes Case_005 KACO review rules: universal lifestyle and spending context, smarter module merging, object-system-first design, diary frequency judgment, habit vs one-off journey distinction, bounded innovation prompts, and photo-first media choices.",
+    "0.2.4 promotes product innovation design logic: innovation as change interpretation, concrete-to-abstract module flow, lifestyle-depth judgment, scene-need linkage, cognition and evaluation-standard decomposition, metaphor/classification probes, and bounded future opportunity design.",
+    "0.2.5 makes first-person respondent-facing module titles mandatory by default in detailed DG output, while keeping research-style names only for internal structure, module purpose, or handoff."
   ]
 }

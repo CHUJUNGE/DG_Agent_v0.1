@@ -220,6 +220,7 @@ def build_designer_patterns(inventory: dict[str, Any]) -> dict[str, Any]:
         "source": "gold_data/final_dg_all.json",
         "created_at": inventory["created_at"],
         "project_count": inventory["project_count"],
+        "priority_rule": "Use these patterns as empirical reference only. Existing research_rules.md, generation_logic.md, case cards, Brief, Proposal, and explicit client requirements take priority when there is any conflict.",
         "summary": {
             "avg_modules_per_project": inventory["avg_modules_per_project"],
             "avg_questions_per_project": inventory["avg_questions_per_project"],
@@ -236,6 +237,7 @@ def build_designer_patterns(inventory: dict[str, Any]) -> dict[str, Any]:
             "Use first-module statistics to protect broad person/life-context openings before category or brand exposure.",
             "Use image/video request rates and samples to keep Diary tasks answerable without excessive proof burden.",
             "Use platform question types such as start, halftime, and end as export/platform constraints, not as core research questions.",
+            "Record conflicts between gold-data patterns and existing rules as eval notes instead of overriding current rules.",
         ],
     }
 
@@ -247,6 +249,7 @@ def build_wording_patterns(inventory: dict[str, Any]) -> dict[str, Any]:
         "source": "gold_data/final_dg_all.json",
         "created_at": inventory["created_at"],
         "project_count": inventory["project_count"],
+        "priority_rule": "Use these samples as tone and naturalness references only. Existing style_rules.md, rewrite_patterns.md, fixed templates, designer handoff constraints, Brief, Proposal, and explicit client requirements take priority when there is any conflict.",
         "opening_question_samples": samples.get("opening_questions", []),
         "soft_open_prompt_samples": samples.get("question_label:soft_open_prompt", []),
         "media_request_samples": {
@@ -262,6 +265,7 @@ def build_wording_patterns(inventory: dict[str, Any]) -> dict[str, Any]:
             "Keep examples optional and short; use final-DG samples to learn tone, not to copy exact questions.",
             "Treat image and video wording as burden-control wording unless the platform requires mandatory upload.",
             "Check whether brand-related wording appears only after suitable behavior/context modules.",
+            "Record conflicts between historical wording samples and current style rules as eval notes instead of overriding current rules.",
         ],
     }
 

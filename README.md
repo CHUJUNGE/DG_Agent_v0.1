@@ -249,7 +249,7 @@ DG_Agent_v0.1/
 ```powershell
 $env:CHATANYWHERE_API_KEY="你的 key"
 $env:CHATANYWHERE_BASE_URL="https://api.chatanywhere.tech/v1"
-$env:CHATANYWHERE_MODEL="gpt-5-mini"
+$env:CHATANYWHERE_MODEL="claude-opus-4-6"
 $env:DG_AGENT_CASE_ROOT="D:\Synocodes\agent"
 ```
 

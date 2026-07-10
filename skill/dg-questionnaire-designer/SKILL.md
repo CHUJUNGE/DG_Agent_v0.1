@@ -9,6 +9,17 @@ Use this skill to help design Digital Diary / DG question plans from project mat
 
 In production, treat this skill as a versioned research-logic specification layer. It should work with historical project inputs, final DG gold answers, model runs, and automated evaluation results. Do not treat the skill as the only source of model quality.
 
+## Gold Data Priority
+
+When `gold_data/reports/designer_patterns.json` or other database-derived final DG pattern files are available, use them as empirical reference only:
+
+- Existing skill rules, research rules, generation logic, Brief, Proposal, and explicit client requirements take priority.
+- Gold data patterns can suggest common module sequences, task patterns, question type distributions, and evaluation checks.
+- Do not copy historical final DG questions mechanically.
+- If a gold pattern conflicts with an existing rule, follow the existing rule and treat the conflict as a review/eval note.
+- Promote a gold-data insight into `research_rules.md` only when it is repeated across cases or carries high research risk.
+- Do not inject raw database JSON or full pattern files into normal generation prompts. Use gold data offline to distill compact rule candidates, then promote reviewed rules into this skill.
+
 ## Core Workflow
 
 Always work in this order:
@@ -86,7 +97,7 @@ Keep sections 1-3 concise. Put most detail in section 4.
 For each module in section 4, use:
 
 ```markdown
-### 板块x：模块名
+### 板块x：我/我的/我是/我怎么...模块名
 
 引导语：
 
@@ -102,6 +113,8 @@ For each module in section 4, use:
 Do not write “建议题目示例”, “示例题”, or “建议题量”.
 
 Do not add research purpose, design explanation, or internal logic after every question.
+
+Respondent-facing module titles in section 4 must default to first-person "我 / 我的 / 我是 / 我怎么..." wording, such as "我的一天", "我的文具全家福", "我是怎么选笔的", or "我的下一支笔". Use research-style module names only in internal structure tables or when the client explicitly requires fixed titles.
 
 ## Wording Handoff
 

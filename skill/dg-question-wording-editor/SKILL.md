@@ -9,17 +9,29 @@ Use this skill to turn a research-complete DG / Digital Diary draft into respond
 
 This skill is a wording layer. Do not redesign the research plan unless the wording problem reveals an obvious research-risk question for the designer agent.
 
+## Gold Data Priority
+
+When `gold_data/reports/wording_patterns.json` or other database-derived final DG wording pattern files are available, use them as tone and naturalness references only:
+
+- Existing style rules, rewrite patterns, fixed templates, designer handoff constraints, Brief/Proposal/client requirements, and brand-exposure rules take priority.
+- Gold wording samples can suggest natural openings, soft media requests, and module tone.
+- Do not copy historical respondent-facing questions mechanically.
+- If a gold wording sample conflicts with current style rules or fixed templates, follow the current rules and record the conflict as an eval note.
+- Promote a wording pattern into the skill only when it appears repeatedly and improves respondent naturalness without increasing burden or exposing intent too early.
+- Do not inject raw database JSON or full wording pattern files into normal rewrite prompts. Use gold data offline to distill compact rewrite rules, then promote reviewed rules into this skill.
+
 ## Core Boundary
 
 Preserve:
 
-- Module order and module names unless the user explicitly asks to change them.
+- Module order and module purpose.
 - Research intent, observation points, Diary vs IDI split, task timing, and brand-exposure timing.
 - Required fixed templates, especially About Me opening questions.
 - Any client-required item, screener, stimulus, or platform constraint.
 
 Edit:
 
+- Respondent-facing module names. By default, convert every respondent-facing module title into a first-person "我 / 我的 / 我是 / 我怎么..." style title unless the client requires a fixed title or the output is explicitly internal-only.
 - Respondent-facing questions.
 - Module introductions and endings.
 - Media request wording.

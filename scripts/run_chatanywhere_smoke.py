@@ -12,7 +12,7 @@ def main() -> int:
         raise RuntimeError("Missing CHATANYWHERE_API_KEY environment variable.")
 
     base_url = os.environ.get("CHATANYWHERE_BASE_URL", "https://api.chatanywhere.tech/v1").rstrip("/")
-    model = os.environ.get("CHATANYWHERE_MODEL", "gpt-5-mini")
+    model = os.environ.get("CHATANYWHERE_MODEL", "claude-opus-4-6")
     url = f"{base_url}/chat/completions"
 
     payload = {
