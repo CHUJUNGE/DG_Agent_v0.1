@@ -17,6 +17,7 @@ from test_prompt_with_cases import case_dir_for_id, load_case_inputs, normalize_
 
 OUT_DIR = ROOT / "tests" / "model_tests"
 WORDING_SKILL_DIR = ROOT / "skill" / "dg-question-wording-editor"
+WORDING_AGENT_CONFIG_PATH = WORDING_SKILL_DIR / "agents" / "openai.yaml"
 WORDING_REFERENCE_PATHS = [
     WORDING_SKILL_DIR / "SKILL.md",
     WORDING_SKILL_DIR / "references" / "style_rules.md",
@@ -28,6 +29,39 @@ WORDING_REFERENCE_PATHS = [
 
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8-sig", errors="replace")
+
+
+def load_default_system_prompt(path: Path) -> str:
+    if not path.exists():
+        return ""
+
+    lines = read_text(path).splitlines()
+    for index, line in enumerate(lines):
+        stripped = line.strip()
+        if not stripped.startswith("default_system_prompt:"):
+            continue
+
+        key_indent = len(line) - len(line.lstrip(" "))
+        value = stripped.partition(":")[2].strip()
+        if value and value not in {"|", ">"}:
+            return value.strip("\"'")
+
+        block_lines: list[str] = []
+        block_indent: int | None = None
+        for block_line in lines[index + 1 :]:
+            if block_line.strip():
+                current_indent = len(block_line) - len(block_line.lstrip(" "))
+                if current_indent <= key_indent:
+                    break
+                if block_indent is None:
+                    block_indent = current_indent
+            if block_indent is None:
+                block_lines.append("")
+            else:
+                block_lines.append(block_line[block_indent:])
+        return "\n".join(block_lines).strip()
+
+    return ""
 
 
 def call_chatanywhere(messages: list[dict[str, str]], model: str, temperature: float) -> str:
@@ -64,7 +98,16 @@ def build_wording_prompt(designer_output: str) -> PromptBundle:
     for path in WORDING_REFERENCE_PATHS:
         references.append(f"## {path.relative_to(ROOT)}\n\n{compact_text(read_text(path), 12000)}")
 
+    default_system_prompt = load_default_system_prompt(WORDING_AGENT_CONFIG_PATH)
+    default_system_section = (
+        f"# Default system prompt from {WORDING_AGENT_CONFIG_PATH.relative_to(ROOT)}\n\n"
+        f"{default_system_prompt}\n\n"
+        if default_system_prompt
+        else ""
+    )
+
     system = f"""
+{default_system_section}
 你是 `dg-question-wording-editor`，负责把 questionnaire designer 产出的研究完整 DG 草稿改写成受访者可读、自然、开放、低负担的最终 DG wording。
 
 你必须遵守：
@@ -154,6 +197,15 @@ def main() -> int:
     print(f"Designer prompt: {designer_prompt_path}")
 
     if args.dry_run:
+        designer_out_path = OUT_DIR / f"{case_id}_{args.model}_designer_output.md"
+        if designer_out_path.exists():
+            designer_output = read_text(designer_out_path)
+            wording_bundle = build_wording_prompt(designer_output)
+            wording_prompt_path = OUT_DIR / f"{case_id}_{args.model}_wording_prompt.md"
+            write_prompt_preview(wording_prompt_path, wording_bundle)
+            print(f"Wording prompt: {wording_prompt_path}")
+        else:
+            print(f"Wording prompt skipped: no existing designer output at {designer_out_path}")
         print("Dry run only. Add --run by omitting --dry-run to call the configured model API.")
         return 0
 

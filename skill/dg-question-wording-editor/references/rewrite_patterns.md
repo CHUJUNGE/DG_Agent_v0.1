@@ -128,6 +128,72 @@ After:
 谢谢你先把日常情况讲清楚了。下面我们会继续看看这些小习惯在真实生活里是怎么发生的。
 ```
 
+Use this pattern sparingly. If every module ends with "谢谢你...接下来...", the draft will still sound mechanical.
+
+## AI-Host Ending To Task Transition
+
+Before:
+
+```text
+谢谢你让我们走进你的生活！接下来我们想聊聊你和书写的故事。
+```
+
+After:
+
+```text
+先认识到这里。下面从你平时会拿起笔的那些时刻开始聊。
+```
+
+For middle modules, keep the ending short and concrete. Do not make every transition an emotional thank-you.
+
+## Research Purpose Ending To Respondent Step
+
+Before:
+
+```text
+这些购买细节能帮助我们理解渠道入口和现场卡点。
+```
+
+After:
+
+```text
+这次寻找和选择的过程先记录到这里。后面如果还有临时想到的细节，也可以再补充。
+```
+
+Do not tell respondents what their answer helps researchers analyze.
+
+## Diary Completion Ending
+
+Before:
+
+```text
+感谢你今天的真实分享，你的记录对我们非常重要。
+```
+
+After:
+
+```text
+今天的记录完成啦，辛苦。明天继续按真实发生的时刻来写就好。
+```
+
+Use for daily or repeated diary tasks. Confirm completion and remind the next action instead of giving a generic compliment.
+
+## Module Intro As Task Entry
+
+Before:
+
+```text
+我们想了解你的品类使用图谱，以便识别不同场景下的需求和机会。
+```
+
+After:
+
+```text
+这一部分先把你平时会用到的东西摊开看看。家里、包里、工位上常出现的都可以算。
+```
+
+An intro should orient the respondent to the task, not explain the research framework.
+
 ## Please Explain Separately To Soft Follow-Up
 
 Before:

@@ -1,7 +1,7 @@
 {
-  "skill_version": "0.1.4",
-  "style_rules_version": "0.1.4",
-  "rewrite_patterns_version": "0.1.1",
+  "skill_version": "0.1.6",
+  "style_rules_version": "0.1.5",
+  "rewrite_patterns_version": "0.1.2",
   "module_tone_guides_version": "0.1.3",
   "wording_eval_rubric_version": "0.1.1",
   "status": "ai_gold_wording_rules_promoted",
@@ -11,6 +11,8 @@
     "Promoted reviewed Claude Opus gold-data wording patterns: invitation verbs, checklist softening, returning-wave phrasing, scene reconstruction, video process invitation, conversational reason prompts, and technical hygiene checks.",
     "0.1.2 promotes Case_005 KACO review wording rules: respondent-owned module titles, emotionally valuable intros/endings, contextual transitions, avoiding obvious yes/no and comparison prompts, light parenthetical probes, and photo-first media wording.",
     "0.1.3 promotes product innovation wording rules: bounded future-product questions, concrete anchors, decomposed product criteria, reference-image prompts, and answerable metaphor wording.",
-    "0.1.4 makes first-person respondent-facing module titles mandatory by default and resolves the prior conflict that preserved research-style module names."
+    "0.1.4 makes first-person respondent-facing module titles mandatory by default and resolves the prior conflict that preserved research-style module names.",
+    "0.1.5 adds a dedicated default system prompt for the wording agent Turing-test persona experiment.",
+    "0.1.6 replaces the Turing-test persona with a task-editor system prompt and promotes gold-data intro/ending rules: task-entry intros, light task transitions, diary completion endings, and bans on AI-host style over-thanking."
   ]
 }

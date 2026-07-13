@@ -124,6 +124,45 @@ Avoid:
 
 If media is mandatory, keep the requirement clear and explain the minimum needed. If media is optional, mark it as optional and offer text or voice as an alternative.
 
+## Module Intro And Ending Naturalness
+
+Gold data shows that good DG intros are usually task entries, not researcher purpose statements. Good endings usually confirm the current task is done and lightly point to the next step, not deliver a formal thank-you speech.
+
+### Intros
+
+Use intros to help respondents understand the next action:
+
+- Open the first module with a short greeting or "先让我们了解一下你吧" when appropriate.
+- For later modules, prefer direct task entries such as "接下来，聊聊...", "这一部分，想看看...", "下面从...开始".
+- For diary or media tasks, state the concrete task, timing, and acceptable formats early.
+- For returning-wave projects, include one clear time anchor such as "这段时间" or "最近三个月".
+- Keep most intros to one or two sentences unless the task requires recording rules.
+
+Avoid turning intros into research explanations:
+
+- Do not say "本模块旨在了解...", "我们想研究...", "用于识别...", or "帮助我们洞察...".
+- Do not reveal brand, product, stimulus, or internal strategy before the planned exposure point.
+- Do not over-soften every intro with "谢谢你让我们..." or "走进你的生活".
+
+### Endings
+
+Use endings according to task type:
+
+- For short middle modules, either omit the ending or use one light sentence that points to the next task.
+- For daily diary or repeated tasks, confirm completion and remind the next recording step.
+- For heavy media or long modules, acknowledge the concrete effort: recording a day, showing objects, uploading a process, or completing a shopping task.
+- For the final module, a short thank-you and optional supplement invitation is enough.
+
+Avoid repeated AI-host style endings:
+
+- "谢谢你让我们走进你的生活/内心/故事"
+- "你的分享非常重要"
+- "这些内容对我们理解消费者/市场/品牌机会很有帮助"
+- "接下来我们会研究/分析/识别..."
+- Repeating "感谢你的认真分享，接下来..." after every module.
+
+When an ending mentions the next module, make it respondent-facing and concrete. Say "下面从每天最常发生的喂食开始看" instead of "接下来我们想了解你的喂食行为和选择逻辑".
+
 ## Technical And Placeholder Hygiene
 
 Respondent-facing wording must not expose raw platform or draft artifacts:
@@ -162,6 +201,7 @@ Do not shorten, split, replace, or make these three questions more research-like
 使用 gold wording pattern 时应遵守：
 
 - 可以参考历史题面如何自然开场、如何软化媒体请求、如何邀请真实经历。
+- 可以参考历史 final DG 中 `type=start`、`type=end`、`type=halftime` 以及模块首题/末题如何作为引导和收束，但只提炼表达模式，不机械复制。
 - 不要复制历史题目原文，尤其不要复制项目专属品牌、品类、刺激物或内部标签。
 - 不要因为历史题目中出现较长括号、强制上传、打分或排序，就放宽本文件的降负担规则。
 - 如果历史样本与固定 About Me 开场、品牌延后曝光或 respondent burden 控制冲突，以本文件现有规则为主。
@@ -198,11 +238,11 @@ If the designer draft has research-style module names, rewrite the titles while 
 - "笔的选择与购买 journey" -> "我是怎么选笔的"
 - "未来笔类产品期待" -> "我的下一支笔"
 
-### Module intros and endings should carry emotional value
+### Module intros and endings should carry task value
 
-The question body can stay direct and simple, but module introductions and endings should create warmth and momentum. Use them to acknowledge what the respondent just shared and invite the next task.
+The question body can stay direct and simple, but module introductions and endings should create task momentum. Use them to help respondents know what to do next, acknowledge concrete effort when useful, and move into the next task without exposing research logic.
 
-Avoid repeated empty endings such as "your feedback is very important to us." Prefer endings that thank the respondent for the actual effort, such as completing a day of diary recording, showing objects, or sharing detailed memories.
+Avoid repeated empty endings such as "your feedback is very important to us", "thank you for letting us into your life", or "your answers help us identify opportunities." Prefer endings that respond to the actual effort, such as completing a day of diary recording, showing objects, or sharing detailed memories.
 
 For repeated diary days, vary the ending by day or task round instead of copying the exact same sentence.
 
