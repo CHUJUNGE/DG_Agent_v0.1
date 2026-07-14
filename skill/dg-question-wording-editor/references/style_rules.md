@@ -6,6 +6,16 @@ Use these rules when rewriting Digital Diary / DG questions.
 
 Questions should feel like natural diary tasks, not researcher checklists.
 
+Wording editing is not full rewriting. Preserve designer wording when it is already:
+
+- natural and respondent-facing;
+- specific enough to answer;
+- low-burden;
+- aligned with the target audience;
+- free of exposed research logic or checklist pressure.
+
+Only rewrite when there is a clear wording problem. Do not flatten lively but appropriate wording into a neutral corporate tone.
+
 Prefer:
 
 - "和我们聊聊..."
@@ -103,6 +113,29 @@ Use examples only when they help respondents understand the task.
 - Remove repeated long parentheses.
 - Prefer a wide-range phrase such as "这些都可以说 / 都算在内" when it can replace a long example list.
 
+## Single-Point Questions
+
+Each respondent-facing question should ask one core point. It can include light follow-ups that deepen the same point, but should not combine separate information goals just because both are useful to the research.
+
+Keep same-point follow-ups when they clarify:
+
+- the same scene: time, place, people, before/after, feeling;
+- the same choice: reason, comparison, tradeoff, hesitation;
+- the same object or material: what it is, why it matters, how it is used.
+
+Split or narrow the question when it combines different goals, such as:
+
+- self-introduction/current status + typical day routine;
+- current usage + future ideal product;
+- purchase channel/journey + emotional category meaning;
+- favorite/most bought/newly bought/wanted but not bought/abandoned items all in one question.
+
+When editing, do the smallest necessary fix:
+
+- If one part is clearly off-scope for the module, remove it and preserve the core question.
+- If both parts are needed, split them into two questions or move the second point to the right module.
+- Do not split a natural scene-reconstruction question only because it has several follow-up clauses serving the same scene.
+
 ## Media Requests
 
 Media should reduce burden, not become proof collection.
@@ -137,6 +170,7 @@ Use intros to help respondents understand the next action:
 - For diary or media tasks, state the concrete task, timing, and acceptable formats early.
 - For returning-wave projects, include one clear time anchor such as "这段时间" or "最近三个月".
 - Keep most intros to one or two sentences unless the task requires recording rules.
+- Preserve a designer intro if it already gives the task context naturally.
 
 Avoid turning intros into research explanations:
 
@@ -152,6 +186,7 @@ Use endings according to task type:
 - For daily diary or repeated tasks, confirm completion and remind the next recording step.
 - For heavy media or long modules, acknowledge the concrete effort: recording a day, showing objects, uploading a process, or completing a shopping task.
 - For the final module, a short thank-you and optional supplement invitation is enough.
+- Preserve a designer ending if it is short, concrete, and fits the respondent tone.
 
 Avoid repeated AI-host style endings:
 
@@ -162,6 +197,21 @@ Avoid repeated AI-host style endings:
 - Repeating "感谢你的认真分享，接下来..." after every module.
 
 When an ending mentions the next module, make it respondent-facing and concrete. Say "下面从每天最常发生的喂食开始看" instead of "接下来我们想了解你的喂食行为和选择逻辑".
+
+### Preserve Appropriate Audience Tone
+
+Do not automatically remove:
+
+- "～" or "啦" when used sparingly and appropriate for a younger sample;
+- light expressions such as "上头", "种草", or "踩雷" when they fit the category and audience;
+- concrete, vivid phrasing from the designer draft.
+
+Adjust them only when:
+
+- the sample includes older or formal respondents and the tone would feel off;
+- every sentence uses the same playful marker;
+- the expression distracts from the task;
+- the client or project requires a more restrained tone.
 
 ## Technical And Placeholder Hygiene
 
@@ -245,6 +295,8 @@ The question body can stay direct and simple, but module introductions and endin
 Avoid repeated empty endings such as "your feedback is very important to us", "thank you for letting us into your life", or "your answers help us identify opportunities." Prefer endings that respond to the actual effort, such as completing a day of diary recording, showing objects, or sharing detailed memories.
 
 For repeated diary days, vary the ending by day or task round instead of copying the exact same sentence.
+
+Do not rewrite an already natural intro or ending just to make it shorter, more neutral, or more "polished." Minimal edits are preferred.
 
 ### Transitions should connect to the previous module
 

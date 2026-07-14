@@ -2,6 +2,22 @@
 
 Use these patterns to transform research-heavy wording into respondent-facing DG wording.
 
+## Minimal Edit Principle
+
+Before:
+
+```text
+Hi～欢迎来到这本小日记！在聊文具之前，我们想先认识一下你。没有标准答案，轻松地说说你自己就好。
+```
+
+After:
+
+```text
+Hi～欢迎来到这本小日记！在聊文具之前，我们想先认识一下你。没有标准答案，轻松地说说你自己就好。
+```
+
+If the source is already natural, respondent-facing, and answerable, keep it unchanged. Wording pass should not rewrite for the sake of rewriting.
+
 ## Checklist To Diary
 
 Before:
@@ -239,6 +255,28 @@ After:
 ```
 
 Use "还原一下..." when the research needs details but the question should still feel like a shared recollection.
+
+## Multi-Intent Question To Single Point
+
+Before:
+
+```text
+先简单介绍一下你自己吧——你现在在做什么（上学 / 工作 / 其他）？平时的一天大概是怎么度过的？
+```
+
+After:
+
+```text
+先简单介绍一下你自己吧：你现在在上学、工作，还是其他状态？可以用你觉得最能代表自己的方式说说。
+```
+
+If the routine is also needed, move it to a separate daily-rhythm question:
+
+```text
+接下来聊聊你平时的一天。通常从早到晚会怎么度过？哪些时间段最固定，哪些比较自由？
+```
+
+Do not combine self-introduction and daily routine in one question. A question can go deeper on the same point, but should not ask two different information goals at once.
 
 ## Fill-In Diary Trigger
 

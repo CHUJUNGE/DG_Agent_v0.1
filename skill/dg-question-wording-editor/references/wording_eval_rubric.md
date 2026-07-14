@@ -10,6 +10,7 @@ Checks:
 - easy to understand
 - not overly academic or researcher-facing
 - module intros and endings feel natural
+- preserves already-good designer wording instead of flattening it
 - avoids repeated "请问/请描述/请说明" starts when invitation verbs would be more natural
 - uses conversational follow-ups such as "为什么这么觉得" instead of researcher prompts like "请说明原因"
 
@@ -21,6 +22,7 @@ Checks:
 - does not over-prescribe examples
 - avoids hidden answer options
 - preserves open-ended discovery when needed
+- keeps one question focused on one core information point unless follow-ups deepen the same point
 
 ## 3. Burden Control
 
@@ -59,6 +61,7 @@ Checks:
 - no major module/question is silently deleted
 - task logic, Diary vs IDI split, and client constraints remain intact
 - required media, scores, classifications, and platform actions remain clear when they are truly mandatory
+- natural audience-appropriate tone from the designer draft is not unnecessarily neutralized
 
 ## 7. Fixed Template Compliance
 
@@ -97,3 +100,6 @@ Use:
 - `html_or_placeholder_visible`
 - `returning_wave_too_formal`
 - `media_and_explanation_overstacked`
+- `over_rewritten`
+- `tone_flattened`
+- `multi_intent_question`

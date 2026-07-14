@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import socket
 import sys
 import urllib.error
 import urllib.request
@@ -64,7 +65,7 @@ def load_default_system_prompt(path: Path) -> str:
     return ""
 
 
-def call_chatanywhere(messages: list[dict[str, str]], model: str, temperature: float) -> str:
+def call_chatanywhere(messages: list[dict[str, str]], model: str, temperature: float, timeout: int) -> str:
     api_key = os.environ.get("CHATANYWHERE_API_KEY")
     if not api_key:
         raise RuntimeError("Missing CHATANYWHERE_API_KEY environment variable.")
@@ -80,11 +81,21 @@ def call_chatanywhere(messages: list[dict[str, str]], model: str, temperature: f
     )
 
     try:
-        with urllib.request.urlopen(request, timeout=240) as response:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
             raw = response.read().decode("utf-8")
     except urllib.error.HTTPError as exc:
         body = exc.read().decode("utf-8", errors="replace")
         raise RuntimeError(f"ChatAnywhere HTTP {exc.code}: {body}") from exc
+    except TimeoutError as exc:
+        raise RuntimeError(
+            f"ChatAnywhere request timed out after {timeout}s. "
+            "Try a larger --timeout value, a faster model, or --wording-only if designer output already exists."
+        ) from exc
+    except socket.timeout as exc:
+        raise RuntimeError(
+            f"ChatAnywhere request timed out after {timeout}s. "
+            "Try a larger --timeout value, a faster model, or --wording-only if designer output already exists."
+        ) from exc
 
     data = json.loads(raw)
     try:
@@ -119,6 +130,9 @@ def build_wording_prompt(designer_output: str) -> PromptBundle:
 5. 媒体请求默认软化为可选支持；若 designer 标明强制或平台要求，保留要求但降低压迫感。
 6. 输出完整 Markdown，不要输出 JSON。
 7. 主交付是修订后的 DG wording，不要长篇解释。
+8. 采用最小必要改写：如果 designer 的引导语、题目或结束语已经自然、具体、可回答，不要为了“润色”而改写。
+9. 不要统一抹掉年轻化但自然的语气词、波浪号、轻松表达或项目合适的口语；只有在过度、做作、年龄不适配或影响清晰度时才调整。
+10. 优先修复明确问题：researcher-facing 话术、checklist、过长括号、暴露研究目的、负担过重、结束语过度感谢或 AI 主持人腔。
 
 # Wording skill references
 
@@ -141,7 +155,7 @@ def build_wording_prompt(designer_output: str) -> PromptBundle:
 
 ## Revised DG Wording
 
-保留 designer 的主要结构，但把所有受访者可见的引导语、题目和结束语改成自然可回答的 DG wording。
+保留 designer 的主要结构和已经自然的受访者表达。只改写确实存在问题的引导语、题目、结束语和素材请求；不要全量重写。
 """.strip()
 
     return PromptBundle(
@@ -176,6 +190,8 @@ def main() -> int:
     parser.add_argument("--case-root", default=os.environ.get("DG_AGENT_CASE_ROOT", str(ROOT / "case_data")))
     parser.add_argument("--model", default=os.environ.get("CHATANYWHERE_MODEL", "claude-opus-4-6"))
     parser.add_argument("--dry-run", action="store_true", help="Write prompt previews without calling the model.")
+    parser.add_argument("--timeout", type=int, default=int(os.environ.get("CHATANYWHERE_TIMEOUT", "600")), help="API request timeout in seconds.")
+    parser.add_argument("--wording-only", action="store_true", help="Reuse an existing designer output and only run the wording editor.")
     args = parser.parse_args()
 
     case_id = normalize_case_id(args.case)
@@ -195,6 +211,7 @@ def main() -> int:
     print(f"Selected cases: {', '.join(designer_bundle.selected_case_ids) or 'none'}")
     print(f"Input files: {len(files)}")
     print(f"Designer prompt: {designer_prompt_path}")
+    print(f"Timeout: {args.timeout}s")
 
     if args.dry_run:
         designer_out_path = OUT_DIR / f"{case_id}_{args.model}_designer_output.md"
@@ -209,11 +226,17 @@ def main() -> int:
         print("Dry run only. Add --run by omitting --dry-run to call the configured model API.")
         return 0
 
-    print("Calling designer...")
-    designer_output = call_chatanywhere(designer_bundle.to_openai_messages(), args.model, temperature=0.2)
     designer_out_path = OUT_DIR / f"{case_id}_{args.model}_designer_output.md"
-    designer_out_path.write_text(designer_output, encoding="utf-8-sig")
-    print(f"Designer output: {designer_out_path}")
+    if args.wording_only:
+        if not designer_out_path.exists():
+            raise FileNotFoundError(f"--wording-only requires existing designer output: {designer_out_path}")
+        designer_output = read_text(designer_out_path)
+        print(f"Designer output reused: {designer_out_path}")
+    else:
+        print("Calling designer...")
+        designer_output = call_chatanywhere(designer_bundle.to_openai_messages(), args.model, temperature=0.2, timeout=args.timeout)
+        designer_out_path.write_text(designer_output, encoding="utf-8-sig")
+        print(f"Designer output: {designer_out_path}")
 
     wording_bundle = build_wording_prompt(designer_output)
     wording_prompt_path = OUT_DIR / f"{case_id}_{args.model}_wording_prompt.md"
@@ -221,7 +244,7 @@ def main() -> int:
     print(f"Wording prompt: {wording_prompt_path}")
 
     print("Calling wording editor...")
-    wording_output = call_chatanywhere(wording_bundle.to_openai_messages(), args.model, temperature=0.15)
+    wording_output = call_chatanywhere(wording_bundle.to_openai_messages(), args.model, temperature=0.15, timeout=args.timeout)
     wording_out_path = OUT_DIR / f"{case_id}_{args.model}_full_output.md"
     wording_out_path.write_text(wording_output, encoding="utf-8-sig")
     print(f"Full output: {wording_out_path}")
