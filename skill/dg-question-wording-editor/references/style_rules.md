@@ -103,6 +103,20 @@ Softer alternatives:
 - "需要让自己缓一缓 / 回到状态"
 - "嘴巴不太舒服 / 想换换口味"
 
+### Scene-led coping strategy questions
+
+When a scene has a clear state or need, and respondents may use multiple coping strategies or substitute categories, keep the wording in one real-moment chain.
+
+Prefer:
+
+- "回想一次你明显感觉到需要 X 的时刻，当时大概是什么时候、在哪里、和谁一起、正在做什么？那一刻你的情绪或身体状态是怎样的？"
+- "后来你做了什么让自己调整一下？为什么当时会选这个办法？"
+- "那次有没有想到或选择 X 这类东西？如果有，为什么选它？如果没有，为什么没选？"
+- "如果用了 X，真正起作用的是哪些细节？比如味道、口感、香气、温度、清爽感、方便程度，或者其他感受。"
+- "最后有没有回到你想要的状态？为什么？"
+
+Do not force the target category into every scene. Let respondents describe the actual coping strategy first, then ask whether the research category entered and why.
+
 ## Examples And Parentheses
 
 Use examples only when they help respondents understand the task.
@@ -358,9 +372,34 @@ Use prompts such as:
 
 Keep examples light and category-relevant.
 
+### Ask experience standards through extremes
+
+When the source draft asks about a product, service, purchase, trial, or use experience, make the experience-standard question concrete.
+
+Prefer:
+
+- "回想一次你觉得它特别好用 / 特别舒服 / 特别开心的经历，当时是什么场景？哪些细节让你有这种感觉？"
+- "当时手感、声音、气味、口感、画面或心情是怎样的？"
+- "反过来，哪一次体验让你觉得不太好？碰到什么会特别不开心，或者少了什么就不行？"
+
+Adapt the sensory prompts to the category. For a pen, ask writing smoothness, grip, paper sound, control, and mood. For coffee, ask taste, aroma, temperature, mouthfeel, scene, and feeling.
+
 ### Use references and images for product form
 
 When the question asks about product appearance, form, sensory feeling, ideal examples, or evaluation standards, encourage reference images first. Text or voice can explain why those references work.
+
+### Ask abstract concepts as definitions, associations, and change
+
+When the cognition object is a cultural image, social concept, practice, or self-created concept rather than a concrete object, do not force a product-style metaphor first.
+
+Prefer:
+
+- "你认为什么是 X / 怎样算 X？"
+- "提到 X，你脑海里出现的第一个画面是什么？为什么是这个画面？"
+- "还会联想到哪些声音、味道、气味、物品或情绪？"
+- "你觉得 X 这些年有变化吗？为什么？你自己对 X 的期待有变过吗？"
+
+This pattern fits topics such as 春节 / CNY, 二次元, or campaign-created concepts like "慢人".
 
 ### Make metaphor answerable
 
@@ -371,3 +410,28 @@ Metaphor questions should not sound philosophical. Anchor them in familiar langu
 - "What would you hope it becomes in your life?"
 
 Avoid abstract wording such as "please explain the symbolic meaning of this category."
+
+For concrete products or objects, metaphor can include several everyday comparison routes:
+
+- what it feels like or what it resembles;
+- what objects it should be placed together with, physically or mentally;
+- what role it plays in life;
+- if it were a person, its age, personality, occupation, and dressing style;
+- what relationship it has with "me", whether close, distant, dependent, companion-like, decorative, or occasional.
+
+Always add a natural reason follow-up, such as "为什么会这么觉得？" or "是什么让你这样形容它？"
+
+### Ask purchase behavior as habits, concrete examples, and change
+
+When the source draft asks about buying behavior, keep the wording close to real purchase habits instead of turning it into a market taxonomy.
+
+Prefer:
+
+- "你平时买 X 的习惯是怎样的？更像一次性囤一点，还是需要时分几次买？"
+- "通常会给这类东西留多少预算？这个预算是怎么想的？"
+- "一般在哪些渠道买？为什么会选这些渠道？"
+- "不同类型的 X，在品牌、渠道、分量、包装、价格上，你会不会有不同选择？"
+- "最近最喜欢 / 最常买或最常用 / 最新买的是哪些？为什么是它们？"
+- "这段时间你买 X 的总量、预算或频次有变化吗？哪些一直买，哪些不买了，哪些买更多或更少？为什么？"
+
+Use category-specific examples lightly, such as frozen food stock-up behavior, channel choice, portion size, packaging, and price sensitivity. Do not list every dimension in every question if it creates checklist pressure.

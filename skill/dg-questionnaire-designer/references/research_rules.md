@@ -82,6 +82,17 @@ Agent 应先识别商业问题类型：
 - 不要直接问“为什么不用目标品类”。
 - 应先问真实情境、当时做了什么、有哪些替代方案，再追问目标品类是否进入解决方案。
 - 场景题应收集：trigger、context、people/place/activity、action、choice logic、result。
+- 当项目有明确场景指向，且场景中存在多个替代品类或 coping strategy 时，必须按“状态/需求 -> 场景 -> 应对方式 -> 品类是否进入 -> 起效机制 -> 结果”的链路设计。常见于食饮场景，如益达 recenter moments、绿箭 refresh，也可部分适用于保健品、VMS 或其他状态调节类品类。
+
+此类场景题应覆盖：
+
+- 什么时候感觉到目标状态/需求，例如需要 recenter、refresh、放松、提神、缓一缓、恢复状态；
+- 具体场景：什么时候、在哪里、和谁一起、在做什么、当时情绪和身体状态怎样；
+- coping strategy：最后做了什么来应对，可以包含研究品类/产品，也可以是其他行为或替代品类；
+- 为什么选择这个 coping strategy，而不是其他方式；
+- 研究品类是否进入当次解决方案：选择了为什么，没选择为什么；
+- 如果选择了研究品类，追问真正起效果的元素。食饮品类尤其要拆到口味、口感、香气、温度、刺激感、清爽感、饱腹感、仪式感、便利性等；
+- 最后是否达到想要的状态，为什么，哪些部分有效/无效。
 
 ## 7. 食品饮料 / 零食类规则
 
@@ -637,6 +648,16 @@ Product innovation must capture cognition change in two layers:
 
 Both layers should be asked through concrete tasks, examples, sorting, reference images, metaphors, and comparison, not through abstract "what does it mean" questions.
 
+When the cognition object is not a concrete physical product/object but a cultural image, cultural practice, social concept, or self-created concept, use direct definition, association, and change probes instead of product metaphor first.
+
+Examples include Spring Festival / CNY, 二次元, or "慢人" in a Xiaohongshu slow-person festival context.
+
+Ask:
+
+- what the respondent thinks counts as X / what X means to them, such as "怎样算过年" or "什么是二次元";
+- the first image that appears in their mind when X is mentioned, why that image appears, and what sounds, tastes, smells, emotions, objects, or images they associate with it;
+- whether X has changed in their view, why, and how their own expectations have changed, such as whether the "年味" of Spring Festival feels stronger, weaker, or about the same now.
+
 ### 24.7 Role cognition requires metaphor and classification
 
 For abstract category roles, use metaphor and classification:
@@ -647,6 +668,14 @@ For abstract category roles, use metaphor and classification:
 - how its role changed from past to now, and what role the respondent hopes it will play in the future.
 
 Classification is not only organization; it reveals cognition. For example, if a product is placed with work tools, it may be cognitively a tool. If placed with toys, hangers, collectibles, or identity objects, it may be closer to emotion or self-expression.
+
+When the cognition object is already a concrete physical product/object, use metaphor in several ways and always ask why:
+
+- what the object is like, or what it can be compared to;
+- what other objects it belongs with mentally or physically, including adjacent objects such as bag charms, toys, collectibles, accessories, or tools;
+- what role it plays in daily life;
+- if it were a person, what age, personality, occupation, and dressing style it would have;
+- what relationship it has with "me", including closeness, distance, dependency, companionship, or occasional use.
 
 ### 24.8 Evaluation standards must be decomposed by category
 
@@ -662,6 +691,14 @@ Depending on the category, dimensions may include:
 
 Ask for concrete references and images when standards involve appearance, form, sensory imagination, or ideal product examples.
 
+When the project touches any product, usage, purchase, trial, or service experience, include experience-standard questions. The goal is to understand what consumers count as a good or bad experience, not only what functions they name.
+
+Use category-specific extreme-experience prompts:
+
+- ask for the best / happiest / smoothest / most satisfying experience, adapted to the category, such as the smoothest writing moment for a pen or a particularly good cup of coffee;
+- encourage sensory detail and scene reconstruction: touch, sound, taste, aroma, appearance, body feeling, emotion, and what happened before/during/after;
+- after the good experience, ask the reverse: the worst / most frustrating / most disappointing experience, what makes them especially unhappy, and what missing element would make the experience unacceptable.
+
 ### 24.9 Current product system before future innovation
 
 Before asking future product ideas, first understand:
@@ -675,6 +712,17 @@ Before asking future product ideas, first understand:
 - what "good" means in concrete product terms.
 
 Only after this should the questionnaire ask about role change, cognition change, and future innovation directions.
+
+### 24.9.1 Purchase behavior must cover habits, examples, and change
+
+When a project involves buying, consumption, channel choice, or category selection, include purchase behavior questions that cover:
+
+- buying habits: whether respondents stock up at once, buy in several trips, buy only when needed, or follow another pattern;
+- budget: usual spend per trip or period, budget range, and how the budget is decided;
+- channel choice: online/offline/platform/store choice and the reasons behind it;
+- category differences: whether different subcategories differ in brand choice, channel, portion/size, packaging, and price sensitivity;
+- concrete examples: favorite, most used/eaten, and most recently bought items;
+- change: total consumption, budget, and frequency changes; what they keep buying, stopped buying, buy more of, or buy less of, and why.
 
 ### 24.10 Innovation output may be big or small
 
@@ -720,6 +768,9 @@ Before finalizing a product innovation DG, check:
 - Did it connect lifestyle to category scenes and product needs, rather than leaving lifestyle as a front-end portrait?
 - Did it ask scene change in a specific enough way to avoid generic answers?
 - Did it decompose evaluation standards into category-specific dimensions?
+- Did cognition questions distinguish abstract cultural concepts from concrete product/object cognition?
 - Did it include role/metaphor when cognition or emotional projection matters?
+- Did product-related projects ask both positive and negative extreme experiences to reveal evaluation standards?
+- Did purchase-related projects cover habits, budget, channels, favorite/most-used/latest examples, and consumption changes?
 - Did it avoid unbounded "future product" imagination?
 - Did it distinguish disruptive innovation from safe/stable incremental innovation?
