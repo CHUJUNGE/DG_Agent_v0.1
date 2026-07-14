@@ -103,6 +103,28 @@ Softer alternatives:
 - "需要让自己缓一缓 / 回到状态"
 - "嘴巴不太舒服 / 想换换口味"
 
+### Lifestyle questions should feel like getting to know a person
+
+When rewriting lifestyle or cohort-understanding modules, keep the tone like naturally getting to know a person. Do not turn lifestyle into a demographic checklist.
+
+Prefer:
+
+- "先用几个关键词介绍一下你自己吧。也可以配一两张你觉得很能代表自己的图片。"
+- "如果方便，带我们看看你平时最常待、最能代表你生活状态的空间。真实状态就好，不用特意收拾。"
+- "现在和你一起生活的还有谁？如果有宠物，也想听听它在你生活里像什么样的角色。"
+- "你现在生活里最重要的重心是什么？整体节奏是偏快、偏慢，还是会随阶段变化？"
+- "休闲时间通常会怎么安排？这些兴趣一般发生在什么场景里，是一个人、和朋友、线上还是线下？"
+- "你的社交圈大概是什么样的？在这些关系里，你更像发起者、跟随者、组织者、倾听者，还是别的角色？"
+- "平时花钱的大头主要在哪里？有没有一些不是刚需、但你特别愿意花钱的东西？"
+- "你平时主要从哪些地方获得信息？不同渠道给你的信息有什么不一样？"
+- "你会偏爱哪些类型的内容或故事？比如某类剧情、人设、风格、博主或话题。为什么会喜欢？"
+- "回头看，有没有哪次换城市、换职业、关系变化，或其他转折，对你影响比较大？"
+- "如果给现在的生活打个分，你会打几分？扣分主要扣在哪里？"
+- "你理想中的生活画面是什么样的？有没有谁让你觉得 TA 活出了这种样子？"
+- "想象一下 3 年后或 5 年后的你，生活可能会有哪些变化？哪些是你期待的，哪些是你不太想变的？"
+
+For must-have person-understanding modules, preserve questions on self-introduction, representative images, room tour, life center/rhythm, spending habits, interests and scenes, social role, and life pain points. These are not optional polish items when the designer handoff marks lifestyle as a core research object.
+
 ### Scene-led coping strategy questions
 
 When a scene has a clear state or need, and respondents may use multiple coping strategies or substitute categories, keep the wording in one real-moment chain.

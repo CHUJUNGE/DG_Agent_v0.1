@@ -1,4 +1,4 @@
-﻿---
+---
 
 ## Message 1: system
 
@@ -19,7 +19,7 @@
 8. 最终用户看到的输出要精简：项目理解、核心研究问题、模块结构总览只列结论，不要长篇阐述；主要篇幅放在详细题目设计。
 9. 自检是 Agent 内部行为，最终只输出简短的“Agent 检核摘要”，不要输出冗长自检过程。
 10. 需要确认的问题最多 3 个；如果没有关键问题，写“暂无必须确认的问题”。
-11. 详细题目设计必须是完整题目稿，不是建议或示例。每个板块固定使用“板块x：我/我的/我是/我怎么...xxx / 引导语 / 题目 / 结束语”格式。
+11. 详细题目设计必须是完整题目稿，不是建议或示例。每个模块固定使用“模块x：我/我的/我是/我怎么...xxx / 引导语 / 题目 / 结束语”格式。
 12. 不要输出“建议题目示例”“示例题”“建议题量”等字样；不要在每道题后堆研究目的、设计说明、内部解释。
 13. 详细题目设计先保证研究逻辑完整：模块、观察点、题型、任务时机、品牌暴露顺序和素材需求要能解释清楚。
 14. 输出单独的“Wording Handoff”部分，说明后续 dg-question-wording-editor 需要保留什么、优化什么、哪些题不能删只能改写。
@@ -333,14 +333,14 @@ Agent 需要提取：
 
 目标：生成可直接给研究员审阅、并可交给 `dg-question-wording-editor` 做题面自然化的完整题目设计。
 
-重要：详细题目设计不是“建议题目示例”，而是完整板块题目稿。
+重要：详细题目设计不是“建议题目示例”，而是完整模块题目稿。
 
 输出格式：
 
 ```markdown
 ## 4. 详细题目设计
 
-### 板块1：我/我的/我是/我怎么...模块名
+### 模块1：我/我的/我是/我怎么...模块名
 
 引导语：
 
@@ -365,7 +365,7 @@ Agent 需要提取：
 - 必要时要求照片、视频、语音、截图或实物记录。
 - 不要输出“建议题目示例”“示例题”“建议题量”等字样。
 - 不要在每道题后面堆研究目的、设计说明、内部解释；这些可放在模块结构总览、内部提示或 handoff。
-- 详细题目设计中的受访者可见板块名必须默认使用第一人称“我 / 我的 / 我是 / 我怎么...”结构，让受访者感觉这是关于自己的任务。研究型名称如“场景图谱 / 消费与使用图谱 / 购买 journey / 产品期待 / 评价标准”只能放在内部模块结构、模块目的或 handoff 中；除非客户强制标题，否则不要作为最终板块名。
+- 详细题目设计中的受访者可见模块名必须默认使用第一人称“我 / 我的 / 我是 / 我怎么...”结构，让受访者感觉这是关于自己的任务。研究型名称如“场景图谱 / 消费与使用图谱 / 购买 journey / 产品期待 / 评价标准”只能放在内部模块结构、模块目的或 handoff 中；除非客户强制标题，否则不要作为最终模块名。
 
 模块内容规则：
 
@@ -623,19 +623,166 @@ model output:
 ```
 
 只有当 gap 涉及模块缺失、顺序错误、研究问题覆盖不足、Diary vs IDI 分工错误、任务设计不合理时，才更新本文件或 `research_rules.md`。
+---
+
+## 10. Gold Data Pattern 使用逻辑
+
+当系统提供 `gold_data/reports/designer_patterns.json` 时，生成流程可以在 Step 2-4 之间读取其统计信息，用于辅助判断：
+
+- 当前项目是否接近历史高频模块结构。
+- 是否遗漏了常见基础模块、日记模块、任务模块或收尾模块。
+- 图片、视频、选择题、打分题、排序题是否明显重于历史常态。
+- 首模块是否过早进入品类、品牌、产品或刺激物。
+
+但 gold data pattern 不是生成模板。决策优先级必须是：
+
+```text
+当前 Brief / Proposal / 客户要求
+-> research_rules.md / generation_logic.md / case cards
+-> gold_data pattern
+```
+
+如果 pattern 与当前项目材料或现有规则冲突：
+
+- 以当前项目材料和现有规则为主。
+- 不要为了贴近历史高频结构而牺牲当前研究问题。
+- 在 Agent 自检或 eval report 中记录该差异，作为后续人工 review 或规则候选。
+
+Gold data pattern 只能帮助 agent 做结构检索、风险提示和回归评估，不应直接导致复制历史 final DG 题目。
+
+---
+
+## 11. Promoted Designer Checks from AI Gold Distillation v0.2.1
+
+Designer agent 在生成或修订 DG 草稿时，必须执行以下检查，并把需要研究员判断的内容放入 Agent 检核摘要或最多 3 个必要确认问题中。
+
+### 11.1 模块完整性检查
+
+输出前检查每个模块：
+
+- 是否有明确模块标题。
+- 是否至少包含 1 道题。
+- 是否有模块目的或对应研究问题。
+- 是否存在“未命名模块”“空模块”“占位模块”“test / 测试字符串 / HTML 标签”等非正式内容。
+
+如果发现空模块、未命名模块或无题模块，不得作为最终方案直接输出。应删除、补全，或列为必要确认问题。
+
+### 11.2 媒体与复杂任务检查
+
+统计方案中的媒体请求和复杂任务：
+
+- 强制照片 / 视频 / 语音 / 截图数量。
+- 长视频、完整流程录制、逐步骤演示数量。
+- 实物排序、货架审计、空间参观、拼图/合成图片等复杂物理任务数量。
+- 每日重复媒体请求的频率。
+
+如媒体任务过多、过重或重复，应：
+
+1. 优先改为可选素材或代表性素材。
+2. 集中采集可复用素材。
+3. 将复杂演示建议转入 IDI / 入户 / Diary+IDI。
+4. 在 wording handoff 中标注负担风险。
+
+### 11.3 素材复用检查
+
+如果早期模块已经采集产品、工具、设备、囤货、空间或截图素材，后续模块应尽量引用已有素材。
+
+不要重复要求同类照片。只有当后续任务需要新的时刻、场景或过程证据时，才再次请求素材。
+
+### 11.4 多次事件结构检查
+
+如果项目会记录多次日内事件，输出应采用“每次一条 / 分段填写”的结构，而不是一个超长题面。
+
+适用场景包括：
+
+- 多次零食、饮品、餐次、游戏、购物触点。
+- 多次护肤、化妆、使用、试用、服用、制作。
+- 多个场景或多次情绪变化。
+
+如果平台限制必须合并，给出清晰分段模板，并在 handoff 中提示可拆分风险。
+
+### 11.5 工作日 / 休息日处理检查
+
+判断工作日与休息日是否需要拆分：
+
+- 如果差异本身服务研究问题，保留拆分。
+- 如果两组问题高度重复，合并为典型一天并用对比题收差异。
+- 如果材料不明确，列为确认点，而不是机械生成两个重复模块。
+
+### 11.6 品牌暴露检查
+
+检查首模块和前段模块是否出现品牌、产品、包装、广告、概念或刺激物。
+
+- 没有明确研究理由时，应延后到行为、品类图谱、日记或期待模块之后。
+- 必须前置时，在模块目的和 Agent 检核中说明理由。
+
+### 11.7 敏感数值与量表检查
+
+检查是否存在：
+
+- 精确房价、收入、消费金额、支出等敏感数值题。
+- 大量 1-5、1-10 或认同度量表。
+- 开头模块集中打分。
+
+优先改为区间、大致估算、开放追问或后移。若客户明确要求量化 baseline，保留但标注负担和解释风险。
+
+### 11.8 续季画像压缩检查
+
+如果项目是持续追踪、续季或回访：
+
+- 检查本轮是否重复采集前轮已知画像。
+- About Me / 近况模块是否聚焦变化，而不是重新完整画像。
+- 若保留较长画像模块，模块目的中是否说明本轮仍需要这些信息。
+
+### 11.9 全家福追问结构检查
+
+如果早期采集了产品、设备、工具、囤货或空间全家福：
+
+- 后续是否引用已有素材。
+- “最喜欢 / 最常买 / 新买 / 想买未买 / 不再用”等维度是否拆成独立追问。
+- 是否避免在一题中堆叠多个分类维度。
+
+### 11.10 空间模块和视频总量检查
+
+如果项目按多个空间或房间拆分：
+
+- 检查各空间模块题目是否高度重复。
+- 如果重复度高，建议改为按研究维度组织，把空间作为题内分段。
+- 统计独立空间视频数量；超过 3-4 段时，建议合并或降级次要空间素材形式。
+
+### 11.11 重复日记模块目的检查
+
+如果方案包含 3 个及以上结构高度重复的日记模块：
+
+- 检查模块标题是否清楚标注日期、工作日/休息日或轮次。
+- 检查模块目的是否说明多天记录和差异假设。
+- 若缺少说明，合并模块、减少天数，或列为必要确认点。
+
+### 11.12 slogan 与定位语暴露检查
+
+品牌暴露检查应包含显性品牌名、产品名、包装、广告、概念、slogan、定位语、刺激物文本和客户策略语言。
+
+如果前段模块出现这些内容且没有研究理由，应延后或在 Agent 检核摘要中标注前置暴露风险。
 ## Product Innovation Generation Protocol v0.2.4
 
 When the commercial problem is product innovation, line extension, new product opportunity, product upgrade, new form, new function, new SKU, or concept direction, apply this protocol before writing modules.
 
 ### Step A: diagnose the innovation source
 
-Identify whether the project depends on target group/cohort change, lifestyle change, scene and need change, category/product role cognition change, evaluation-standard change, or current product-system / usage-behavior change.
+Identify which change source the project depends on:
+
+- target group / cohort change;
+- lifestyle change;
+- scene and need change;
+- category/product role cognition change;
+- evaluation-standard change;
+- current product-system or usage-behavior change.
 
 If the input does not say which one matters, infer from the proposal. If still unclear and it changes module design, list one confirmation question.
 
 ### Step B: choose lifestyle depth
 
-Use heavier life context when innovation depends on cohort/generation change or unfamiliar target lives. Use lighter life context when the project is closer to frequent SKU innovation and category usage is the main evidence.
+Use a heavier life-context module when innovation depends on cohort/generation change or unfamiliar target lives. Use a lighter life-context module when the project is closer to frequent SKU innovation and category usage is the main evidence.
 
 Lifestyle questions should not remain a standalone portrait. Each lifestyle point must have a path to category scenes, needs, product role, or product criteria.
 
@@ -660,21 +807,47 @@ For object-led categories, the product/object system may move before category sc
 
 ### Step D: turn change into question design
 
-Do not ask "what changed" only once at a high level. Convert change into specific probes: past/now/hoped future, more/less/new/disappeared, manual vs digital/automated, scene A vs scene B, high-intensity vs low-intensity, private vs social, fixed place vs mobile, daily-use vs collection/gifting/self-expression.
+Do not ask "what changed" only once at a high level. Convert change into specific probes:
+
+- past / now / hoped future;
+- more / less / new / disappeared;
+- still manual vs digital/automated vs outsourced;
+- scene A vs scene B;
+- high-intensity vs low-intensity;
+- private vs social;
+- fixed place vs mobile;
+- daily-use vs collection / gifting / self-expression.
+
+Use proposal hypotheses to generate category-specific probes.
 
 ### Step E: decompose criteria before innovation ideation
 
-Before asking for future products, collect category-specific standards for what is good, beautiful, easy, safe, valuable, worth sharing, or worth repurchasing. Require concrete examples, comparisons, and references when possible.
+Before asking for future products, force the draft to collect category-specific standards for what is good, beautiful, easy, safe, valuable, worth sharing, or worth repurchasing.
+
+Require concrete examples, comparisons, and references when possible. This prevents innovation output from staying at "good-looking / useful / affordable."
 
 ### Step F: bound future imagination
 
-Future / ideal product questions must be bounded by the opportunity direction, such as product that represents me, product I want to carry every day, product for this pain point, product for this scene, product suitable as a gift/social object, or one product I could use for the next few years.
+Future / ideal product questions must be bounded by the opportunity direction. Examples:
+
+- product that best represents me;
+- product I want to carry every day;
+- product that solves this specific pain point;
+- product for this specific scene;
+- product suitable as a gift/social object;
+- one product I could use for the next few years.
 
 Avoid fully open "future product" questions unless the study is explicitly exploratory ideation and has already captured current concrete criteria.
 
 ### Step G: product innovation handoff
 
-In Wording Handoff, mark the change source, modules that preserve the change-to-opportunity chain, future questions needing bounded wording, photo/reference needs for criteria or product form, and whether stimulus/concept/price testing is included or should be left to IDI.
+In Wording Handoff, mark:
+
+- which change source the design is based on;
+- which modules must be preserved to keep the change-to-opportunity chain intact;
+- which future/ideal product questions need bounded wording;
+- where photos/references are important for evaluation standards or product form;
+- whether stimulus/concept/price testing is included or should be left to IDI.
 
 以下是研究规则库：
 
@@ -762,6 +935,17 @@ Agent 应先识别商业问题类型：
 - 不要直接问“为什么不用目标品类”。
 - 应先问真实情境、当时做了什么、有哪些替代方案，再追问目标品类是否进入解决方案。
 - 场景题应收集：trigger、context、people/place/activity、action、choice logic、result。
+- 当项目有明确场景指向，且场景中存在多个替代品类或 coping strategy 时，必须按“状态/需求 -> 场景 -> 应对方式 -> 品类是否进入 -> 起效机制 -> 结果”的链路设计。常见于食饮场景，如益达 recenter moments、绿箭 refresh，也可部分适用于保健品、VMS 或其他状态调节类品类。
+
+此类场景题应覆盖：
+
+- 什么时候感觉到目标状态/需求，例如需要 recenter、refresh、放松、提神、缓一缓、恢复状态；
+- 具体场景：什么时候、在哪里、和谁一起、在做什么、当时情绪和身体状态怎样；
+- coping strategy：最后做了什么来应对，可以包含研究品类/产品，也可以是其他行为或替代品类；
+- 为什么选择这个 coping strategy，而不是其他方式；
+- 研究品类是否进入当次解决方案：选择了为什么，没选择为什么；
+- 如果选择了研究品类，追问真正起效果的元素。食饮品类尤其要拆到口味、口感、香气、温度、刺激感、清爽感、饱腹感、仪式感、便利性等；
+- 最后是否达到想要的状态，为什么，哪些部分有效/无效。
 
 ## 7. 食品饮料 / 零食类规则
 
@@ -879,8 +1063,34 @@ trigger
 - 对应哪个研究问题？
 - 服务哪个商业问题？
 - 预计产出什么可用于报告的信息？
+- 这一题只问了一个核心信息点吗？
 
 如果不能说明，应删除或合并。
+
+### 16.1 单题单点
+
+每一道 respondent-facing 问题只能服务一个核心信息目标。可以在同一题里顺着这个点追深，但不要把两个不同观察目标塞进同一句问题。
+
+允许：
+
+- 先问一个核心点，再用 1-2 个轻追问帮助受访者说清楚同一个点。
+- 追问同一事件的时间、地点、人物、原因、感受，因为这些是在还原同一个场景。
+- 追问同一选择的原因、对比和卡点，因为这些是在解释同一个选择逻辑。
+
+避免：
+
+- 把“介绍自己 / 现在在做什么”和“平时一天怎么过”放在同一题里。
+- 把“最近一次购买在哪里发生”和“这个品类对你有什么情感意义”放在同一题里。
+- 把“现在怎么用”和“未来理想产品长什么样”放在同一题里。
+- 把“最喜欢 / 最常买 / 最近新买 / 想买未买 / 以前用现在不用”等多个维度压成一题。
+
+坏例子：
+
+```text
+先简单介绍一下你自己吧——你现在在做什么（上学 / 工作 / 其他）？平时的一天大概是怎么度过的？
+```
+
+这里前半句是在了解身份和当前状态，后半句是在了解日常节奏，应拆成两题或保留其中一个。若当前题目目标是“认识这个人”，就只问自我介绍和当前状态；“一天怎么过”应放到日常节奏模块。
 
 避免：
 
@@ -906,10 +1116,10 @@ trigger
 
 详细题目设计必须像完整 Digital Diary 题目稿，而不是研究方案建议。
 
-每个板块使用固定格式：
+每个模块使用固定格式：
 
 ```text
-板块x：我/我的/我是/我怎么...xxx
+模块x：我/我的/我是/我怎么...xxx
 引导语：
 题目：
 1.
@@ -918,7 +1128,7 @@ trigger
 结束语：
 ```
 
-详细题目设计里的受访者可见板块名必须默认使用第一人称“我 / 我的 / 我是 / 我怎么...”结构。研究型模块名只用于内部结构、模块目的或 handoff，不作为最终板块标题，除非客户明确要求固定标题。
+详细题目设计里的受访者可见模块名必须默认使用第一人称“我 / 我的 / 我是 / 我怎么...”结构。研究型模块名只用于内部结构、模块目的或 handoff，不作为最终模块标题，除非客户明确要求固定标题。
 
 避免：
 
@@ -976,164 +1186,250 @@ Designer agent handoff 给 wording agent 时，应附带：
 - 购物任务应包含购买前、购买中、购买后、卡点回顾，以及实际 eating experience。
 - 习惯养成模块应从正餐外吃喝图谱中选择具体产品，追问初尝、习惯养成、中断、变化和角色，不要只问口香糖。
 - 品牌与产品期待放最后，再进入品牌印象、品牌人格化、理想产品和 stimulus。
+## 21. Gold Data Pattern 使用规则
 
-## 21. Case_005 Promoted Designer Rules v0.2.3
+当系统提供 `gold_data/reports/designer_patterns.json`、历史 final DG 统计结果或数据库 gold answer pattern 时，只把它们作为经验参考和评估证据，不作为高于本文件的规则。
+
+优先级如下：
+
+1. 当前项目 Brief、Proposal、客户明确要求和合规/平台限制。
+2. 本文件、`generation_logic.md`、case card 和 eval rubric 中已经沉淀的规则。
+3. 数据库 final DG 统计 pattern、常见模块顺序、常见题型比例和历史题面样本。
+
+使用 gold data pattern 时应遵守：
+
+- 可以参考常见首模块、常见模块序列、图片/视频任务比例、题型分布来做结构校验。
+- 不要因为历史项目中某个模块高频出现，就在当前项目中强行加入；必须回到当前 Proposal 的研究问题判断。
+- 不要因为历史 final DG 出现过较重的视频、打分、排序或上传任务，就放宽本文件对 respondent burden 的控制。
+- 不要复制历史题目原文；只抽象模块逻辑、任务逻辑和风险检查点。
+- 如果 pattern 与现有规则冲突，以现有规则为主，并把冲突记录为 eval note 或 rule candidate。
+- 只有跨多个项目反复出现、且能被研究逻辑解释的 pattern，才可以候选进入 `research_rules.md`。
+
+## 22. Gold Data Promoted Designer Rules v0.2.1
+
+以下规则来自 `gold_data/ai_distillation/ai_rule_candidates.md` 的 designer-only AI 蒸馏结果，已经过人工合并。它们补充现有规则，不覆盖 Brief、Proposal、客户明确要求、平台限制或既有高优先级规则。
+
+### 22.1 媒体任务与复杂任务负担
+
+照片、视频、语音、截图、产品全家福、货架审计、空间参观、实物排序、拼图/合成图片、完整流程录制等任务，都必须先判断研究必要性，再进入题目设计。
+
+- 媒体默认用于帮助受访者表达真实场景，而不是收集证明材料。
+- 强制媒体任务、长视频、逐步骤演示、多次重复拍摄、复杂物理摆放任务都视为高负担。
+- 每个 DG 方案应尽量控制强制长视频数量；如果需要多个强制视频或复杂演示，应在 handoff 中标注高负担，并建议研究员确认。
+- 涉及专业手法、完整流程、复杂判断或需要追问澄清的演示类任务，优先建议放入 IDI / 入户 / Diary+IDI 混合方案；Diary 只保留短视频、照片或语音作为辅助证据。
+- 如果客户或平台明确要求强制媒体，保留要求，但必须在 Agent 自检和 wording handoff 中标注负担风险。
+
+### 22.2 素材集中采集与复用
+
+当项目需要收集产品、设备、囤货、工具、空间、截图或“全家福”类素材时，优先在一个早期模块集中采集，并说明后续题目可引用该素材。
+
+- 不要在多个后续模块反复要求受访者拍摄同类素材。
+- 后续模块应尽量引用已有素材，转向追问选择逻辑、使用场景、变化、评价或卡点。
+- 只有当后续任务需要新的真实时刻、不同场景或过程证据时，才再次请求素材。
+
+### 22.3 多次日内事件的记录结构
+
+如果一天内可能发生多次独立事件，例如多次零食、饮品、游戏、护肤动作、购买触点或使用时刻，优先设计为“每次一条 / 分段填写”的结构。
+
+每条记录至少应能覆盖：
+
+```text
+date / time
+-> event count or occasion
+-> context
+-> action
+-> people/place/activity
+-> before/during/after
+-> choice logic
+-> optional media
+```
+
+不要把一天内多次事件压成一个超长开放题。若平台限制只能合并，必须提供清晰分段模板，并在 handoff 中标注可拆分建议。
+
+### 22.4 工作日 / 休息日差异
+
+当研究问题依赖日常节奏、情绪、能量、场景、品类使用或习惯差异时，可以拆分“典型工作日”和“典型休息日”模块。
+
+- 如果工作日和休息日题目高度重复，优先合并为一个“典型一天”模块，并用少量对比追问收集差异。
+- 如果 Proposal 明确需要分别记录工作日和休息日真实行为，则保留拆分，并在模块目的中说明原因。
+- 不要因为历史 DG 高频出现工作日/休息日模块，就在当前项目中机械加入。
+
+### 22.5 早期品牌与刺激物暴露
+
+Designer 应检查首个模块和前段模块是否出现品牌、产品、包装、广告、概念、刺激物或明显客户意图。
+
+- 如果当前研究不是品牌/概念前置筛选，品牌与刺激物问题应放在生活、行为、品类图谱或真实场景之后。
+- 如果必须提前出现品牌/产品，应在模块目的或 Agent 自检中说明研究理由。
+- 如果没有明确理由，应延后品牌/产品/刺激物暴露，并把该风险交给 wording agent 做题面弱化。
+
+### 22.6 敏感数值、量表与打分控制
+
+房价、收入、精确支出、精确购买金额、生活满意度打分、认同度量表等题目，应谨慎使用。
+
+- 对敏感或难以准确回忆的数值，优先使用区间、大致估算或“约”。
+- 只有当研究目标需要量化 baseline、筛选、分层或 KPI 对比时，才使用明确量表。
+- 如果量表/打分题集中出现在开头模块，或全卷数量过多，应在 Agent 自检中提示疲劳风险，并建议改为开放追问、合并或后移。
+
+### 22.7 About Me 扩展控制
+
+固定 About Me 开场优先保留。若 designer 想在 About Me 中加入额外生活、兴趣、城市、MBTI、空间、图片等问题，必须能回溯到当前研究问题。
+
+- 与研究问题弱相关的 About Me 扩展题应压缩或移除。
+- 若客户明确要求扩展画像，应保留并在 handoff 标明客户要求。
+- 如果固定 About Me 三题被替换、删减或大幅改写，应在 handoff 中标注“固定模板偏离，需研究员确认”。
+
+### 22.8 续季 / 持续追踪项目的画像压缩
+
+持续追踪、续季或回访项目若前轮已经采集完整画像，本轮 About Me / 近况模块应优先聚焦变化，而不是重新采集完整生活底色。
+
+- 只保留与本轮研究问题相关的变化确认题，例如居住、工作、关系、核心品类行为是否变化。
+- 如果画像信息本轮不再解释核心问题，应压缩为 3-5 题或移入必要确认点。
+- 如果本轮仍需要画像解释变化原因，应在模块目的中说明为什么保留。
+
+### 22.9 全家福素材后的结构化追问
+
+产品、设备、工具、囤货或空间“全家福”适合先集中采集素材，再拆分追问维度。
+
+- 不要把“最喜欢 / 最常买 / 最近新买 / 想买未买 / 以前用现在不用”等多个维度塞进同一题。
+- 每个追问题应聚焦一个维度，并转向选择逻辑、使用场景、变化或卡点；这属于全局“单题单点”规则，不只适用于全家福任务。
+- 如果后续追问需要指向照片中的具体物品，应引用前面已采集的全家福素材，而不是重复要求拍摄。
+
+### 22.10 按空间拆模块的重复风险
+
+当项目按物理空间拆模块，例如客厅、卧室、书房、厨房、卫浴、花园等，designer 必须检查各空间模块的问题是否高度重复。
+
+- 如果每个空间都重复询问“有什么 / 哪些品牌 / 喜欢什么 / 吐槽什么 / 拍视频参观”，优先改为按研究维度组织模块，把空间作为题内分段。
+- 只有当每个空间对应不同研究问题、使用场景或购买决策时，才保留独立空间模块。
+- 若保留多个空间模块，应在模块目的中说明每个空间的独特观察点。
+
+### 22.11 多空间 / 多房间视频任务阈值
+
+如果方案要求多个房间或空间分别录制参观视频，应统计视频总量。
+
+- 超过 3-4 段独立空间视频时，优先合并为一次完整参观视频，或将次要空间降级为照片/文字/语音。
+- 只保留核心研究空间的独立视频请求。
+- 在 handoff 中标注视频总量和负担等级，供研究员确认。
+
+### 22.12 多次重复日记模块的研究目的说明
+
+当项目包含 3 个及以上高度重复的日记记录模块，例如工作日1/2/3加休息日，必须说明重复记录的研究目的。
+
+- 模块标题应明确记录日期、工作日/休息日或任务轮次。
+- 模块目的应说明为什么需要多天、为什么需要区分工作日和休息日，以及每天题目是否完全重复。
+- 循环记录的日记题结束语固定写为："恭喜你完成今天的填答，辛苦啦！祝你度过了美好的一天～"
+- 如果没有明确差异假设或分析用途，应合并模块、减少记录天数，或列为研究员确认点。
+
+### 22.13 品牌暴露检查包含 slogan 和定位语
+
+品牌暴露检查不只识别显性品牌名，也要识别包装、广告、概念、slogan、品牌定位语、刺激物文本和客户策略语言。
+
+- 如果前段模块出现 slogan 或定位语，即使没有品牌名，也视为潜在品牌/刺激物暴露。
+- 没有明确研究理由时，应延后到生活、行为、品类图谱或刺激物模块之后。
+- 必须前置时，在模块目的和 handoff 中说明研究理由与偏差风险。
+
+## 23. Case_005 Promoted Designer Rules v0.2.3
 
 These rules come from the reviewed KACO / writing-instrument case. They are reusable design logic, not respondent-facing copy rules.
 
-### 21.1 Module size and merge judgment
+### 23.1 Module size and merge judgment
 
 If a module has fewer than about 5 questions, do not keep it as a standalone module by default. Merge it with the adjacent module unless it is a genuinely independent task module, such as a shopping task, diary task, media mission, stimulus test, or screening branch.
 
-### 21.2 Baseline life context is required in every project
+Module boundaries should follow research logic, not the desire to make the outline look complete.
+
+### 23.2 Baseline life context is required in every project
 
 Every project needs enough respondent life context before category or brand questions. Do not reduce the opening context to identity and routine only.
 
-At minimum, judge whether the study needs to understand life center of gravity, daily rhythm, work/study/rest pattern, interests, social circle, common places, where time and energy are spent, and everyday spending pattern. Screener data may provide percentages or quotas, but the DG should still capture the "why" behind spending and lifestyle choices when it matters to the category opportunity.
+At minimum, judge whether the study needs to understand:
 
-For groups the research team may not know well, or where there is a clear generation/class/context gap, ask this context in more detail.
+- life center of gravity and daily rhythm;
+- work/study/rest pattern;
+- interests, social circle, and common places;
+- where time and energy are spent;
+- everyday spending pattern, including where money goes, why, and online/offline split when relevant.
 
-### 21.3 Routine questions should avoid low-value timelines
+For groups the research team may not know well, or where there is a clear generation/class/context gap, ask this context in more detail. Screener data may provide percentages or quotas, but the DG should still capture the "why" behind spending and lifestyle choices when it matters to the category opportunity.
 
-"Typical day" modules should not force a full morning-to-night transcript. Prefer normal wake/sleep window, main work/study blocks, lunch/evening rest or social time, rest-day places and activities, and category-relevant touchpoints. Ask about the respondent's normal pattern, not only the most recent day.
+### 23.3 Routine questions should avoid low-value timelines
 
-### 21.4 Theme-relevant spaces beat generic space tours
+"Typical day" modules should not force a full morning-to-night transcript. Avoid collecting low-value details such as brushing teeth unless directly relevant.
 
-Space questions should narrow to the spaces where the studied behavior, category, or object actually lives. Do not ask for a generic home tour unless the study needs the full home context.
+Prefer normal wake/sleep window, main work/study blocks, lunch/evening rest or social time, rest-day places and activities, and categor
 
-### 21.5 Collect object systems before abstract usage logic
+[...中间内容因长度限制已省略，生成时请基于已保留的开头和结尾信息判断；如信息不足，应在研究员确认点中说明...]
 
-For object-led categories, first collect the respondent's object ecosystem and classification logic, then ask usage scenes and choice logic. The inventory module should capture adjacent objects, storage, classification and reasons, daily-use vs collection vs backup vs gift objects, count, source, type, brand, and price/price band when relevant.
-
-### 21.6 Use prompts to complete commercial dimensions
-
-Parenthetical probes in design are useful when they help respondents cover dimensions they would not naturally separate, such as subcategory, source, price band, channel, or use occasion. Use prompts to complete the data structure, but avoid turning prompts into assumed answer options.
-
-### 21.7 Ask concrete "most" examples before abstract criteria
-
-Do not start with "what do you value when choosing X" if respondents are likely to answer with generic criteria. First ask for concrete examples: most used, favorite, most repurchased, most expensive, most reluctant to throw away, most idle/unused, best for gifting, etc. Then ask the respondent to explain what makes each one fit that role.
-
-### 21.8 Diary recording frequency rule
-
-If a behavior may happen more than about 5 times per day or is highly fragmented, do not ask respondents to record every occurrence. Use an end-of-day recap that lets them group occurrences by type, scene, or object used. Use every-occurrence recording only when the event is lower-frequency, has clear boundaries, or is routine but limited in count.
-
-### 21.9 Diary can include browsing and shopping touchpoints
-
-When a category is tied to discovery, browsing, store visits, trial, or purchase, the diary should capture those touchpoints if they naturally occur. Respondents only record the steps that happened: browsed, visited, tried, compared, bought, gave up, or got stuck.
-
-### 21.10 Distinguish habits from one-off journeys
-
-Do not force a detailed "most recent purchase journey" for light, low-cost, high-frequency categories if one purchase cannot represent normal behavior. Ask everyday buying habits instead. Use a detailed one-off journey only when the category has high decision value, clear shopping friction, service experience, trial-to-buy questions, or when the research goal needs step-by-step journey evidence.
-
-### 21.11 Product innovation needs bounded imagination and metaphor
-
-For product innovation, do not ask only broad questions such as "what should the future product be like." Bound the imagination using the proposal's hypotheses and opportunity directions. When innovation involves emotional projection, identity, or object attachment, include metaphor/role prompts.
-
-### 21.12 Media modality choice
-
-Images are preferred when the research needs object inventory, storage/classification, visual evaluation criteria, ideal product form, or hard-to-visualize metaphors. Videos should not be mandatory unless the task requires process, movement, walkthrough, or demonstration.
-## 22. Product Innovation Design Logic v0.2.4
-
-These rules come from the product-innovation researcher logic note. Product innovation DG design must be grounded in real consumers, real scenes, and real needs. Do not treat social-media novelty, performative trend content, or "fancy emerging things" as innovation evidence unless the study can verify that they are real in life.
-
-### 22.1 Core principle: product innovation is change interpretation
-
-The core job of product innovation research is to interpret change and translate it into concrete product opportunities.
-
-Always diagnose which type of change the project is trying to understand:
-
-- people / cohort change: a new or changing target group, generation, class, life stage, or adoption wave;
-- cognition change: the category/product role in life has changed, or the evaluation standard for "good" has changed;
-- lifestyle change: new routines, life centers, social patterns, interest structures, or ideal-life gaps create new scenes;
-- scene and need change: old scenes expand, shrink, fragment, intensify, or generate new unmet needs;
-- usage and object-system change: what people use, carry, store, replace, combine, or classify has shifted.
-
-Do not ask consumers directly to summarize these abstract changes. The agent must build questions that collect facts first, then let analysis infer change.
-
-### 22.2 Product innovation must move from concrete to abstract
-
-For every product innovation project, structure questions from concrete facts to abstract meaning:
-
-```text
-life facts
--> category scenes and needs
--> current product / solution system
--> scene-product matching logic
--> concrete evaluation standards
--> cognition, role, metaphor, and change
--> bounded future / innovation opportunities
-```
-
-Avoid starting with "How has this product changed?", "What does this category mean to you?", or "What future product do you want?"
-
-### 22.3 Decide how much lifestyle depth is needed
-
-All product innovation projects need some lifestyle context, but the depth depends on the innovation source.
-
-Use heavier lifestyle modules when the project is driven by cohort/generation change, the target group is unfamiliar, the proposal asks how the target group's life has changed, or the category role may be changing because the respondent's social-cultural context changed.
-
-Use lighter lifestyle context when the project is high-frequency line extension with no major target-group shift, the path from broad lifestyle to product requirement would be too long, or current category scenes, usage details, evaluation criteria, or product form are more directly actionable.
-
-Even when lifestyle is lighter, still cover life center of gravity, rhythm, interests/social circle, and ideal life vs reality gap if they can explain product opportunities.
-
-### 22.4 Lifestyle is a collection of scenes
-
-Treat lifestyle as the respondent's scene system. To understand lifestyle efficiently, collect life center of gravity, life rhythm, interests and social circle, and ideal life image vs reality gap.
-
-For product innovation, the ideal-life section should usually be shallow and opportunity-oriented. It matters because product ideas, naming, claims, and emotional benefits may connect to life pain points and aspirations, but it should not become a brand-positioning deep dive unless the project asks for that.
-
-### 22.5 Scene and need are inseparable
-
-In product innovation, a "valuable new scene" is not merely a new place or activity. It must generate or reveal a new, stronger, more frequent, or more actionable need.
-
-When asking scene change, probe which scenes are new, more frequent, less frequent, disappeared, newly category-relevant, or stronger in need. Also distinguish scenes that are only variants of old needs and therefore have low innovation value.
-
-Use proposal hypotheses or known behavior types to make scene probes specific. Broad "what changed" questions should be broken into more specific scene probes.
-
-### 22.6 Cognition has two layers
-
-Product innovation must capture cognition change in two layers:
-
-1. category/product role: what role the product plays in life, how close/far it feels, and what kind of object/person/relationship it resembles;
-2. evaluation standard: what now counts as "good", "useful", "beautiful", "safe", "convenient", "worth buying", or "worth sharing."
-
-Both layers should be asked through concrete tasks, examples, sorting, reference images, metaphors, and comparison.
-
-### 22.7 Role cognition requires metaphor and classification
-
-For abstract category roles, use metaphor and classification: what person/object/relationship the product feels like, what other objects it is mentally grouped with, and whether it is closer to tool, self-expression object, emotional object, social object, collection, companion, or basic utility.
-
-Ask how its role changed from past to now, and what role the respondent hopes it will play in the future.
-
-### 22.8 Evaluation standards must be decomposed by category
-
-Never accept "good-looking", "easy to use", "safe", "good quality", or "good value" as final innovation inputs. Decompose each into category-specific sensory, functional, usage, emotional, identity, form, and physical-detail dimensions.
-
-Ask for concrete references and images when standards involve appearance, form, sensory imagination, or ideal product examples.
-
-### 22.9 Current product system before future innovation
-
-Before asking future product ideas, first understand current scenes and needs, current products/solutions, scene-product matching, substitutability, carry/storage/gift/collection/abandonment logic, purchase and usage habits, and concrete criteria for "good."
+- current scenes and needs;
+- current products/solutions owned or used;
+- which product maps to which scene and why;
+- which products are substitutable and which are not;
+- which products are carried, stored, saved, gifted, collected, or abandoned;
+- current purchase and usage habits;
+- what "good" means in concrete product terms.
 
 Only after this should the questionnaire ask about role change, cognition change, and future innovation directions.
 
-### 22.10 Innovation output may be big or small
+### 24.9.1 Purchase behavior must cover habits, examples, and change
+
+When a project involves buying, consumption, channel choice, or category selection, include purchase behavior questions that cover:
+
+- buying habits: whether respondents stock up at once, buy in several trips, buy only when needed, or follow another pattern;
+- budget: usual spend per trip or period, budget range, and how the budget is decided;
+- channel choice: online/offline/platform/store choice and the reasons behind it;
+- category differences: whether different subcategories differ in brand choice, channel, portion/size, packaging, and price sensitivity;
+- concrete examples: favorite, most used/eaten, and most recently bought items;
+- change: total consumption, budget, and frequency changes; what they keep buying, stopped buying, buy more of, or buy less of, and why.
+
+### 24.10 Innovation output may be big or small
 
 Do not assume product innovation must be disruptive. Some categories need safe, stable, incremental innovation.
 
-If the target group has broadened from niche to mass, common baseline needs may become more important than niche aspirations. Innovation may focus on reliability, protection, stability, ease, affordability, or no-trouble use rather than surprising new features.
+If the target group has broadened from niche to mass, common baseline needs may become more important than niche aspirations. In such cases, innovation may focus on reliability, protection, stability, ease, affordability, or no-trouble use rather than surprising new features.
 
-### 22.11 Example application: writing instruments
+The agent should infer innovation ambition from the proposal and category context, not force "breakthrough" wording.
 
-For a writing-instrument innovation project, include target lifestyle change, writing scene change, current pen/stationery system, scene-pen mapping, substitutability, carried vs desk vs collection pens, buying/usage habits, decomposed criteria, and role/metaphor change.
+### 24.11 Example application: writing instruments
 
-### 22.12 Example application: mid/low-end cat food
+For a writing-instrument innovation project, the core research skeleton should include:
 
-For a mass pet-food innovation project, diagnose whether broader pet ownership makes common baseline needs more important. Probe pet cognition differences, practical companion-style needs, and concrete product-form details such as particle size, thickness, shape, chewability, convenience, and acceptance.
+- target group's lifestyle change;
+- writing scene change: new, more, less, disappeared, or intensified writing scenes;
+- current pen/stationery system and storage/classification;
+- mapping between writing scenes and specific pens;
+- substitutability: when pens can/cannot replace each other and why;
+- carried vs desk/stationary vs collection pens;
+- buying and usage habits;
+- decomposed criteria such as good-looking, good-to-write, smoothness, grip, color, portability, gifting, self-expression;
+- role/metaphor: what pen is in life now, how it changed, and what role it should play in the future.
 
-### 22.13 Product innovation self-check
+### 24.12 Example application: mid/low-end cat food
 
-Before finalizing a product innovation DG, check whether the design identified the change source, collected concrete facts before abstract meaning, connected lifestyle to category scenes and product needs, asked scene change specifically, decomposed evaluation standards, included role/metaphor when needed, avoided unbounded future imagination, and distinguished disruptive innovation from safe/stable incremental innovation.
+For a mass pet-food innovation project, diagnose whether the innovation source is a broader pet-owning population and a shift toward common baseline needs.
+
+Possible logic:
+
+- more people join pet ownership, so mass/common needs become more important;
+- cognition differs: pet as child vs companion/life partner vs low-trouble dependent;
+- for practical companion-style owners, needs may concentrate on affordable, stable, protective, stomach-safe, palatable, no-trouble food;
+- product form details still matter, especially for cats: particle size, thickness, shape, chewability, convenience, and acceptance.
+
+Do not only ask emotional pet relationship questions; also dig out concrete product-form and use-experience details that can guide innovation.
+
+### 24.13 Product innovation self-check
+
+Before finalizing a product innovation DG, check:
+
+- Did the design identify the change source: people, cognition, lifestyle, scene/need, or usage system?
+- Did it collect concrete facts before abstract meaning?
+- Did it connect lifestyle to category scenes and product needs, rather than leaving lifestyle as a front-end portrait?
+- Did it ask scene change in a specific enough way to avoid generic answers?
+- Did it decompose evaluation standards into category-specific dimensions?
+- Did cognition questions distinguish abstract cultural concepts from concrete product/object cognition?
+- Did it include role/metaphor when cognition or emotional projection matters?
+- Did product-related projects ask both positive and negative extreme experiences to reveal evaluation standards?
+- Did purchase-related projects cover habits, budget, channels, favorite/most-used/latest examples, and consumption changes?
+- Did it avoid unbounded "future product" imagination?
+- Did it distinguish disruptive innovation from safe/stable incremental innovation?
 ```
 
 ---
@@ -1151,16 +1447,16 @@ Before finalizing a product innovation DG, check whether the design identified t
 - “模块结构总览”只列模块、模块目的、对应研究问题，不展开详细理由。
 - 只在“模块结构总览”中说明模块目的、对应研究问题、保留/合并/定制理由；不要在“详细题目设计”里重复这些内部说明。
 - 详细题目设计必须输出完整题目，而不是题目方向或建议示例。
-- 详细题目设计每个板块必须使用：
-  板块x：我/我的/我是/我怎么...xxx
+- 详细题目设计每个模块必须使用：
+  模块x：我/我的/我是/我怎么...xxx
   引导语：
   题目：
   1.
   2.
   ...
   结束语：
-- 详细题目设计里的板块名必须默认写成第一人称“我 / 我的 / 我是 / 我怎么...”结构，例如“我的一天”“我的文具全家福”“我是怎么选笔的”“我的下一支笔”；不要把“场景图谱 / 消费与使用图谱 / 购买 journey / 产品期待 / 评价标准”等研究型名称作为最终受访者可见板块名，除非客户明确要求固定标题。
-- 不要在每道题后输出研究目的、设计说明、内部解释；如确有必要，只在板块末尾用一句“内部提示”说明。
+- 详细题目设计里的模块名必须默认写成第一人称“我 / 我的 / 我是 / 我怎么...”结构，例如“我的一天”“我的文具全家福”“我是怎么选笔的”“我的下一支笔”；不要把“场景图谱 / 消费与使用图谱 / 购买 journey / 产品期待 / 评价标准”等研究型名称作为最终受访者可见模块名，除非客户明确要求固定标题。
+- 不要在每道题后输出研究目的、设计说明、内部解释；如确有必要，只在模块末尾用一句“内部提示”说明。
 - 如果文件中客户已有明确要求，必须体现。
 - 如果客户已有研究沉淀，不要重复泛问，要在已知基础上继续探索。
 - 如果不确定是否需要某个模块或任务，先从材料中找依据；仍无法判断时，只列入“需要确认的问题”，最多 3 个。

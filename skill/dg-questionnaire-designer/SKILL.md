@@ -97,7 +97,7 @@ Keep sections 1-3 concise. Put most detail in section 4.
 For each module in section 4, use:
 
 ```markdown
-### 板块x：我/我的/我是/我怎么...模块名
+### 模块x：我/我的/我是/我怎么...模块名
 
 引导语：
 

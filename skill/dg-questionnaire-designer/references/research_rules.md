@@ -263,10 +263,10 @@ trigger
 
 详细题目设计必须像完整 Digital Diary 题目稿，而不是研究方案建议。
 
-每个板块使用固定格式：
+每个模块使用固定格式：
 
 ```text
-板块x：我/我的/我是/我怎么...xxx
+模块x：我/我的/我是/我怎么...xxx
 引导语：
 题目：
 1.
@@ -275,7 +275,7 @@ trigger
 结束语：
 ```
 
-详细题目设计里的受访者可见板块名必须默认使用第一人称“我 / 我的 / 我是 / 我怎么...”结构。研究型模块名只用于内部结构、模块目的或 handoff，不作为最终板块标题，除非客户明确要求固定标题。
+详细题目设计里的受访者可见模块名必须默认使用第一人称“我 / 我的 / 我是 / 我怎么...”结构。研究型模块名只用于内部结构、模块目的或 handoff，不作为最终模块标题，除非客户明确要求固定标题。
 
 避免：
 
@@ -497,6 +497,32 @@ At minimum, judge whether the study needs to understand:
 - everyday spending pattern, including where money goes, why, and online/offline split when relevant.
 
 For groups the research team may not know well, or where there is a clear generation/class/context gap, ask this context in more detail. Screener data may provide percentages or quotas, but the DG should still capture the "why" behind spending and lifestyle choices when it matters to the category opportunity.
+
+### 23.2.1 Lifestyle research needs enough depth for specific cohorts
+
+When the project is about a specific cohort, lifestyle, life-stage, generation, subculture, or unfamiliar target group, do not treat lifestyle as a light warm-up. Lifestyle becomes a core research object and must be detailed enough to understand the person behind later category, brand, or product answers.
+
+For ordinary category usage or purchase studies, lifestyle can stay lighter if category scenes and product details are more actionable. For cohort / lifestyle / people-understanding studies, include the must-have person-understanding questions before moving into category questions.
+
+Must-have questions for understanding a person:
+
+- self-introduction, keywords, and representative images;
+- living space / room tour, especially spaces that show daily rhythm, taste, priorities, or constraints;
+- life center of gravity and life rhythm: where time, energy, money, and emotions concentrate, and whether life feels fast, slow, stable, fragmented, or stage-dependent;
+- spending habits: major spending buckets, what they must spend on, and which non-necessities they are especially willing to pay for;
+- interests, hobbies, and the scenes where these interests happen;
+- social circle and role within it, such as initiator, follower, organizer, listener, connector, or observer;
+- life pain points, using a light score when useful, and asking where points are deducted.
+
+For deeper lifestyle studies, add:
+
+- cohabitants, including family, roommates, partners, and pets; for pets, ask their role in life, not only ownership facts;
+- leisure time arrangement: how free time is divided across rest, interests, socializing, learning, entertainment, and self-care;
+- information channels and how information differs by channel, such as Xiaohongshu, Douyin, Bilibili, friends, communities, offline stores, or professional sources;
+- preferred content and narrative taste, such as dominant-CEO romance, strong-female-lead stories, healing content, practical tutorials, niche aesthetics, or other content types that reveal values and fantasy;
+- life turning points, such as moving cities, changing jobs, relationship changes, health events, study/work transitions, or any transition the respondent sees as important;
+- ideal life image, or a person/creator/peer who seems to be living the respondent's ideal life;
+- future life expectations: what they think may change in 3 years or 5 years, and what they hope will stay the same.
 
 ### 23.3 Routine questions should avoid low-value timelines
 
