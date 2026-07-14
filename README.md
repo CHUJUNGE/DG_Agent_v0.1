@@ -190,6 +190,7 @@ skill/dg-question-wording-editor/
 - 稳定规则进入 `research_rules.md`。
 - 流程级规则进入 `generation_logic.md`。
 - 可复用题面模板进入 `dg-question-wording-editor` 的 references 或后续 `templates/`。
+- 完整版 UX 设想见 [docs/ux.md](docs/ux.md)。
 - 训练与自动迭代方法见 [docs/data_training_iteration.md](docs/data_training_iteration.md)。
 
 ## 6. 工程化接口预留
@@ -255,7 +256,8 @@ DG_Agent_v0.1/
 │   ├── engineering_interfaces.md
 │   ├── eval_plan.md
 │   ├── skill_iteration_method.md
-│   └── system_flow.md
+│   ├── system_flow.md
+│   └── ux.md
 ├── tests/
 │   ├── model_tests/
 │   └── prompt_tests/
