@@ -189,10 +189,10 @@ Before:
 After:
 
 ```text
-今天的记录完成啦，辛苦。明天继续按真实发生的时刻来写就好。
+恭喜你完成今天的填答，辛苦啦！祝你度过了美好的一天～
 ```
 
-Use for daily or repeated diary tasks. Confirm completion and remind the next action instead of giving a generic compliment.
+Use this exact ending for looped / repeated daily diary recording tasks.
 
 ## Module Intro As Task Entry
 

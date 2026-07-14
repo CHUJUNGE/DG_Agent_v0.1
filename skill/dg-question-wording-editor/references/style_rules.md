@@ -198,6 +198,7 @@ Use endings according to task type:
 
 - For short middle modules, either omit the ending or use one light sentence that points to the next task.
 - For daily diary or repeated tasks, confirm completion and remind the next recording step.
+- For looped / repeated daily diary recording modules, use this fixed ending exactly: "恭喜你完成今天的填答，辛苦啦！祝你度过了美好的一天～"
 - For heavy media or long modules, acknowledge the concrete effort: recording a day, showing objects, uploading a process, or completing a shopping task.
 - For the final module, a short thank-you and optional supplement invitation is enough.
 - Preserve a designer ending if it is short, concrete, and fits the respondent tone.
@@ -308,7 +309,7 @@ The question body can stay direct and simple, but module introductions and endin
 
 Avoid repeated empty endings such as "your feedback is very important to us", "thank you for letting us into your life", or "your answers help us identify opportunities." Prefer endings that respond to the actual effort, such as completing a day of diary recording, showing objects, or sharing detailed memories.
 
-For repeated diary days, vary the ending by day or task round instead of copying the exact same sentence.
+For repeated diary days, do not vary the ending if the task is a looped daily diary record. Use the fixed ending: "恭喜你完成今天的填答，辛苦啦！祝你度过了美好的一天～"
 
 Do not rewrite an already natural intro or ending just to make it shorter, more neutral, or more "polished." Minimal edits are preferred.
 
