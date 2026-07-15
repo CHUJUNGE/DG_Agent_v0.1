@@ -1,0 +1,23 @@
+{
+  "skill_version": "0.1.2",
+  "question_type_rules_version": "0.1.2",
+  "status": "user_facing_question_type_labels",
+  "platform_types": [
+    "text",
+    "single",
+    "multi",
+    "score",
+    "sort",
+    "bot",
+    "start",
+    "end",
+    "halftime"
+  ],
+  "notes": [
+    "Initial project skill for annotating existing DG drafts with platform question types and concise reasoning.",
+    "Uses the confirmed platform type mapping from final_dg_all.json and user/backend clarification.",
+    "Does not produce backend import JSON or change the questionnaire structure.",
+    "0.1.1 changes user-facing labels to 简答、单选、多选、打分、排序、AI-bot、开场白、结束画面、中场休息; final wording output shows only labels such as 【单选】, while designer/review output may include reasons.",
+    "0.1.2 clarifies that platform score questions only support 1-10 ratings; do not generate or label 1-5 ratings as 打分."
+  ]
+}

@@ -5,7 +5,7 @@ Digital Diary 题目设计 Agent 的 demo / skill / 工程化雏形包。
 
 ## 1. 这个包解决什么
 
-当前不是要“训练一个完整模型”，而是把题目设计 Agent 拆成三层，并在 demo 中先跑通 designer + wording 的双阶段链路：
+当前不是要“训练一个完整模型”，而是把题目设计 Agent 拆成三层，并在 demo 中先跑通 designer + wording 的双阶段链路；题型标注作为后续可插拔步骤，在已有 DG 题目前补充平台题型和判断理由：
 
 - **Demo 层**：能读取本地 case 材料、解析文本、拼接 prompt、调用大模型生成 designer draft，再由 wording pass 输出受访者可读的最终 DG wording。
 - **Skill 层**：把研究员逻辑、题目生成流程、case card、wording 规则、质量检查规则沉淀成可版本化、可评测、可训练迭代的规范层。
@@ -38,7 +38,8 @@ flowchart TD
     I --> W["Wording Prompt Builder<br/>注入 wording skill references"]
     W --> X["Wording LLM Pass<br/>自然化引导语 / 题目 / 结束语"]
     X --> Y["Final DG Wording<br/>受访者可读 Markdown"]
-    Y --> J["自由对话修改"]
+    Y --> QT["Question Type Setter<br/>题型标注 / 判断理由"]
+    QT --> J["自由对话修改"]
     J --> D
 
     C -.-> K["稳定文档解析服务<br/>版面识别 / 表格 / 图片 OCR / 页码引用"]
@@ -52,7 +53,7 @@ flowchart TD
     R -.-> M
     R -.-> U2["模型训练与版本迭代<br/>SFT / preference / eval regression"]
     U2 -.-> H
-    P -.-> S["平台导出适配<br/>字段映射 / 跳题 / 题型 / 素材要求"]
+    QT -.-> S["平台导出适配<br/>字段映射 / 跳题 / 素材要求"]
     S -.-> T["Web 平台正式问卷配置"]
 
     linkStyle 0,1,2,3,4,5,6,7,8,9,10,11,12 stroke:#111,stroke-width:2px
@@ -68,9 +69,11 @@ demo 的用户可见层先实现“最短可用链路”，本地脚本已经支
 3. 使用 `src/prompt.py` 拼出模型输入。
 4. 注入 `references/research_rules.md`、`references/generation_logic.md` 和相关 case card。
 5. 调用 ChatAnywhere / OpenAI-compatible API 生成 designer draft。
-6. 使用 `scripts/run_full_model_test.py` 注入 `dg-question-wording-editor` references，执行 wording pass。
-7. 输出受访者可读的 Markdown DG wording。
-8. 用户通过自由对话继续修改。
+6. 使用 `dg-question-type-setter` 执行 designer 后题型 review，输出题型和理由，供研究员判断。
+7. 使用 `scripts/run_full_model_test.py` 注入 `dg-question-wording-editor` references，执行 wording pass。
+8. 再次使用 `dg-question-type-setter` 执行 final pass，只保留用户可见题型名，例如 `【单选】1. ...`。
+9. 输出受访者可读、带题型建议的 Markdown DG wording。
+10. 用户通过自由对话继续修改。
 
 但 demo 阶段的 skill / 工程设计已经包含完整 Agent 流程。以下能力在 demo 前台暂不完整呈现，但需要保留接口、文档或离线方法：
 
@@ -111,18 +114,23 @@ demo 的用户可见层先实现“最短可用链路”，本地脚本已经支
    - 专门自然化受访者可见的模块标题、引导语、题目、结束语和素材请求。
    - 固定模板题可锁定，例如“关于我”前三题。
 
-7. **Agent Evaluator**
+7. **Question Type Setter**
+   - 在已有 DG 题目前标注用户可见题型：简答、单选、多选、打分、排序、AI-bot、开场白、结束画面、中场休息。
+   - designer/review 阶段可给出简短判断理由；wording 后最终版本只显示题型名。
+   - 不改写题面，不生成后端导入 JSON。
+
+8. **Agent Evaluator**
    - 检查研究问题覆盖、商业问题映射、题目语言、受访者负担、品牌暴露、重复与无效题。
 
-8. **Human Review Loop**
+9. **Human Review Loop**
    - 研究员修改题目，并标注为什么改。
    - 形成可进入 prompt / skill / eval set 的反馈。
 
-9. **Platform Export Adapter**
+10. **Platform Export Adapter**
    - 将 Markdown 转为平台题目字段。
    - 字段是否固定由平台决定，Agent 只给建议和映射。
 
-10. **Data Training & Regression Loop**
+11. **Data Training & Regression Loop**
    - 从数据库中抽取历史输入材料和最终版 DG 标答。
    - 当前模型批量生成。
    - 自动对比模型输出与标答。
@@ -131,7 +139,7 @@ demo 的用户可见层先实现“最短可用链路”，本地脚本已经支
 
 ## 5. Skill 化设计
 
-demo 阶段已经预留 skill 草案，并已按多 agent 分工拆出题目设计与题面 wording 两层：
+demo 阶段已经预留 skill 草案，并已按多 agent 分工拆出题目设计、题面 wording、题型标注三层：
 
 ```text
 skill/dg-questionnaire-designer/
@@ -160,6 +168,12 @@ skill/dg-question-wording-editor/
 │   └── wording_eval_rubric.md
 └── agents/
     └── openai.yaml
+
+skill/dg-question-type-setter/
+├── SKILL.md
+├── VERSION.json
+└── references/
+    └── question_type_rules.md
 ```
 
 `dg-questionnaire-designer` 的定位：
@@ -181,6 +195,22 @@ skill/dg-question-wording-editor/
 - 维护固定 About Me 开场题、模块语气、坏例到好例改写模式和 wording 评估 rubric。
 - 当前版本包含一个独立默认 system prompt，定位为“DG 题面编辑”，避免图灵测试式 persona、客服腔、心理咨询腔、主持人腔和过度感谢。
 - 已从 `gold_data/final_dg_all.json` 中的 `type=start`、`type=end`、`type=halftime` 以及模块首题/末题提炼引导语和结束语规则，沉淀到 `style_rules.md` 与 `rewrite_patterns.md`。
+
+`dg-question-type-setter` 的定位：
+
+- 当用户要求“设置题型 / 标注题型 / 给每道题加题型和理由”时触发。
+- 在已有 DG Markdown 上为每道题前置标注：`text` 简答、`single` 单选、`multi` 多选、`score` 打分、`sort` 排序、`bot` AI-bot、`start` 开场白、`end` 结束画面、`halftime` 中场休息。
+- designer/review 阶段可显示简短理由，说明为什么该题适合这个平台题型；wording 后最终版本只显示题型名，例如 `【单选】1. 请选择你喜欢的...`。
+- 只做题型判断和风险提示，不改写题面，不输出后端导入 JSON。
+
+完整四步执行流程：
+
+```text
+dg-questionnaire-designer
+-> dg-question-type-setter review_with_reasons
+-> dg-question-wording-editor
+-> dg-question-type-setter final_labels_only
+```
 
 后续迭代方法：
 
@@ -263,7 +293,8 @@ DG_Agent_v0.1/
 │   └── prompt_tests/
 └── skill/
     ├── dg-questionnaire-designer/
-    └── dg-question-wording-editor/
+    ├── dg-question-wording-editor/
+    └── dg-question-type-setter/
 ```
 
 ## 8. 本地运行
@@ -295,19 +326,19 @@ designer-only 生成测试：
 python .\scripts\run_model_test.py --case case_001
 ```
 
-完整 designer + wording 链路 dry-run，只生成 prompt，不调用模型：
+完整四步链路 dry-run，只生成 prompt，不调用模型：
 
 ```powershell
 python .\scripts\run_full_model_test.py --case case_006 --model claude-opus-4-6 --dry-run
 ```
 
-完整 designer + wording 链路，调用模型并输出最终 wording：
+完整四步链路，调用模型并输出最终带题型建议的 wording：
 
 ```powershell
 python .\scripts\run_full_model_test.py --case case_006 --model claude-opus-4-6
 ```
 
-如果已经存在某个 case 的 designer output，`--dry-run` 会基于已有 designer output 生成 wording prompt，方便检查 wording skill 规则是否正确进入 prompt。
+如果已经存在某个 case 的 designer output，`--dry-run` 会基于已有 designer output 生成 type review prompt 和 wording prompt；如果已经存在 wording output，也会生成 final type prompt。需要回到旧的 designer -> wording 流程时，可加 `--skip-type-setter`。
 
 检查 case006 wording prompt 是否包含当前引导语/结束语规则：
 

@@ -26,6 +26,11 @@ WORDING_REFERENCE_PATHS = [
     WORDING_SKILL_DIR / "references" / "module_tone_guides.md",
     WORDING_SKILL_DIR / "references" / "wording_eval_rubric.md",
 ]
+TYPE_SETTER_SKILL_DIR = ROOT / "skill" / "dg-question-type-setter"
+TYPE_SETTER_REFERENCE_PATHS = [
+    TYPE_SETTER_SKILL_DIR / "SKILL.md",
+    TYPE_SETTER_SKILL_DIR / "references" / "question_type_rules.md",
+]
 
 
 def read_text(path: Path) -> str:
@@ -166,6 +171,73 @@ def build_wording_prompt(designer_output: str) -> PromptBundle:
     )
 
 
+def build_type_setter_prompt(source_markdown: str, mode: str) -> PromptBundle:
+    references = []
+    for path in TYPE_SETTER_REFERENCE_PATHS:
+        references.append(f"## {path.relative_to(ROOT)}\n\n{compact_text(read_text(path), 12000)}")
+
+    if mode == "review_with_reasons":
+        mode_instruction = """
+You are running the designer-stage question type review.
+
+Output a research-review version of the DG draft:
+- Add user-facing question type labels before every relevant item.
+- Include concise reasons in the label line, for example: 【单选；理由：题目要求从互斥选项中选择一个答案。】
+- Keep the original module order, question order, and wording.
+- Do not show backend field names such as text/single/multi in the visible labels.
+- Add a short 题型检核摘要 only when there are meaningful risks or uncertain options.
+""".strip()
+    elif mode == "final_labels_only":
+        mode_instruction = """
+You are running the final post-wording question type pass.
+
+Output the final user-facing DG wording:
+- Add only the user-facing question type labels, for example: 【单选】1. 请选择你喜欢的...
+- Do not show reasons.
+- Do not show backend field names such as text/single/multi.
+- Do not rewrite the wording except for inserting labels.
+- Preserve module order, question order, line breaks, and respondent-facing wording.
+- If there are researcher-only concerns, put them in a very short 题型检核摘要 after the final draft; do not insert uncertainty into respondent-facing labels.
+""".strip()
+    else:
+        raise ValueError(f"Unsupported type setter mode: {mode}")
+
+    system = f"""
+You are `dg-question-type-setter`, responsible for assigning platform question type labels to DG drafts.
+
+Follow the four-step test pipeline:
+1. designer draft
+2. question type review with reasons
+3. wording pass
+4. final question type pass with labels only
+
+Current mode: {mode}
+
+{mode_instruction}
+
+# Question type setter references
+
+{chr(10).join(references)}
+""".strip()
+
+    user = f"""
+# Source DG Markdown
+
+{compact_text(source_markdown, 50000)}
+
+# Task
+
+Run `dg-question-type-setter` in mode `{mode}`.
+""".strip()
+
+    return PromptBundle(
+        messages=[
+            ChatMessage(role="system", content=system),
+            ChatMessage(role="user", content=user),
+        ]
+    )
+
+
 def write_prompt_preview(path: Path, bundle: PromptBundle) -> None:
     lines = []
     for index, message in enumerate(bundle.messages, start=1):
@@ -185,13 +257,14 @@ def write_prompt_preview(path: Path, bundle: PromptBundle) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run a full DG model test: designer draft -> wording final.")
+    parser = argparse.ArgumentParser(description="Run a full DG model test: designer -> type review -> wording -> final type labels.")
     parser.add_argument("--case", default="case_001", help="Case id, for example case_005 or 005.")
     parser.add_argument("--case-root", default=os.environ.get("DG_AGENT_CASE_ROOT", str(ROOT / "case_data")))
     parser.add_argument("--model", default=os.environ.get("CHATANYWHERE_MODEL", "claude-opus-4-6"))
     parser.add_argument("--dry-run", action="store_true", help="Write prompt previews without calling the model.")
     parser.add_argument("--timeout", type=int, default=int(os.environ.get("CHATANYWHERE_TIMEOUT", "600")), help="API request timeout in seconds.")
-    parser.add_argument("--wording-only", action="store_true", help="Reuse an existing designer output and only run the wording editor.")
+    parser.add_argument("--wording-only", action="store_true", help="Reuse an existing designer output and run the downstream wording/type-setter steps.")
+    parser.add_argument("--skip-type-setter", action="store_true", help="Run the legacy designer -> wording pipeline without question type setter passes.")
     args = parser.parse_args()
 
     case_id = normalize_case_id(args.case)
@@ -217,10 +290,24 @@ def main() -> int:
         designer_out_path = OUT_DIR / f"{case_id}_{args.model}_designer_output.md"
         if designer_out_path.exists():
             designer_output = read_text(designer_out_path)
+            if not args.skip_type_setter:
+                type_review_bundle = build_type_setter_prompt(designer_output, mode="review_with_reasons")
+                type_review_prompt_path = OUT_DIR / f"{case_id}_{args.model}_type_review_prompt.md"
+                write_prompt_preview(type_review_prompt_path, type_review_bundle)
+                print(f"Type review prompt: {type_review_prompt_path}")
             wording_bundle = build_wording_prompt(designer_output)
             wording_prompt_path = OUT_DIR / f"{case_id}_{args.model}_wording_prompt.md"
             write_prompt_preview(wording_prompt_path, wording_bundle)
             print(f"Wording prompt: {wording_prompt_path}")
+            wording_out_path = OUT_DIR / f"{case_id}_{args.model}_full_output.md"
+            if not args.skip_type_setter and wording_out_path.exists():
+                wording_output = read_text(wording_out_path)
+                final_type_bundle = build_type_setter_prompt(wording_output, mode="final_labels_only")
+                final_type_prompt_path = OUT_DIR / f"{case_id}_{args.model}_type_final_prompt.md"
+                write_prompt_preview(final_type_prompt_path, final_type_bundle)
+                print(f"Final type prompt: {final_type_prompt_path}")
+            elif not args.skip_type_setter:
+                print(f"Final type prompt skipped: no existing wording output at {wording_out_path}")
         else:
             print(f"Wording prompt skipped: no existing designer output at {designer_out_path}")
         print("Dry run only. Add --run by omitting --dry-run to call the configured model API.")
@@ -238,6 +325,23 @@ def main() -> int:
         designer_out_path.write_text(designer_output, encoding="utf-8-sig")
         print(f"Designer output: {designer_out_path}")
 
+    if not args.skip_type_setter:
+        type_review_bundle = build_type_setter_prompt(designer_output, mode="review_with_reasons")
+        type_review_prompt_path = OUT_DIR / f"{case_id}_{args.model}_type_review_prompt.md"
+        write_prompt_preview(type_review_prompt_path, type_review_bundle)
+        print(f"Type review prompt: {type_review_prompt_path}")
+
+        print("Calling question type setter review...")
+        type_review_output = call_chatanywhere(
+            type_review_bundle.to_openai_messages(),
+            args.model,
+            temperature=0.1,
+            timeout=args.timeout,
+        )
+        type_review_out_path = OUT_DIR / f"{case_id}_{args.model}_type_review_output.md"
+        type_review_out_path.write_text(type_review_output, encoding="utf-8-sig")
+        print(f"Type review output: {type_review_out_path}")
+
     wording_bundle = build_wording_prompt(designer_output)
     wording_prompt_path = OUT_DIR / f"{case_id}_{args.model}_wording_prompt.md"
     write_prompt_preview(wording_prompt_path, wording_bundle)
@@ -248,6 +352,23 @@ def main() -> int:
     wording_out_path = OUT_DIR / f"{case_id}_{args.model}_full_output.md"
     wording_out_path.write_text(wording_output, encoding="utf-8-sig")
     print(f"Full output: {wording_out_path}")
+
+    if not args.skip_type_setter:
+        final_type_bundle = build_type_setter_prompt(wording_output, mode="final_labels_only")
+        final_type_prompt_path = OUT_DIR / f"{case_id}_{args.model}_type_final_prompt.md"
+        write_prompt_preview(final_type_prompt_path, final_type_bundle)
+        print(f"Final type prompt: {final_type_prompt_path}")
+
+        print("Calling question type setter final pass...")
+        final_type_output = call_chatanywhere(
+            final_type_bundle.to_openai_messages(),
+            args.model,
+            temperature=0.05,
+            timeout=args.timeout,
+        )
+        final_type_out_path = OUT_DIR / f"{case_id}_{args.model}_type_final_output.md"
+        final_type_out_path.write_text(final_type_output, encoding="utf-8-sig")
+        print(f"Final type output: {final_type_out_path}")
     return 0
 
 

@@ -36,7 +36,7 @@ Use cautiously:
 - "至少 / 最多"
 - "每段用一行"
 - "必须"
-- "打分 1-5"
+- "打分 1-5"（平台打分题只支持 1-10；如果必须打分，应改为 1-10 或交给研究员确认）
 - "请分别说明 A/B/C/D"
 
 These rigid expressions are allowed only when required by platform type, screener logic, quota, ranking, stimulus evaluation, or explicit client requirement.

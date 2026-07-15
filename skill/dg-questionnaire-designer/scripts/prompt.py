@@ -15,6 +15,7 @@ from typing import Iterable, Literal
 ROOT = Path(__file__).resolve().parents[1]
 GENERATION_LOGIC_PATH = ROOT / "references" / "generation_logic.md"
 RESEARCH_RULES_PATH = ROOT / "references" / "research_rules.md"
+RESEARCH_DESIGN_AI_AGENT_RULES_PATH = ROOT / "references" / "research_design_ai_agent_rules.md"
 CASE_CARDS_DIR = ROOT / "references"
 
 
@@ -203,6 +204,7 @@ def format_project_info(project_info: ProjectInfo) -> str:
 def build_system_prompt() -> str:
     generation_logic = compact_text(read_text(GENERATION_LOGIC_PATH), 18000)
     research_rules = compact_text(read_text(RESEARCH_RULES_PATH), 18000)
+    research_design_ai_agent_rules = read_text(RESEARCH_DESIGN_AI_AGENT_RULES_PATH)
     return f"""
 你是一个资深消费者研究员和 Digital Diary 题目设计专家。
 
@@ -226,6 +228,16 @@ def build_system_prompt() -> str:
 14. 输出单独的“Wording Handoff”部分，说明后续 dg-question-wording-editor 需要保留什么、优化什么、哪些题不能删只能改写。
 15. 不要在 designer prompt 中展开具体受访者语气规则；题面自然化、口语化、去 checklist 化由 wording agent 承接。
 
+16. 当项目涉及特定人群、生活方式、代际/圈层变化、非刚需品类机会或需要先理解“这个人”时，About Me / 了解一个人模块不是轻量 warm-up，必须在进入品类或产品前覆盖：
+   - 自我介绍、关键词、代表性图片；
+   - 生活空间 / room tour；
+   - 生活重心、生活节奏；
+   - 消费习惯：大头消费，以及哪些非刚需但特别愿意花钱；
+   - 兴趣爱好及相关场景；
+   - 社交圈，以及自己在社交圈里的角色，例如跟随者、发起者、组织者、倾听者；
+   - 生活痛点：可用 1-10 轻量打分，并追问扣分扣在哪里。
+   如果因为题量必须压缩，也只能合并表达，不能整体删除这些观察点；若材料明确说明不需要生活方式理解，才可在 Agent 检核摘要中说明删减理由。
+
 以下是生成流程协议：
 
 {generation_logic}
@@ -233,6 +245,10 @@ def build_system_prompt() -> str:
 以下是研究规则库：
 
 {research_rules}
+
+以下是研究员 Word 文档沉淀规则，不得截断，优先级高于普通压缩规则：
+
+{research_design_ai_agent_rules}
 """.strip()
 
 

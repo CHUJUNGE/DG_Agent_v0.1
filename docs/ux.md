@@ -213,7 +213,9 @@ Agent 只问两类问题：
 
 ```text
 designer draft
+-> question type review with reasons
 -> wording pass
+-> final question type labels
 -> final DG wording
 ```
 
@@ -389,7 +391,7 @@ Gold data 用于后台规则参考：
 上传 Proposal / case 文件
 -> scripts/test_prompt_with_cases.py 构建 prompt preview
 -> scripts/run_model_test.py 跑 designer-only
--> scripts/run_full_model_test.py 跑 designer + wording full pipeline
+-> scripts/run_full_model_test.py 跑 designer + type review + wording + final type labels full pipeline
 -> tests/model_tests/ 保存输出
 -> 研究员 review
 -> scripts/build_demo_loop_report.py 生成规则候选
@@ -399,9 +401,10 @@ Gold data 用于后台规则参考：
 
 - `case_data/Case_006` 这类本地 case。
 - `src/prompt.py` designer prompt builder。
-- `scripts/run_full_model_test.py` full pipeline。
+- `scripts/run_full_model_test.py` full pipeline: designer -> type review -> wording -> final type labels。
 - `skill/dg-questionnaire-designer`。
 - `skill/dg-question-wording-editor`。
+- `skill/dg-question-type-setter`。
 - `gold_data/` 离线统计和规则蒸馏。
 
 当前 demo 还没有：

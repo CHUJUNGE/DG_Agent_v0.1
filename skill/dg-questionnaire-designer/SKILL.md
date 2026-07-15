@@ -45,6 +45,7 @@ Before generating a first draft, read:
 - `references/agent_workflow.md`
 - `references/generation_logic.md`
 - `references/research_rules.md`
+- `references/research_design_ai_agent_rules.md` (researcher-authored rules; must not be truncated in prompts)
 
 When implementing backend, database, training, or evaluation integration, also read:
 

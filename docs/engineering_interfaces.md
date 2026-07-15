@@ -63,6 +63,32 @@ type DesignOutput = {
 };
 ```
 
+### QuestionTypeAnnotation
+
+用于题型标注层。当前阶段不要求生成后端导入 JSON，只在现有 DG Markdown 中为每道题前置平台题型和判断理由。
+
+```ts
+type PlatformQuestionType =
+  | "text"      // 简答
+  | "single"    // 单选
+  | "multi"     // 多选
+  | "score"     // 打分
+  | "sort"      // 排序
+  | "bot"       // AI-bot
+  | "start"     // 开场白
+  | "end"       // 结束画面
+  | "halftime"; // 中场休息
+
+type QuestionTypeAnnotation = {
+  moduleName?: string;
+  itemText: string;
+  type: PlatformQuestionType;
+  label: "简答" | "单选" | "多选" | "打分" | "排序" | "AI-bot" | "开场白" | "结束画面" | "中场休息";
+  reason?: string; // designer/review 阶段可见；wording 后最终版本不显示
+  uncertainty?: string;
+};
+```
+
 ### ReviewAnnotation
 
 ```ts
@@ -279,6 +305,34 @@ type EvaluateDesignRequest = {
   files: ProjectFile[];
   designMarkdown: string;
   rubricVersion?: string;
+};
+```
+
+### POST /api/set-question-types
+
+用途：在已有 DG Markdown 上标注题型。该接口不负责平台导入字段映射；最终用户可见版本只显示中文题型名，例如 `【单选】1. ...`。designer/review 阶段可以额外返回理由。
+
+请求：
+
+```ts
+type SetQuestionTypesRequest = {
+  designMarkdown: string;
+  mode?: "final_labels_only" | "review_with_reasons";
+};
+```
+
+响应：
+
+```ts
+type SetQuestionTypesResponse = {
+  annotatedMarkdown: string;
+  annotations?: QuestionTypeAnnotation[];
+  checks?: Array<{
+    id: string;
+    status: "pass" | "warning";
+    message: string;
+    evidence?: string;
+  }>;
 };
 ```
 

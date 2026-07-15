@@ -62,7 +62,18 @@ python .\scripts\build_demo_loop_report.py --case case_001
 
 ## 3. 为什么 Skill 仍需要工程环境继续迭代
 
-Skill 在当前阶段拆成两层：`dg-questionnaire-designer` 负责研究逻辑、生成流程和评测标准；`dg-question-wording-editor` 负责题面风格、自然度和负担控制。它们都不是数据库、后端、算法服务或训练系统的替代品。
+Skill 在当前阶段拆成三层：`dg-questionnaire-designer` 负责研究逻辑、生成流程和评测标准；`dg-question-wording-editor` 负责题面风格、自然度和负担控制；`dg-question-type-setter` 负责在已有 DG 题目前标注平台题型和判断理由。它们都不是数据库、后端、算法服务或训练系统的替代品。
+
+默认执行链路采用四步：
+
+```text
+dg-questionnaire-designer
+-> dg-question-type-setter review_with_reasons
+-> dg-question-wording-editor
+-> dg-question-type-setter final_labels_only
+```
+
+第一轮题型标注给研究员看理由，第二轮题型标注只保留最终用户可见题型名。
 
 进入工程环境后，skill 需要继续迭代：
 

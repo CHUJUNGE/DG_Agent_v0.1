@@ -65,6 +65,33 @@ These contracts let the skill connect to product backend, algorithm services, da
 }
 ```
 
+## QuestionTypeAnnotation
+
+Question type annotation is a lightweight layer after DG draft generation. It does not require backend import JSON.
+
+```json
+{
+  "moduleName": "关于我",
+  "itemText": "请回想最近一次...",
+  "type": "text",
+  "label": "简答",
+  "reason": "需要受访者自由描述具体经历和背后原因。",
+  "uncertainty": ""
+}
+```
+
+Allowed `type` values:
+
+- `text`: 简答
+- `single`: 单选
+- `multi`: 多选
+- `score`: 打分
+- `sort`: 排序
+- `bot`: AI-bot
+- `start`: 开场白
+- `end`: 结束画面
+- `halftime`: 中场休息
+
 ## TrainingCase
 
 ```json

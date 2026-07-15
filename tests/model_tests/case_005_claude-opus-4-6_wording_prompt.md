@@ -1,4 +1,4 @@
----
+﻿---
 
 ## Message 1: system
 
@@ -210,7 +210,7 @@ Use cautiously:
 - "至少 / 最多"
 - "每段用一行"
 - "必须"
-- "打分 1-5"
+- "打分 1-5"（平台打分题只支持 1-10；如果必须打分，应改为 1-10 或交给研究员确认）
 - "请分别说明 A/B/C/D"
 
 These rigid expressions are allowed only when required by platform type, screener logic, quota, ranking, stimulus evaluation, or explicit client requirement.
@@ -276,6 +276,42 @@ Softer alternatives:
 - "不太自在"
 - "需要让自己缓一缓 / 回到状态"
 - "嘴巴不太舒服 / 想换换口味"
+
+### Lifestyle questions should feel like getting to know a person
+
+When rewriting lifestyle or cohort-understanding modules, keep the tone like naturally getting to know a person. Do not turn lifestyle into a demographic checklist.
+
+Prefer:
+
+- "先用几个关键词介绍一下你自己吧。也可以配一两张你觉得很能代表自己的图片。"
+- "如果方便，带我们看看你平时最常待、最能代表你生活状态的空间。真实状态就好，不用特意收拾。"
+- "现在和你一起生活的还有谁？如果有宠物，也想听听它在你生活里像什么样的角色。"
+- "你现在生活里最重要的重心是什么？整体节奏是偏快、偏慢，还是会随阶段变化？"
+- "休闲时间通常会怎么安排？这些兴趣一般发生在什么场景里，是一个人、和朋友、线上还是线下？"
+- "你的社交圈大概是什么样的？在这些关系里，你更像发起者、跟随者、组织者、倾听者，还是别的角色？"
+- "平时花钱的大头主要在哪里？有没有一些不是刚需、但你特别愿意花钱的东西？"
+- "你平时主要从哪些地方获得信息？不同渠道给你的信息有什么不一样？"
+- "你会偏爱哪些类型的内容或故事？比如某类剧情、人设、风格、博主或话题。为什么会喜欢？"
+- "回头看，有没有哪次换城市、换职业、关系变化，或其他转折，对你影响比较大？"
+- "如果给现在的生活打个分，你会打几分？扣分主要扣在哪里？"
+- "你理想中的生活画面是什么样的？有没有谁让你觉得 TA 活出了这种样子？"
+- "想象一下 3 年后或 5 年后的你，生活可能会有哪些变化？哪些是你期待的，哪些是你不太想变的？"
+
+For must-have person-understanding modules, preserve questions on self-introduction, representative images, room tour, life center/rhythm, spending habits, interests and scenes, social role, and life pain points. These are not optional polish items when the designer handoff marks lifestyle as a core research object.
+
+### Scene-led coping strategy questions
+
+When a scene has a clear state or need, and respondents may use multiple coping strategies or substitute categories, keep the wording in one real-moment chain.
+
+Prefer:
+
+- "回想一次你明显感觉到需要 X 的时刻，当时大概是什么时候、在哪里、和谁一起、正在做什么？那一刻你的情绪或身体状态是怎样的？"
+- "后来你做了什么让自己调整一下？为什么当时会选这个办法？"
+- "那次有没有想到或选择 X 这类东西？如果有，为什么选它？如果没有，为什么没选？"
+- "如果用了 X，真正起作用的是哪些细节？比如味道、口感、香气、温度、清爽感、方便程度，或者其他感受。"
+- "最后有没有回到你想要的状态？为什么？"
+
+Do not force the target category into every scene. Let respondents describe the actual coping strategy first, then ask whether the research category entered and why.
 
 ## Examples And Parentheses
 
@@ -358,104 +394,44 @@ Use endings according to task type:
 
 - For short middle modules, either omit the ending or use one light sentence that points to the next task.
 - For daily diary or repeated tasks, confirm completion and remind the next recording step.
-- For heavy media or long modules, acknowledge the concrete effort: recording a day, showing objects, uploading a process, or completing a shopping task.
-- For the final module, a short thank-you and optional supplement invitation is enough.
-- Preserve a designer ending if it is short, concrete, and fits the respondent tone.
-
-Avoid repeated AI-host style endings:
-
-- "谢谢你让我们走进你的生活/内心/故事"
-- "你的分享非常重要"
-- "这些内容对我们理解消费者/市场/品牌机会很有帮助"
-- "接下来我们会研究/分析/识别..."
-- Repeating "感谢你的认真分享，接下来..." after every module.
-
-When an ending mentions the next module, make it respondent-facing and concrete. Say "下面从每天最常发生的喂食开始看" instead of "接下来我们想了解你的喂食行为和选择逻辑".
-
-### Preserve Appropriate Audience Tone
-
-Do not automatically remove:
-
-- "～" or "啦" when used sparingly and appropriate for a younger sample;
-- light expressions such as "上头", "种草", or "踩雷" when they fit the category and audience;
-- concrete, vivid phrasing from the designer draft.
-
-Adjust them only when:
-
-- the sample includes older or formal respondents and the tone would feel off;
-- every sentence uses the same playful marker;
-- the expression distracts from the task;
-- the client or project requires a more restrained tone.
-
-## Technical And Placeholder Hygiene
-
-Respondent-facing wording must not expose raw platform or draft artifacts:
-
-- HTML tags such as `<b>`, `<strong>`, `<div>`, or `<br>`.
-- "未命名模块", empty titles, test text, or placeholders.
-- Internal logic labels such as "trigger -> action -> alternatives".
-- Researcher-facing material value requests such as "说明该素材能帮助我们理解什么".
-
-## Brand And Intent Exposure
-
-Early modules should start from the respondent's life, routine, scenes, current solutions, and feelings.
-
-Do not expose brand, product, stimulus, or client strategy too early. Brand/product questions usually belong after natural behavior and cat
+- For looped / repeated daily diary recording modules, use
 
 [...中间内容因长度限制已省略，生成时请基于已保留的开头和结尾信息判断；如信息不足，应在研究员确认点中说明...]
 
-is your rest day different from your workday." Ask directly for the rest-day pattern, places, activities, and category-relevant touchpoints.
-
-### Avoid yes/no prompts when the recruited sample will obviously say yes
-
-If the sample is recruited for category involvement, avoid questions such as "Do you have a favorite X?" Go directly to concrete selection and explanation, such as choosing a few representative items and explaining why.
-
-### Keep parenthetical probes light but useful
-
-Parentheses are acceptable when they help the respondent recall dimensions they might otherwise miss. Keep them short, avoid long commercial taxonomies, and do not make examples feel like fixed answer options.
-
-### Media wording should prefer photos when photos are analytically better
-
-For object family photos, storage/classification, ideal products, visual evaluation standards, or metaphors, encourage photos first. Allow video only when it is easier for the respondent or when the task needs movement/process.
-
-Use low-pressure language: photos are helpful, real state is fine, and text or voice can supplement when needed.
-## Product Innovation Wording Rules v0.1.3
-
-Use these wording rules when the designer handoff says the project is about product innovation, product upgrade, new product opportunity, or concept direction.
-
-### Start future questions from a concrete anchor
-
-Do not ask only:
-
-- "What should the future product be like?"
-- "What is your ideal product?"
-- "What new functions do you want?"
-
-Rewrite future questions around a concrete anchor:
-
-- a specific scene;
-- a specific pain point;
-- a product the respondent would carry or use every day;
-- a product that represents the respondent;
-- a product suitable for gifting or sharing;
-- the only product they could keep using for the next few years.
-
-### Turn vague criteria into sensory and use details
-
-When respondents are asked about "good-looking", "easy to use", "safe", "useful", or "worth buying", help them describe what that means in concrete terms.
-
-Use prompts such as:
-
-- "What does good-looking mean to you here? Color, shape, material, size, or another detail?"
-- "What makes it easy to use in the actual moment?"
+easy to use in the actual moment?"
 - "What details would make you feel reassured?"
 - "Can you show or describe a reference that feels close?"
 
 Keep examples light and category-relevant.
 
+### Ask experience standards through extremes
+
+When the source draft asks about a product, service, purchase, trial, or use experience, make the experience-standard question concrete.
+
+Prefer:
+
+- "回想一次你觉得它特别好用 / 特别舒服 / 特别开心的经历，当时是什么场景？哪些细节让你有这种感觉？"
+- "当时手感、声音、气味、口感、画面或心情是怎样的？"
+- "反过来，哪一次体验让你觉得不太好？碰到什么会特别不开心，或者少了什么就不行？"
+
+Adapt the sensory prompts to the category. For a pen, ask writing smoothness, grip, paper sound, control, and mood. For coffee, ask taste, aroma, temperature, mouthfeel, scene, and feeling.
+
 ### Use references and images for product form
 
 When the question asks about product appearance, form, sensory feeling, ideal examples, or evaluation standards, encourage reference images first. Text or voice can explain why those references work.
+
+### Ask abstract concepts as definitions, associations, and change
+
+When the cognition object is a cultural image, social concept, practice, or self-created concept rather than a concrete object, do not force a product-style metaphor first.
+
+Prefer:
+
+- "你认为什么是 X / 怎样算 X？"
+- "提到 X，你脑海里出现的第一个画面是什么？为什么是这个画面？"
+- "还会联想到哪些声音、味道、气味、物品或情绪？"
+- "你觉得 X 这些年有变化吗？为什么？你自己对 X 的期待有变过吗？"
+
+This pattern fits topics such as 春节 / CNY, 二次元, or campaign-created concepts like "慢人".
 
 ### Make metaphor answerable
 
@@ -466,6 +442,31 @@ Metaphor questions should not sound philosophical. Anchor them in familiar langu
 - "What would you hope it becomes in your life?"
 
 Avoid abstract wording such as "please explain the symbolic meaning of this category."
+
+For concrete products or objects, metaphor can include several everyday comparison routes:
+
+- what it feels like or what it resembles;
+- what objects it should be placed together with, physically or mentally;
+- what role it plays in life;
+- if it were a person, its age, personality, occupation, and dressing style;
+- what relationship it has with "me", whether close, distant, dependent, companion-like, decorative, or occasional.
+
+Always add a natural reason follow-up, such as "为什么会这么觉得？" or "是什么让你这样形容它？"
+
+### Ask purchase behavior as habits, concrete examples, and change
+
+When the source draft asks about buying behavior, keep the wording close to real purchase habits instead of turning it into a market taxonomy.
+
+Prefer:
+
+- "你平时买 X 的习惯是怎样的？更像一次性囤一点，还是需要时分几次买？"
+- "通常会给这类东西留多少预算？这个预算是怎么想的？"
+- "一般在哪些渠道买？为什么会选这些渠道？"
+- "不同类型的 X，在品牌、渠道、分量、包装、价格上，你会不会有不同选择？"
+- "最近最喜欢 / 最常买或最常用 / 最新买的是哪些？为什么是它们？"
+- "这段时间你买 X 的总量、预算或频次有变化吗？哪些一直买，哪些不买了，哪些买更多或更少？为什么？"
+
+Use category-specific examples lightly, such as frozen food stock-up behavior, channel choice, portion size, packaging, and price sensitivity. Do not list every dimension in every question if it creates checklist pressure.
 ## skill\dg-question-wording-editor\references\rewrite_patterns.md
 
 # Rewrite Patterns
@@ -659,10 +660,10 @@ Before:
 After:
 
 ```text
-今天的记录完成啦，辛苦。明天继续按真实发生的时刻来写就好。
+恭喜你完成今天的填答，辛苦啦！祝你度过了美好的一天～
 ```
 
-Use for daily or repeated diary tasks. Confirm completion and remind the next action instead of giving a generic compliment.
+Use this exact ending for looped / repeated daily diary recording tasks.
 
 ## Module Intro As Task Entry
 
@@ -1162,195 +1163,178 @@ Use:
 
 ## 一、项目理解
 
-1. **客户身份与目标：** KACO 是笔类品牌，近年通过礼盒升级与 IP 联名实现增长，但增长路径天花板显现；核心商业目标是找到未来 3 年具备"国民级大单品"潜力的新品类/产品方向。
-2. **市场背景：** 笔类市场存量竞争，基础书写需求被电子化与 AI 持续分流，产品端新品爆炸、同质化严重，笔正在变成"低决策成本的尝鲜品"。
-3. **人群焦点：** 以 05/10 后学生和年轻白领为核心样本，代际变化显著——成长于 AI、短视频、兴趣圈层环境，用笔方式从"功能工具"转向"自我表达与场景匹配"。
-4. **已有观察（待验证假设）：** 学生从"一支主力笔用到底"转向"多支笔服务不同场景与心情"；秀丽笔、爆闪马克笔等非刚需品类曾成为爆品；周边生态（笔袋、挂件、改造）正在兴起。
-5. **研究路径：** 需沿 **人 → 书写 → 笔 → 机会** 逐层深入，先理解人群生活方式与书写价值变化，再进入品类认知和产品机会。
-6. **提案仅提取了前 8 页（共 28 页）：** 后续页面可能包含方法细节、样本设计、刺激物规划等，当前设计基于已有信息完成，可能需要根据完整提案调整。
+1. **客户是 KACO（笔类品牌）**，已通过礼盒升级与 IP 联名实现阶段性增长，但现有增长路径天花板显现，需要寻找下一个增长方向。
+2. **商业目标**：研判未来三年具备"国民级大单品"潜力的新品类/新产品方向，支撑品牌长期增长。
+3. **市场背景**：笔类进入存量竞争，基础书写被电子化和 AI 持续分流；同时新品爆炸、消费端"买得多换得快闲置率高"。
+4. **核心人群**：05 后/10 后新一代学生（公立高中、职高、国际高中等不同路径）、年轻白领；需关注男性增量和圈层先锋趋势信号。
+5. **已有洞察线索**（来自 Proposal 桌面研究，非一手验证）：从"一支主力笔用到底"到"多支笔服务多场景多心情"；笔的身份表达功能增强；把玩乐趣、机械结构、周边配件等新维度出现。
+6. **研究方法**：Digital Diary（数字日记本），需在自然状态下捕捉生活场景、书写行为和笔类消费的真实图景。
 
 ---
 
 ## 二、核心研究问题
 
-| # | 研究问题 |
-|---|---------|
-| RQ1 | 目标人群的日常生活方式、兴趣场景和消费逻辑是什么样的？ |
-| RQ2 | 书写在他们生活中扮演什么角色？书写的场景、行为和主观价值正在发生哪些变化？ |
-| RQ3 | 他们如何认知笔的品类？选择和购买笔的决策逻辑是什么？ |
-| RQ4 | 笔在书写功能之外，承载了哪些情感、社交、审美或自我表达的价值？ |
-| RQ5 | 什么样的笔类产品方向具备跨人群、跨场景的放大潜力？ |
+| 编号 | 研究问题 |
+|------|---------|
+| RQ1 | 目标人群的日常生活、兴趣世界与审美偏好是什么样的？代际变化如何体现在他们与"物"的关系上？ |
+| RQ2 | 书写在他们生活中扮演什么角色？哪些场景在增长、哪些在萎缩、哪些是新出现的？ |
+| RQ3 | 他们拥有什么样的笔？怎么来的、怎么用的、怎么看待自己和笔的关系？ |
+| RQ4 | 他们选笔的逻辑是什么？信息来源、决策标准、价格敏感度如何？ |
+| RQ5 | 什么样的笔/文具产品能让他们兴奋？在非刚需但有规模的品类方向中，机会空间在哪里？ |
 
 ---
 
 ## 三、模块结构总览
 
-| 模块 | 模块名称 | 模块目的 | 对应研究问题 | 说明 |
-|------|---------|---------|-------------|------|
-| 1 | 我的一天 | 建立受访者生活方式画像，理解日常节奏、兴趣圈层和消费心态 | RQ1 | 基础画像模块，先理解人本身，不与产品/品牌关联 |
-| 2 | 我和写字这件事 | 理解书写在生活中的角色定位、场景分布和主观价值变化 | RQ2, RQ4 | 从生活自然切入书写，不预设"书写重要"的立场 |
-| 3 | 我的文具全家福 | 通过实物映射当前笔的拥有、使用和情感关系图谱 | RQ3, RQ4 | 以拍照任务驱动，观察品类结构、使用分化和周边生态 |
-| 4 | 我是怎么选笔的 | 还原发现—选择—购买的完整决策链路 | RQ3 | 覆盖渠道、信息源、决策标准、价格敏感度和品牌认知 |
-| 5 | 我的下一支笔 | 捕捉未被满足的需求、跨品类灵感和未来想象 | RQ5 | 从已知延伸到未知，为产品创新方向提供信号 |
+| 模块 | 模块名称 | 模块目的 | 对应研究问题 | 设计理由 |
+|------|---------|---------|-------------|---------|
+| 1 | 我和我的世界 | 建立受访者画像：生活状态、兴趣圈层、审美偏好、与"物"的关系 | RQ1 | 基础画像模块，先理解人本身，不急于关联产品 |
+| 2 | 我的一天 | 记录典型一天的场景流，自然捕捉笔/书写出现的时刻与缺位的时刻 | RQ1, RQ2 | 场景记录任务，获取行为层事实而非态度层回忆 |
+| 3 | 我什么时候会拿起笔 | 理解书写场景的全貌、变化趋势、笔不可替代的价值 | RQ2 | Proposal 已有"书写被分流"的桌面判断，此模块获取一手场景数据并识别增长场景 |
+| 4 | 我的文具全家福 | 了解当前笔的持有、使用状态、情感关系与周边生态 | RQ3 | 通过拍照任务获取真实持有情况，避免回忆偏差 |
+| 5 | 我是怎么选笔的 | 还原购买决策路径、信息来源、评价标准、品牌认知 | RQ3, RQ4 | 从最近一次真实购买切入，比泛问"你看重什么"更有效 |
+| 6 | 我的下一支笔 | 捕捉未满足需求、理想产品想象、品类兴趣方向 | RQ4, RQ5 | 指向商业目标——识别国民级大单品的机会方向 |
 
 ---
 
 ## 四、详细题目设计
 
-### 模块 1：我的一天
+### 模块 1：我和我的世界
 
 **引导语：**
-Hi！欢迎来到这次对话～在接下来的几天里，我们想通过几个小模块来认识你。没有标准答案，怎么想就怎么写，说多说少都可以。我们先从你的日常生活聊起吧！
+Hi～欢迎来到这次对话！在正式开始之前，我们想先认识一下真实的你。没有标准答案，怎么想就怎么说～
 
 **题目：**
 
-1. 先简单介绍一下你自己吧——你现在在做什么（上学 / 工作 / 其他）？平时的一天大概是怎么度过的？
-
-2. 最近生活中，你最花时间和精力的事情是什么？（学习、工作、兴趣爱好、社交……什么都可以说）
-
-3. 你最近迷上了什么，或者对什么特别感兴趣？（一个爱好、一部剧、一个博主、一种风格、一个圈子……随便聊聊）
-
-4. 如果用 3 个词来形容你最近的状态或心情，你会选哪 3 个？为什么是它们？
-
-5. 你平时花钱最多的几个方面是什么？最近有没有什么"忍不住下单"或者"买了觉得特别值"的东西？给我们看看？
+1. 先来个自我介绍吧！你现在是学生还是已经工作了？在哪个城市？平时的日常大概是什么节奏？
+2. 除了上课/上班，你最近花时间最多的事情是什么？
+3. 你最近最沉迷或最投入的兴趣爱好/圈子是什么？它吸引你的点是什么？方便的话可以分享一些相关的图片。
+4. 你平时喜欢逛什么平台或 App 来消磨时间、找乐子或找灵感？最近有被种草什么东西吗？
+5. 如果让你用 3 个关键词形容自己的审美偏好或个人风格，你会选哪 3 个？
 
 **结束语：**
-谢谢你的分享！接下来我们来聊聊跟"写字"有关的事情～
+谢谢你的分享！接下来我们想请你记录一下真实的一天。
 
 ---
 
-### 模块 2：我和写字这件事
+### 模块 2：我的一天
 
 **引导语：**
-这个模块我们来聊聊"写字"。不管你觉得自己算不算爱写字的人，都欢迎随便说说～
+请选一个上学日/工作日，从早到晚记录一下你这一天是怎么度过的。不用写得很详细，像流水账一样记就好～
 
 **题目：**
 
-1. 你觉得自己算是一个"爱写字"的人吗？为什么这么觉得？
-
-2. 想想你最近一周——有哪些时候是"必须手写"的？有哪些时候是你"主动选择手写"而不是打字的？分别是什么情况？
-
-3. 除了学习或工作中的记录，你平时还有什么时候会动笔？（比如写手帐、画画、涂鸦、抄句子、练字、做手工……都算）
-
-4. 你觉得"用笔写"和"用手机或电脑打字"，感受上有什么不一样？如果两种方式都能完成，你更偏向哪种？为什么？
-
-5. 跟你小时候相比，"写字"在你生活里的分量有变化吗？是多了还是少了？具体变了什么？
-
-6. 如果有一天你完全不需要手写任何东西了，你觉得你会失去什么？还是觉得无所谓？
+1. 请大致记录一下你今天从起床到睡觉的主要活动和时间安排。
+2. 今天有没有哪个时刻你拿起了笔？是在什么情况下拿起来的？写了/画了什么？
+3. 今天有没有哪个时刻，你本来可能会用笔，但最后用了手机、平板或电脑来完成？是什么情况？
+4. 拍一张你今天随身带的文具（笔袋、铅笔盒，或者散落在包里桌上的笔）给我们看看吧，并简单说说都有些什么。
 
 **结束语：**
-聊得很好！接下来我们来看看你手边都有些什么笔～
+辛苦啦！接下来我们聊聊你跟"写写画画"这件事的关系。
 
 ---
 
-### 模块 3：我的文具全家福
+### 模块 3：我什么时候会拿起笔
 
 **引导语：**
-这个模块想请你做一件有趣的事——找到你平时装笔的地方（笔袋、笔筒、桌面都行），给你所有的笔拍一张"全家福"。
+不管是认真做笔记、写作业，还是随手涂鸦、列清单，甚至只是拿着笔转一转——所有你会拿起笔的时刻，我们都感兴趣。
 
 **题目：**
 
-1. 请拍一张你现在手边所有笔的合照，然后数一数：大概有多少支？都是些什么类型的笔？
-
-2. 这些笔里面，你最常用的是哪几支？为什么它们能成为你的"主力"？
-
-3. 有没有哪支笔是你特别喜欢或特别有感情的？喜欢它什么？可以拍个特写给我们看看吗？
-
-4. 有没有哪支笔其实买了之后不怎么用？当时为什么想买？后来为什么搁置了？
-
-5. 你会根据不同的场合、用途或心情换不同的笔吗？比如上课一种、做笔记一种、画画一种？说说你的搭配方式。
-
-6. 除了笔本身，你有没有在笔的周边上花心思？比如笔袋、笔挂件、贴纸装饰、可改造的配件？拍给我们看看。
-
-7. 最近半年，你有没有试过什么以前没用过的新类型的笔或文具？是什么让你想试试看的？体验怎么样？
+1. 想一想，你平时在哪些场景下会用到笔？请尽量多列一些，越具体越好。
+2. 这些场景里，哪个是你最频繁的？哪个是你做起来最享受的？（可能不是同一个，都说说看。）
+3. 跟你一两年前比，你用笔的场景有没有什么变化？变多了还是变少了？你觉得是因为什么？
+4. 在你看来，用笔写/画跟用电子设备相比，最大的不同在哪里？有没有什么事情是你觉得一定要用笔才行的？
+5. 你有没有什么跟笔有关的小习惯或"仪式感"？比如考试换新笔芯、写手帐必须用某支笔、无聊的时候就喜欢转笔之类的。
 
 **结束语：**
-谢谢你的全家福！接下来我们聊聊你平时是怎么挑笔的～
+了解了你的书写时刻，接下来我们来看看你现在手边都有些什么笔～
 
 ---
 
-### 模块 4：我是怎么选笔的
+### 模块 4：我的文具全家福
 
 **引导语：**
-每个人挑笔的方式都不太一样。这个模块我们想听听你的经历和想法。
+来一个有趣的任务——把你目前手边所有的笔都找出来，给它们拍一张"全家福"吧！
 
 **题目：**
 
-1. 回忆一下你最近一次买笔的经历——什么时候、在哪里买的？买了什么？为什么选了它？
-
-2. 你平时一般在哪些地方买笔？（文具店、超市、网店、直播间……）在不同地方买笔的时候，你挑选的方式有什么不一样吗？
-
-3. 你一般是怎么知道一支新笔或新文具的？（同学/同事推荐、社交媒体、逛店偶然看到、直播、其他？）
-
-4. 当你面前有一排笔可以挑，你最先看的是什么？最后决定买哪支，通常是因为什么？
-
-5. 你买笔一般在什么价格范围？有没有一个你觉得"超过这个价就不考虑"的价格？有没有过"花了比平时多的钱但觉得值"的经历？
-
-6. 有没有你比较认的笔的品牌？或者明确不想买的品牌？是因为什么？
-
-7. 你有没有在小红书、抖音、B 站或其他平台上刷到过跟笔或文具相关的内容？什么样的内容最容易让你"种草"或下单？
+1. 请拍一张你目前手边所有笔的合照，并数一数大概有多少支，分别是什么类型的笔。
+2. 从里面挑出你最喜欢的 1–2 支，拍个特写，告诉我们它为什么是你的最爱。
+3. 有没有哪支笔你买了但很少用、甚至根本没用过？当时为什么买了，后来为什么不用了？
+4. 你大概多久会买一次新笔？一般在什么情况下会想买新的？
+5. 除了笔本身，你有没有跟笔相关的配件或周边？（比如笔袋、笔挂、替换芯、挂件、笔架之类的。）有的话也拍来看看吧。
 
 **结束语：**
-快到最后啦！最后一个模块，我们来聊聊你理想中的笔～
+看到你的笔家族了！接下来我们聊聊你平时是怎么挑笔的。
 
 ---
 
-### 模块 5：我的下一支笔
+### 模块 5：我是怎么选笔的
 
 **引导语：**
-最后一个模块，我们来畅想一下。如果可以许愿，你希望下一支笔是什么样的？
+每个人选笔都有自己的偏好和门道，有人看颜值，有人看手感，有人随缘。来聊聊你的选笔逻辑吧～
 
 **题目：**
 
-1. 如果你可以自己设计一支"完美的笔"，你最想让它在哪些方面特别出色？（外观、手感、功能、玩法……什么方面都可以说）
-
-2. 你觉得现在市面上的笔，最让你不满意或者觉得"差点意思"的地方是什么？
-
-3. 最近有没有看到什么笔或文具让你觉得"好酷 / 好想要 / 好有意思"？是在哪里看到的？它打动你的是什么？
-
-4. 你觉得笔除了写字，还可以跟什么场景或用途结合？什么样的组合你会觉得有吸引力？
-
-5. 有没有文具以外的产品（任何品类都行），它的设计、体验或玩法让你觉得"如果笔也能这样就好了"？
-
-6. 如果朋友过生日或者你想送人一份小礼物，你会考虑送笔吗？会送什么样的？如果不会，是因为什么？什么样的笔你才愿意拿来送人？
+1. 回想一下你最近一次买笔的经历：买的是什么笔？在哪里买的？为什么选了这一支（或这几支）？
+2. 你在挑一支笔的时候，一般最在意的是什么？最不在意的又是什么？
+3. 你一般是怎么知道/发现一支新笔的？会在哪些渠道看到相关信息或推荐？
+4. 你有没有特别喜欢或会主动关注的笔的品牌？为什么喜欢它？
+5. 你觉得一支日常用的笔大概多少钱是你比较舒服的价格？超过多少钱你就会犹豫或者觉得不值？
+6. 你最近有没有看到过什么让你觉得"这支笔好酷/好想要"的笔或文具？是在哪里看到的？它哪里吸引了你？
 
 **结束语：**
-所有模块都完成啦！非常感谢你的认真分享，你的每一个回答对我们都很有价值～
+了解了你的选笔方式，最后一个部分我们来畅想一下～
+
+---
+
+### 模块 6：我的下一支笔
+
+**引导语：**
+最后来聊一些轻松的。关于"下一支笔"，我们想听听你的想象和期待。放飞想象力，怎么天马行空都可以！
+
+**题目：**
+
+1. 如果可以完全按你的想法定制一支笔，你希望它是什么样的？（外观、颜色、手感、功能……随便从哪个角度描述都行，愿意画出来也欢迎！）
+2. 你觉得现在市面上的笔，最让你觉得遗憾或"要是能……就好了"的地方是什么？
+3. 除了你日常在用的那类笔，你有没有对其他类型的笔产生过兴趣或好奇？（比如马克笔、彩墨笔、秀丽笔、自动铅、速写笔、手工笔等等。）对它们感兴趣或不感兴趣的原因是什么？
+4. 你觉得一支笔在什么样的情况下，会变得对你特别有意义、不只是一个写字工具？
+5. 如果明天有一款笔突然在你身边火了，同学/同事都在讨论、都想要，你觉得它可能是什么样的？大家会因为什么原因讨论它？
+
+**结束语：**
+所有的问题都回答完啦！非常感谢你认真、真实的分享，你的每一个回答对我们都很有价值。后续如果有进一步交流的机会，我们再联系你～
 
 ---
 
 ## 五、Wording Handoff
 
-| 维度 | 说明 |
+| 维度 | 内容 |
 |------|------|
-| **目标人群语气注意** | 核心人群为 05/10 后学生和年轻白领，语气应轻松、平等、有亲和力；避免"请问您""贵方"等距离感用语；可适度口语化但不油腻；引导语和结束语可以用"～"但正文题面保持自然即可 |
-| **不能改动/删除** | ① 模块 3 的拍照全家福任务（核心观察点）；② 模块 2 Q2"必须手写 vs 主动选择手写"的区分结构（区分刚需场景与情感性场景）；③ 模块 4 Q4"最先看的是什么 → 最终决定的理由"的两步结构（还原真实决策链路） |
-| **需要延后暴露** | KACO 品牌名称在全部模块中均不出现；模块 4 Q6 问品牌认知时为自然回忆，不提供任何品牌列表或提示；如后续有品牌相关刺激物测试，应作为独立追加模块 |
-| **需要保留的观察点** | ① 模块 3 全家福照片中的笔数量、品类结构和周边生态；② 模块 3 Q5 场景/心情换笔行为（验证"一支到多支"假设）；③ 模块 5 Q4 笔与非书写场景的结合想象（探索新品类方向信号） |
-| **可能过重或过硬的题面** | ① 模块 2 Q6"完全不需要手写了你会失去什么"——对低书写频率人群可能过于抽象，建议 wording editor 评估是否需要增加铺垫或调整为更具象的假设情境；② 模块 4 Q5 价格相关——直接问"超过多少不考虑"可能感受偏硬，建议调整为更自然的表述 |
-| **建议交给 wording editor 处理** | ① 全部引导语和结束语的语气微调（当前为偏通用的温暖语气，可能需要针对学生 vs 白领子人群做差异化）；② 模块 1 Q5 消费题的措辞——当前"忍不住下单"较口语化，需确认是否符合全年龄段受访者理解；③ 模块 3 Q6 周边题的举例列表——需根据最终确认的人群微调（学生 vs 白领的周边行为差异大） |
+| **目标人群语气注意** | 受访者涵盖 05 后/10 后学生及年轻白领，年龄跨度较大。整体语气应口语化、轻松、有对话感；对低龄受访者（初高中生）避免使用"消费逻辑""价值期待"等成人化/研究型用语；"～"和语气词可适当使用但不宜过密。 |
+| **不能改动/删除** | ① 模块 4 的拍照"全家福"任务（核心行为证据，不可替换为纯文字描述）；② 模块 2 第 3 题"本来可能用笔但用了电子设备"的反向追问（捕捉书写替代场景）；③ 模块 6 第 3 题对非日常笔类品类的开放探索（直接服务于品类机会方向的研究目标）。 |
+| **需要延后暴露的品牌/产品/刺激物** | KACO 品牌名在整份日记中不出现。Proposal 中提到的具体趋势标签（秀丽笔、爆闪马克笔、手作水晶笔等）仅在模块 6 第 3 题作为品类举例出现，不作引导；如有后续 IDI 环节，品牌认知与具体产品概念测试应留到那时。 |
+| **需要保留的观察点** | ① 模块 2 中笔出现的自然时刻 vs 被电子设备替代的时刻（场景增减的行为证据）；② 模块 4 中"买了但不用"的笔及原因（闲置逻辑）；③ 模块 4 中笔的周边配件持有情况（周边生态信号）；④ 模块 5 第 6 题"最近让你眼前一亮的笔"（自发提及的品牌/产品可作为竞品信号）。 |
+| **可能过重或过硬的题面** | ① 模块 3 第 4 题"用笔 vs 电子设备最大不同"——对低龄受访者可能偏抽象，建议 wording editor 评估是否需要加入具体场景提示；② 模块 6 第 5 题"明天爆款"的假设——措辞略带引导，需要确保不暗示"爆款=好"的前提。 |
+| **建议交给 dg-question-wording-editor 处理** | ① 所有模块引导语和结束语的语气统一调性，确保对 05 后学生和年轻白领都自然；② 模块 1 第 5 题"3 个关键词形容审美偏好"——任务形式对部分受访者可能偏难，评估是否需要提供参考词库或改为开放描述；③ 模块 5 第 2 题"最在意/最不在意"——评估是否需要提供选项列表辅助回答，还是保持纯开放；④ 模块 6 第 1 题"定制一支笔"——确认是否需要提供维度提示（已在括号中给出一些），或让受访者完全自由发挥。 |
 
 ---
 
 ## 六、Agent 检核摘要
 
-| # | 检核项 | 状态 |
-|---|--------|------|
-| 1 | **基础画像先于产品关联：** 模块 1 仅涉及生活方式和消费心态，未提前引入品牌或品类信息 | ✅ 已控制 |
-| 2 | **品牌暴露控制：** 全 5 个模块均未出现 KACO 品牌名称；模块 4 品牌题为自然回忆式 | ✅ 已控制 |
-| 3 | **提案仅提取 8/28 页：** 后续页面可能包含样本设计、分组逻辑、刺激物测试等关键信息，当前设计可能需要相应增补模块 | ⚠️ 风险待确认 |
-| 4 | **人群分组差异未体现：** 提案提到公立高中/职高/国际高中、男/女、圈层先锋等细分维度，当前题目未做分组差异化设计——如需针对不同子人群增减题目，需在确认人群后调整 | ⚠️ 待确认后调整 |
-| 5 | **"已有观察"未被当作结论：** 模块 3 Q5（场景换笔）和模块 5 Q4（非书写场景）设计为开放探索题而非验证式封闭题，避免预设结论 | ✅ 已控制 |
+1. **品牌保护**：全篇未出现 KACO 品牌名，模块 5 第 4 题品牌提及为受访者自发回忆，不存在品牌暗示风险。
+2. **提问层次**：人 → 日常 → 书写场景 → 笔的持有 → 选择逻辑 → 未来期待，逐层聚焦，基础画像模块未过早引入产品/品牌关联。
+3. **已知不重复**：Proposal 桌面研究中的趋势信号（多笔多场景、身份表达、把玩乐趣等）作为分析框架储备，未直接变成引导性提问；模块设计旨在获取一手场景与行为数据来验证和深化这些线索。
+4. **题量风险**：全篇共 30 题（含 4 道拍照任务），若为单日填写可能偏重；建议确认日记天数和分模块节奏后，由 wording editor 评估是否需拆分。
+5. **品类探索覆盖**：模块 6 第 3 题覆盖了马克笔、秀丽笔等 Proposal 关注的非书写笔品类，但举例列表不宜过长以免变成引导；当前列举 6 个品类，可视受访者年龄段微调。
 
 ---
 
 ## 七、需要确认的问题
 
-1. **提案完整内容：** 当前仅提取了提案前 8 页（共 28 页），后续页面是否包含具体的样本设计、人群分组、研究阶段划分或刺激物测试计划？如有，可能需要增加筛选模块或刺激物测试模块。
-
-2. **目标人群范围与分组：** 提案提到 05/10 后学生（含公立高中/职高/国际高中）、年轻白领、男性增量、圈层先锋等多个维度——最终参与 Digital Diary 的人群范围和分组方式是什么？是否需要针对不同子人群做题目差异化？
-
-3. **是否有后续 IDI / 入户 / 工作坊：** 如果 Digital Diary 后有深度访谈或共创工作坊，部分探索性题目（如模块 5 的产品想象）可以在日记中做轻量铺垫、在后续访谈中深入；如果日记是唯一触点，则需要在模块 5 加重深度。
+1. **受访者构成与配额**：Proposal 提到 05 后/10 后学生、年轻白领、男女性别、不同教育路径（公立/职高/国际高中），但未明确具体配额和筛选条件——是否需要在日记前设计筛选题？不同人群是否使用同一套题目？
+2. **日记天数与填写节奏**：当前 6 个模块共 30 题，是设计为一次性填写，还是分多天（如 3–5 天）分批推送？这影响模块拆分方式和单日题量控制。
+3. **是否有后续 IDI/座谈会环节**：如有后续深度访谈，部分深度追问（如品牌认知、具体产品概念反馈、KACO 相关刺激物测试）可留到后续环节，当前日记聚焦自然行为捕捉；如无后续环节，可能需要在日记中增加品牌与概念相关模块。
 
 # Task
 
