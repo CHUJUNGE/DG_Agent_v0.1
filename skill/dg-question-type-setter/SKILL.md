@@ -128,9 +128,9 @@ When uncertain, still choose the best type. In a designer/review draft, add "待
 
 Default to `text` / `简答` for DG research questions, because Digital Diary usually needs concrete stories, contexts, reasons, photos, videos, or explanations.
 
-Use `single` / `单选` only when the question asks for one mutually exclusive answer, such as yes/no, one current status, one most recent behavior, one primary channel, or one best-fitting option.
+Use `single` / `单选` only when the question asks for one mutually exclusive answer and the choice has a real routing, branching, screening, segmentation, or follow-up purpose. Do not use single choice merely to make a DG question look structured. If there is no follow-up logic, prefer `text` / `简答`.
 
-Use `multi` / `多选` when the question asks for all applicable items, multiple coexisting people/products/channels/behaviors, or uses wording such as "哪些", "都有哪些", "可以多选", "包括哪些".
+Use `multi` / `多选` when the question identifies multiple applicable items and those selections drive later follow-up questions, display logic, or analysis by selected need/scene/channel/product. Do not use multi choice as a surface checklist without corresponding follow-up. If the selected items will not be used, prefer `text` / `简答`.
 
 Use `score` / `打分` only when the respondent must give a 1-10 numeric evaluation, such as satisfaction, liking, agreement, sensitivity, importance, likelihood, or recommendation likelihood. Do not create or label 1-5 ratings as platform 打分题. If the question asks "为什么打这个分", that follow-up is `text` / `简答`, not `score` / `打分`.
 
@@ -168,6 +168,7 @@ At the end, add a short "题型检核摘要" for the researcher only when there 
 - too many `score` or `sort` questions;
 - too many required image/video tasks;
 - a `single` / `multi` question lacks clear options;
+- a `single` / `multi` question has no clear branching, jump logic, display logic, or selected-option follow-up;
 - a question looks like `single` but research value would be higher as `text`;
 - a question combines a rating and an explanation and should be split into `score` + `text`;
 - a media upload request is embedded in `text` but may need platform-level `require_image` or `require_video` later.

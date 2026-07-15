@@ -73,7 +73,15 @@ If a question asks the respondent to upload media and explain it, keep the type 
 
 ### `single` / 单选
 
-Use when only one answer should be selected.
+Use sparingly. Do not use single choice unless it has a clear research or platform purpose.
+
+Use when only one answer should be selected and the answer drives one of:
+
+- jump logic;
+- display logic;
+- screening or segmentation;
+- different follow-up questions;
+- analysis by mutually exclusive respondent group.
 
 Common signals:
 
@@ -85,9 +93,32 @@ Common signals:
 
 If the options are not listed in the draft, mark "待确认：选项需补齐".
 
+Single choice should usually not stand alone. In designer/review mode, its reason should mention the downstream logic.
+
+Example:
+
+```markdown
+【单选；理由：身份选项互斥，且不同身份会跳转到不同的学习/工作/生活节奏简答追问。】
+1. 请选择你现在主要的身份：学生 / 白领 / 自由职业 / 其他
+```
+
+If there is no branching, selected-option follow-up, or analysis need, prefer `text` / `简答`:
+
+```markdown
+【简答】你现在主要在做什么？平时的学习/工作节奏是什么样的？
+```
+
 ### `multi` / 多选
 
-Use when multiple answers can be true at the same time.
+Use sparingly. Multi choice should usually identify multiple applicable areas that drive later follow-up logic.
+
+Use when multiple answers can be true at the same time and the selected options drive one of:
+
+- jump logic;
+- display logic;
+- selected-option follow-up;
+- need/scene/channel/product-specific probing;
+- analysis by selected concern or behavior.
 
 Common signals:
 
@@ -96,6 +127,26 @@ Common signals:
 - "可以多选" or "请选出所有符合的".
 
 If the question asks "还有哪些" after a fixed list, it can still be `multi` if the expected answer is selecting multiple options; otherwise use `text` for open additions.
+
+Example:
+
+```markdown
+【多选；理由：该题用于识别多个并存的健康关注领域，并按所选领域跳转到对应的需求简答追问。】
+1. 哪些方面的健康问题会引起您的重视？免疫力 / 睡眠 / 眼睛 / 肠胃 / 心血管 / 关节 / 情绪状态 / 其他
+```
+
+Each selected area should lead to a corresponding `简答` follow-up, such as:
+
+```markdown
+【简答】你最近在哪些情况下会特别关注睡眠？具体困扰是什么？你现在会怎么应对？
+【简答】你通常在什么场景下会意识到肠胃问题？它怎么影响你的饮食、作息或产品选择？
+```
+
+If no selected-option follow-up is planned, prefer `text` / `简答`:
+
+```markdown
+【简答】最近你最关注哪些健康问题？为什么这些问题会让你在意？
+```
 
 ### `score` / 打分
 
@@ -184,6 +235,7 @@ After annotation, check:
 
 - Are most DG research questions still `text`?
 - Are `single` / `multi` questions supported by clear options?
+- Does every `single` / `multi` question have clear branching, jump logic, display logic, selected-option follow-up, or analysis value?
 - Are `score` questions limited and justified?
 - Are `sort` questions used only with fixed options?
 - Are upload-heavy `text` tasks concentrated in a way that may tire respondents?
