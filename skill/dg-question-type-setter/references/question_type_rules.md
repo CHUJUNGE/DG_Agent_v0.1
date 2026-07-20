@@ -22,9 +22,33 @@ The platform `type` field supports these backend values and user-facing labels:
 
 The task of this skill is to annotate an existing DG draft with these user-facing type labels. Backend values are internal mapping only and should not be displayed to respondents or normal users.
 
+Also annotate each module with one module type:
+
+- `访谈题`: a normal module answered once, including open questions, choice questions, stimulus reactions, intros, breaks, and endings.
+- `打卡题`: a repeated diary/check-in module where respondents record the same event, behavior, or experience across multiple days, times, or occurrences.
+
 ## Annotation Placement
 
-Add the annotation immediately before the relevant item.
+Add the module type immediately under each module heading. Add the question type annotation immediately before the relevant item.
+
+For normal modules:
+
+```markdown
+### 模块1：我的基础信息
+模块类型：访谈题
+```
+
+For repeated diary / check-in modules, preserve the event name, frequency, and unit when known:
+
+```markdown
+### 模块3：每日打卡
+模块类型：打卡题
+事件名称：每日护肤记录
+重复频次：7
+单位：天
+```
+
+If the draft says "每天", "连续7天", "每次使用后", "每晚记录", "发生一次记录一次", or equivalent repeated recording, label the module as `打卡题`. If repetition is unclear, use `访谈题` and flag the uncertainty in the researcher check summary.
 
 Final user-facing output after wording must show only the type label:
 
@@ -36,6 +60,23 @@ Final user-facing output after wording must show only the type label:
 【排序】5. ...
 【AI-bot】6. ...
 ```
+
+If a question requires an image or video upload, append the required media marker to the type label. Keep the base question type unchanged, usually `简答`:
+
+```markdown
+【简答｜必填图片】1. 请上传今天的护肤照片，并简单描述今天使用了哪些产品。
+【简答｜必填视频】2. 请上传一段购物过程视频，并说明你当时如何做选择。
+```
+
+Use `必填图片` only when the question explicitly requires a photo/image/screenshot upload or when the platform/client requirement makes image upload mandatory. Use `必填视频` only when the question explicitly requires a video upload or when the platform/client requirement makes video upload mandatory. Do not add these markers for optional wording such as "如果方便可以上传", "可以用照片/视频补充", or "欢迎补充".
+
+If both image and video are required, use:
+
+```markdown
+【简答｜必填图片｜必填视频】1. ...
+```
+
+If the respondent may choose either image or video, do not mark both as required unless the source clearly says both are mandatory. In review mode, note "待确认：图片/视频是否必填".
 
 For opening, ending, and break text:
 
@@ -69,7 +110,7 @@ Choose `text` when the answer requires:
 - "为什么", "怎么想", "具体说说", "请分享", "请描述", "请介绍";
 - follow-up explanation after a choice, score, or ranking.
 
-If a question asks the respondent to upload media and explain it, keep the type as `text` / `简答`; mention in the reason that the media request is part of an open diary task when reasons are shown.
+If a question asks the respondent to upload media and explain it, keep the type as `text` / `简答`; mention in the reason that the media request is part of an open diary task when reasons are shown. If the media upload is mandatory, append `必填图片` or `必填视频` to the label.
 
 ### `single` / 单选
 
@@ -233,12 +274,15 @@ It should be one short sentence inserted near the middle of a long questionnaire
 
 After annotation, check:
 
+- Is each module labeled as `访谈题` or `打卡题`?
+- Are repeated daily/event recording modules labeled as `打卡题` with event name, frequency, and unit when available?
 - Are most DG research questions still `text`?
 - Are `single` / `multi` questions supported by clear options?
 - Does every `single` / `multi` question have clear branching, jump logic, display logic, selected-option follow-up, or analysis value?
 - Are `score` questions limited and justified?
 - Are `sort` questions used only with fixed options?
 - Are upload-heavy `text` tasks concentrated in a way that may tire respondents?
+- Are `必填图片` / `必填视频` markers used only for mandatory upload tasks, not optional media suggestions?
 - Are intro, ending, and break messages separated from actual questions?
 
 If problems exist, add a concise "题型检核摘要".

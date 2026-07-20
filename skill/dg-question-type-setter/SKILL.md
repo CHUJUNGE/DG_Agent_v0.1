@@ -1,6 +1,6 @@
 ---
 name: dg-question-type-setter
-description: Set platform question type labels for existing Digital Diary / DG drafts. Use when the user asks to label, assign, review, or revise question types for each DG question, including 简答, 单选, 多选, 打分, 排序, AI-bot, 开场白, 结束画面, and 中场休息.
+description: Set platform question type labels and module type labels for existing Digital Diary / DG drafts. Use when the user asks to label, assign, review, or revise question types for each DG question, including 简答, 单选, 多选, 打分, 排序, AI-bot, 开场白, 结束画面, 中场休息, required image/video markers, and module types such as 访谈题 or 打卡题.
 ---
 
 # DG Question Type Setter
@@ -18,6 +18,8 @@ The first pass gives researchers a type rationale after the designer draft. The 
 
 This skill does not generate a new questionnaire, rewrite respondent wording, or produce backend import JSON. It labels each question or task with a user-facing question type name. Use backend `type` values only as internal mapping, not as user-visible output.
 
+It also labels each module as either `访谈题` or `打卡题` for final output. A `打卡题` module is normally a repeated diary task that asks respondents to record the same event or behavior across multiple days, times, or occurrences.
+
 ## Required Reference
 
 Before setting question types, read:
@@ -31,8 +33,10 @@ For each pass, work in this order:
 ```text
 Read the current DG draft
 -> identify modules, intros, questions, breaks, endings
+-> assign one module type to each module
 -> assign one platform type to each item
 -> choose the correct user-facing type label
+-> add required image/video markers when the question requires media upload
 -> decide whether reasons should be shown
 -> flag uncertain or high-burden type choices
 -> preserve original wording and order
@@ -81,7 +85,24 @@ Show only final user-facing labels:
 
 Do not show reasons in this mode.
 
-Keep the original Markdown structure. Add the user-facing type label immediately before each question, opening, break, or ending.
+Keep the original Markdown structure. Add the module type immediately under each module heading. Add the user-facing type label immediately before each question, opening, break, or ending.
+
+For module type labels:
+
+```markdown
+### 模块x：...
+模块类型：访谈题
+```
+
+For repeated diary / check-in modules:
+
+```markdown
+### 模块x：...
+模块类型：打卡题
+事件名称：每日护肤记录
+重复频次：7
+单位：天
+```
 
 For the final user-facing version after wording, do not show backend field names or reasons. Use this compact format:
 
@@ -93,6 +114,13 @@ For open questions:
 
 ```markdown
 【简答】1. 请回想最近一次...
+```
+
+For required media uploads, append the requirement to the type label:
+
+```markdown
+【简答｜必填图片】1. 请上传今天的护肤照片，并简单描述今天使用了哪些产品。
+【简答｜必填视频】2. 请上传一段购物过程视频，并说明你当时如何做选择。
 ```
 
 For opening copy:
@@ -157,6 +185,7 @@ Good reasons mention one of:
 - the task requires ranking;
 - the item is an intro, break, or ending;
 - media request is part of an open diary task;
+- image or video upload is required by the question;
 - AI follow-up is explicitly needed.
 
 Avoid long explanations. One sentence is enough.

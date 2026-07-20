@@ -133,6 +133,8 @@ Preserve in the handoff:
 - corresponding research questions;
 - required observation points;
 - Diary vs IDI split and task timing;
+- repeated diary/check-in module details, including event name, frequency, and unit when known;
+- mandatory image/video upload intent when the source or research design requires media to be compulsory;
 - brand/product exposure constraints;
 - any fixed template or client-required wording.
 
@@ -208,6 +210,8 @@ Before finalizing, check:
 - Does each module map to a core research question?
 - Are early modules about the person and life context, not the target brand?
 - Are Diary tasks logically answerable before wording polish?
+- Are repeated diary/check-in modules clearly identifiable for later `打卡题` labeling?
+- Are mandatory image/video tasks distinguished from optional media suggestions?
 - Are tasks too heavy from a research-design perspective?
 - Are confirmation questions limited to at most 3?
 - Did the output avoid exposing internal research labels to respondents?

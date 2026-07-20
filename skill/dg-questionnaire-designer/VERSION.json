@@ -1,6 +1,6 @@
 {
-  "skill_version": "0.2.7",
-  "generation_logic_version": "0.2.6",
+  "skill_version": "0.2.8",
+  "generation_logic_version": "0.2.7",
   "research_rules_version": "0.2.7",
   "case_library_version": "0.1.0",
   "fixed_template_version": "0.1.0",
@@ -19,6 +19,7 @@
     "0.2.4 promotes product innovation design logic: innovation as change interpretation, concrete-to-abstract module flow, lifestyle-depth judgment, scene-need linkage, cognition and evaluation-standard decomposition, metaphor/classification probes, and bounded future opportunity design.",
     "0.2.5 makes first-person respondent-facing module titles mandatory by default in detailed DG output, while keeping research-style names only for internal structure, module purpose, or handoff.",
     "0.2.6 adds the single-point question rule: each respondent-facing question should ask one core information point, with only same-point follow-ups allowed.",
-    "0.2.7 adds research_design_ai_agent_rules.md distilled from researcher-authored Word guidance and requires those rules to be injected without truncation."
+    "0.2.7 adds research_design_ai_agent_rules.md distilled from researcher-authored Word guidance and requires those rules to be injected without truncation.",
+    "0.2.8 preserves repeated check-in event/frequency/unit details and mandatory image/video intent in designer output and wording handoff so dg-question-type-setter can label 打卡题 and 必填图片 / 必填视频 accurately."
   ]
 }
