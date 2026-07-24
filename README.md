@@ -1,209 +1,72 @@
 # DG Agent v0.1
 
-Digital Diary 题目设计 Agent 的 demo / skill / 工程化雏形包。
+Digital Diary / DG 题目设计 Agent 的本地 demo、skill 规则包和工程化雏形。
 
+这个仓库当前不是一个完整生产系统，也不是一个已经训练好的专用模型。它的作用是：
 
-## 1. 这个包解决什么
+- 跑通从项目材料到 DG 初稿的本地 Agent 链路。
+- 把研究员的 DG 设计逻辑沉淀成可版本化的 skill / rules / case cards。
+- 为后续 Web 产品、后端服务、算法检索、自动评估、数据库标答对比和训练闭环预留接口。
 
-当前不是要“训练一个完整模型”，而是把题目设计 Agent 拆成三层，并在 demo 中先跑通 designer + wording 的双阶段链路；题型标注作为后续可插拔步骤，在已有 DG 题目前补充平台题型和判断理由：
+## 1. 项目定位
 
-- **Demo 层**：能读取本地 case 材料、解析文本、拼接 prompt、调用大模型生成 designer draft，再由 wording pass 输出受访者可读的最终 DG wording。
-- **Skill 层**：把研究员逻辑、题目生成流程、case card、wording 规则、质量检查规则沉淀成可版本化、可评测、可训练迭代的规范层。
-- **完整 Agent 系统层**：未来接入原有算法、后端和数据库，用大量历史最终版 DG 标答做自动生成、对比、评估和迭代。
+DG Agent 的目标是帮助研究员基于 Brief、Proposal、客户内部资料、desk research 等材料生成 Digital Diary 题目设计稿。
 
-demo 阶段的目标是证明“从 Brief / Proposal / 内部资料到 Digital Diary 题目设计”的主链路可跑通，同时把完整 Agent 的流程、数据契约、skill 版本和评测接口先设计好。demo 前台不一定展示所有功能，但系统骨架要按照完整 Agent 来搭。
-
-正式工程化后，质量提升的核心不再是继续手工堆 prompt，而是利用数据库中的历史项目输入和最终版 DG 标答，形成自动评测和训练闭环。当前仓库已经包含一份本地 `gold_data/` 导出和离线蒸馏报告，用于沉淀规则；它还不是生产数据库检索、批量评测或模型训练系统的替代品。
-
-## 2. 完整系统流程图
-
-图中：
-
-- **实线**：demo 阶段实现或已经有雏形。
-- **虚线**：完整 Agent 系统应具备，但 demo 阶段只留接口或方法。
-
-```mermaid
-flowchart TD
-    U["用户 / 研究员"] --> A["Web Demo: 上传 Brief / Proposal / 内部资料"]
-    A --> B["前端本地解析<br/>PDF / PPT / Word / TXT / MD"]
-    B --> C["文件文本与用户补充说明"]
-    C --> D["Designer Prompt Builder<br/>生成研究设计 prompt"]
-    D --> E["规则库 research_rules.md"]
-    D --> F["生成逻辑 generation_logic.md"]
-    D --> G["Case Cards<br/>Case_001-004"]
-    E --> H["LLM API<br/>ChatAnywhere / OpenAI-compatible"]
-    F --> H
-    G --> H
-    H --> I["Designer Draft<br/>研究逻辑完整草稿 + Wording Handoff"]
-    I --> W["Wording Prompt Builder<br/>注入 wording skill references"]
-    W --> X["Wording LLM Pass<br/>自然化引导语 / 题目 / 结束语"]
-    X --> Y["Final DG Wording<br/>受访者可读 Markdown"]
-    Y --> QT["Question Type Setter<br/>题型标注 / 判断理由"]
-    QT --> J["自由对话修改"]
-    J --> D
-
-    C -.-> K["稳定文档解析服务<br/>版面识别 / 表格 / 图片 OCR / 页码引用"]
-    K -.-> L["材料结构化抽取<br/>商业问题 / 研究目标 / 人群 / 方法 / 刺激物"]
-    L -.-> M["案例与规则检索<br/>RAG / Case Library / Topic Tags"]
-    M -.-> N["研究设计 Planner<br/>模块选择 / Diary vs IDI / 追问策略"]
-    N -.-> O["题目 Writer<br/>受访者题面 / 模块引导语 / 任务说明"]
-    O -.-> P["Agent 自检与评估器<br/>研究问题覆盖 / 负担 / 语言 / 品牌暴露"]
-    P -.-> Q["人审工作台<br/>接受 / 修改 / 标注原因"]
-    Q -.-> R["评测集与反馈库<br/>golden answer / rubric / bad case"]
-    R -.-> M
-    R -.-> U2["模型训练与版本迭代<br/>SFT / preference / eval regression"]
-    U2 -.-> H
-    QT -.-> S["平台导出适配<br/>字段映射 / 跳题 / 素材要求"]
-    S -.-> T["Web 平台正式问卷配置"]
-
-    linkStyle 0,1,2,3,4,5,6,7,8,9,10,11,12 stroke:#111,stroke-width:2px
-    linkStyle 13,14,15,16,17,18,19,20,21,22,23,24,25,26 stroke:#777,stroke-width:2px,stroke-dasharray: 6 5
-```
-
-## 3. Demo 实现范围
-
-demo 的用户可见层先实现“最短可用链路”，本地脚本已经支持 designer-only 和 full pipeline 两种测试：
-
-1. 用户上传项目材料。
-2. 前端或脚本解析出文本。
-3. 使用 `src/prompt.py` 拼出模型输入。
-4. 注入 `references/research_rules.md`、`references/generation_logic.md` 和相关 case card。
-5. 调用 ChatAnywhere / OpenAI-compatible API 生成 designer draft。
-6. 使用 `dg-question-type-setter` 执行 designer 后题型 review，输出题型和理由，供研究员判断。
-7. 使用 `scripts/run_full_model_test.py` 注入 `dg-question-wording-editor` references，执行 wording pass。
-8. 再次使用 `dg-question-type-setter` 执行 final pass，只保留用户可见题型名，例如 `【单选】1. ...`。
-9. 输出受访者可读、带题型建议的 Markdown DG wording。
-10. 用户通过自由对话继续修改。
-
-但 demo 阶段的 skill / 工程设计已经包含完整 Agent 流程。以下能力在 demo 前台暂不完整呈现，但需要保留接口、文档或离线方法：
-
-- 自动 OCR 和复杂版面解析。
-- 真正的案例向量检索。
-- 更完整的多 agent 协作 / planner-writer-evaluator 拆分。
-- 自动题目字段导出。
-- 完整评测平台。
-- 数据库标答批量评测和训练样本构造。
-- 训练 / 回归门禁。
-
-## 4. 完整 Agent 系统应如何扩展
-
-完整系统建议拆成 10 个模块：
-
-1. **Document Ingestion**
-   - 输入：PDF、PPT、Word、TXT、MD。
-   - 输出：带文件名、页码、段落、表格、图片说明的结构化文本。
-
-2. **Project Understanding**
-   - 抽取商业目标、研究目标、目标人群、方法、刺激物、已知假设。
-   - 标记材料冲突和缺失信息。
-
-3. **Case & Rule Retrieval**
-   - 从 case card、历史项目、研究员规则中检索相似逻辑。
-   - 只学习设计逻辑，不复制题目。
-
-4. **Research Planner**
-   - 决定模块结构、模块顺序、Diary vs IDI 分工、任务模块是否需要。
-   - 生成少量必要确认问题。
-
-5. **Questionnaire Designer**
-   - 生成研究逻辑完整的 Digital Diary 草稿。
-   - 明确模块顺序、观察点、Diary vs IDI 分工、品牌/刺激物暴露顺序和 Wording Handoff。
-
-6. **Wording Editor**
-   - 保留 designer 的研究意图和结构。
-   - 专门自然化受访者可见的模块标题、引导语、题目、结束语和素材请求。
-   - 固定模板题可锁定，例如“关于我”前三题。
-
-7. **Question Type Setter**
-   - 在已有 DG 题目前标注用户可见题型：简答、单选、多选、打分、排序、AI-bot、开场白、结束画面、中场休息。
-   - designer/review 阶段可给出简短判断理由；wording 后最终版本只显示题型名。
-   - 不改写题面，不生成后端导入 JSON。
-
-8. **Agent Evaluator**
-   - 检查研究问题覆盖、商业问题映射、题目语言、受访者负担、品牌暴露、重复与无效题。
-
-9. **Human Review Loop**
-   - 研究员修改题目，并标注为什么改。
-   - 形成可进入 prompt / skill / eval set 的反馈。
-
-10. **Platform Export Adapter**
-   - 将 Markdown 转为平台题目字段。
-   - 字段是否固定由平台决定，Agent 只给建议和映射。
-
-11. **Data Training & Regression Loop**
-   - 从数据库中抽取历史输入材料和最终版 DG 标答。
-   - 当前模型批量生成。
-   - 自动对比模型输出与标答。
-   - 产出 gap report、规则候选、训练样本和回归测试结果。
-   - 记录 model / skill / prompt / case library 版本，支持上线门禁。
-
-## 5. Skill 化设计
-
-demo 阶段已经预留 skill 草案，并已按多 agent 分工拆出题目设计、题面 wording、题型标注三层：
+当前版本的重点是 **demo-stage full agent skeleton**：
 
 ```text
-skill/dg-questionnaire-designer/
-├── SKILL.md
-├── VERSION.json
-├── references/
-│   ├── agent_workflow.md
-│   ├── data_contracts.md
-│   ├── eval_rubric.md
-│   ├── generation_logic.md
-│   ├── research_rules.md
-│   ├── case_001_gum.md
-│   ├── case_002_chocolate.md
-│   ├── case_003_wonton.md
-│   └── case_004_45plus_health.md
-└── scripts/
-    └── prompt.py
-
-skill/dg-question-wording-editor/
-├── SKILL.md
-├── VERSION.json
-├── references/
-│   ├── style_rules.md
-│   ├── rewrite_patterns.md
-│   ├── module_tone_guides.md
-│   └── wording_eval_rubric.md
-└── agents/
-    └── openai.yaml
-
-skill/dg-question-type-setter/
-├── SKILL.md
-├── VERSION.json
-└── references/
-    └── question_type_rules.md
+项目材料
+-> prompt builder
+-> questionnaire designer
+-> question type review
+-> wording editor
+-> final question type labels
+-> Markdown DG wording
 ```
 
-`dg-questionnaire-designer` 的定位：
+正式产品化后，它应该升级为：
 
-- 当用户要求“根据 Brief / Proposal / 客户资料设计 Digital Diary 题目”时触发。
-- 先读取 `agent_workflow.md`、`generation_logic.md` 和 `research_rules.md`。
-- 根据项目类型选择相关 case card。
-- 输出 Markdown 题目设计方案。
-- 输出 `Wording Handoff`，为后续 wording agent 标记不能删除的研究意图、观察点、品牌暴露约束和负担风险。
-- 对用户修改意见进行局部迭代，不每次从零生成。
-- 在正式系统中作为“研究逻辑规范层”和“评测 rubric 来源”，与数据库标答、训练样本和模型版本一起迭代。
-- 当涉及后端、数据库、训练或评测时，读取 `data_contracts.md`、`eval_rubric.md` 和 `VERSION.json`。
+```text
+Proposal-first Web 产品
+-> 文件解析服务
+-> 项目理解与信息完整度校验
+-> case / rule retrieval
+-> planner / writer / evaluator
+-> 对话式修改
+-> 平台导出
+-> gold answer eval
+-> 训练与回归闭环
+```
 
-`dg-question-wording-editor` 的定位：
+当前仓库可以证明主链路可跑通，但不能替代公司生产环境中的数据库、权限、后端、算法服务、模型训练和质量监控。
 
-- 当用户要求“更自然 / 更口语 / 不像 checklist / 减少括号 / 降低受访者负担”时触发。
-- 保留 designer agent 产出的研究意图、模块结构、观察点、Diary vs IDI 分工和品牌暴露顺序。
-- 专门改写受访者可见的引导语、题目、结束语和素材请求。
-- 维护固定 About Me 开场题、模块语气、坏例到好例改写模式和 wording 评估 rubric。
-- 当前版本包含一个独立默认 system prompt，定位为“DG 题面编辑”，避免图灵测试式 persona、客服腔、心理咨询腔、主持人腔和过度感谢。
-- 已从 `gold_data/final_dg_all.json` 中的 `type=start`、`type=end`、`type=halftime` 以及模块首题/末题提炼引导语和结束语规则，沉淀到 `style_rules.md` 与 `rewrite_patterns.md`。
+## 2. 算法与 Agent 逻辑
 
-`dg-question-type-setter` 的定位：
+当前算法逻辑本质上是 **prompt orchestration + skill rules + lightweight case retrieval + LLM generation + offline review loop**。
 
-- 当用户要求“设置题型 / 标注题型 / 给每道题加题型和理由”时触发。
-- 在已有 DG Markdown 上为每道题前置标注：`text` 简答、`single` 单选、`multi` 多选、`score` 打分、`sort` 排序、`bot` AI-bot、`start` 开场白、`end` 结束画面、`halftime` 中场休息。
-- designer/review 阶段可显示简短理由，说明为什么该题适合这个平台题型；wording 后最终版本只显示题型名，例如 `【单选】1. 请选择你喜欢的...`。
-- 只做题型判断和风险提示，不改写题面，不输出后端导入 JSON。
+### 2.1 当前已实现的链路
 
-完整四步执行流程：
+```text
+case_data / project files
+-> scripts/test_prompt_with_cases.py 读取 case 输入
+-> src/prompt.py 构建 designer messages
+-> ChatAnywhere / OpenAI-compatible API
+-> designer draft
+-> dg-question-type-setter review_with_reasons
+-> dg-question-wording-editor wording pass
+-> dg-question-type-setter final_labels_only
+-> tests/model_tests 保存输出
+```
+
+### 2.2 三层 Agent / Skill 分工
+
+| 层 | 目录 | 职责 |
+|---|---|---|
+| Questionnaire Designer | `skill/dg-questionnaire-designer/` | 理解项目、拆研究问题、设计模块结构、生成研究逻辑完整的 DG 草稿、输出 Wording Handoff |
+| Wording Editor | `skill/dg-question-wording-editor/` | 把 designer 草稿改成受访者可读、自然、低负担的最终 wording |
+| Question Type Setter | `skill/dg-question-type-setter/` | 给已有 DG 题目标注平台题型，如简答、单选、多选、打分、排序、AI-bot、开场白、结束画面 |
+
+默认完整执行顺序：
 
 ```text
 dg-questionnaire-designer
@@ -212,207 +75,488 @@ dg-questionnaire-designer
 -> dg-question-type-setter final_labels_only
 ```
 
-后续迭代方法：
+### 2.3 当前检索逻辑
 
-- 新增 case 时，不直接塞完整原文，先写成 `case_cards/case_xxx.md`。
-- demo 阶段研究员修改意见先沉淀到 `tests/model_tests/`，再抽象成规则。
-- 当前本地 `gold_data/` 可用于离线统计、AI 蒸馏和规则候选；正式阶段仍应接数据库中的最终版 DG 标答，让模型批量生成并自动对比，不再依赖研究员逐条标注。
-- 稳定规则进入 `research_rules.md`。
-- 流程级规则进入 `generation_logic.md`。
-- 可复用题面模板进入 `dg-question-wording-editor` 的 references 或后续 `templates/`。
-- 完整版 UX 设想见 [docs/ux.md](docs/ux.md)。
-- 训练与自动迭代方法见 [docs/data_training_iteration.md](docs/data_training_iteration.md)。
+当前 case retrieval 是轻量关键词匹配，不是正式 RAG。
 
-## 6. 工程化接口预留
+入口在 `src/prompt.py`：
 
-建议后续 Web demo / 正式平台按以下接口拆分：
+- `CASE_SELECTION_RULES`：按品类、品牌、研究类型等关键词匹配 case。
+- `select_relevant_cases()`：从项目文本中选择最多 2 个相关 case。
+- `load_case_cards()`：把相关 case card 注入 prompt。
 
-- `POST /api/parse-files`
-  - 输入上传文件。
-  - 输出结构化文本数组。
+当前不会调用 embedding、向量数据库或 reranker。
 
-- `POST /api/build-prompt`
-  - 输入项目结构化文本、用户补充说明、可选 case ids。
-  - 输出 OpenAI-compatible messages。
+### 2.4 当前评估和闭环逻辑
 
-- `POST /api/generate-design`
-  - 输入 messages。
-  - 输出 Markdown 题目设计方案。
-
-- `POST /api/revise-design`
-  - 输入当前方案、用户修改意见、历史对话。
-  - 输出局部或完整更新方案。
-
-- `POST /api/evaluate-design`
-  - 输入方案、项目材料、rubric。
-  - 输出覆盖度、风险、修改建议。
-
-- `POST /api/export`
-  - 输入 Markdown 方案。
-  - 输出平台字段草案。
-
-详细字段见 [docs/engineering_interfaces.md](docs/engineering_interfaces.md)。
-
-## 7. 文件结构
+当前闭环是本地 demo 级：
 
 ```text
-DG_Agent_v0.1/
-├── README.md
-├── src/
-│   └── prompt.py
-├── scripts/
-│   ├── run_chatanywhere_smoke.py
-│   ├── run_full_model_test.py
-│   ├── run_model_test.py
-│   ├── test_prompt_with_cases.py
-│   ├── analyze_gold_json.py
-│   ├── ai_distill_gold_rules.py
-│   └── build_demo_loop_report.py
-├── case_data/
-│   └── Case_001 ... Case_006/
-├── gold_data/
-│   ├── final_dg_all.json
-│   ├── reports/
-│   └── ai_distillation/
-├── references/
-│   ├── generation_logic.md
-│   ├── research_rules.md
-│   ├── researcher_logic_case001.md
-│   └── case_cards/
-├── docs/
-│   ├── demo_spec.md
-│   ├── demo_full_agent_mapping.md
-│   ├── data_training_iteration.md
-│   ├── engineering_interfaces.md
-│   ├── eval_plan.md
-│   ├── skill_iteration_method.md
-│   ├── system_flow.md
-│   └── ux.md
-├── tests/
-│   ├── model_tests/
-│   └── prompt_tests/
-└── skill/
-    ├── dg-questionnaire-designer/
-    ├── dg-question-wording-editor/
-    └── dg-question-type-setter/
+模型输出
+-> 研究员 review / 人工修改
+-> scripts/build_demo_loop_report.py
+-> gap 分类
+-> rule / skill / eval candidate
 ```
 
-## 8. 本地运行
+它可以帮助沉淀规则，但还不是生产级自动 evaluator。
 
-先在 PowerShell 设置环境变量：
+### 2.5 后续应补的算法能力
+
+正式算法系统需要补齐：
+
+- 稳定文档解析：PDF / PPT / Word、表格、图片 OCR、页码引用。
+- 结构化项目理解：商业问题、研究目标、人群、方法、刺激物、限制条件。
+- RAG 检索：case metadata、embedding、reranker、rule tags、researcher notes。
+- 独立 evaluator：模块结构、研究覆盖、题面自然度、品牌暴露、受访者负担等评分。
+- Gold answer comparison：模型输出与数据库最终版 DG 标答批量对比。
+- Gap mining：自动聚类高频错误并生成规则候选。
+- Training loop：SFT / preference / eval set / regression gate。
+- Model registry：记录 model、skill、prompt、case library 联合版本。
+
+## 3. 技术栈
+
+### 3.1 当前实际使用
+
+| 类型 | 技术 |
+|---|---|
+| 主要语言 | Python 3 |
+| 模型接口 | OpenAI-compatible Chat Completions API |
+| 当前 API provider | ChatAnywhere，默认可通过环境变量替换 |
+| 输出格式 | Markdown |
+| 文档解析依赖 | `pdfplumber`, `python-docx` |
+| 规则载体 | Markdown skill references |
+| 本地数据 | `case_data/`, `gold_data/`, `tests/` |
+
+### 3.2 requirements
+
+当前 `requirements.txt`：
+
+```text
+pdfplumber>=0.11,<0.12
+python-docx>=1.1,<2
+```
+
+仓库里还存在 `.deps/` 本地依赖目录，主要是本地运行时缓存，不是核心业务代码。
+
+### 3.3 尚未引入但后续需要
+
+正式工程化时预计需要：
+
+- Web framework / API service：FastAPI、Next.js API routes 或公司现有后端。
+- 文件解析服务：统一处理 PDF / PPT / Word / OCR / 图片。
+- 向量检索：embedding model、vector database、reranker。
+- 作业系统：异步任务、重试、状态追踪。
+- 数据库：项目材料、final DG 标答、model runs、reviews、eval results。
+- 监控：日志、质量 dashboard、模型版本回滚。
+
+## 4. 快速开始
+
+### 4.1 安装依赖
 
 ```powershell
-$env:CHATANYWHERE_API_KEY="你的 key"
-$env:CHATANYWHERE_BASE_URL="https://api.chatanywhere.tech/v1"
-$env:CHATANYWHERE_MODEL="claude-opus-4-6"
-$env:DG_AGENT_CASE_ROOT="D:\Synocodes\agent"
+pip install -r requirements.txt
 ```
 
-连接测试：
+### 4.2 设置环境变量
+
+```powershell
+$env:CHATANYWHERE_API_KEY="your_api_key"
+$env:CHATANYWHERE_BASE_URL="https://api.chatanywhere.tech/v1"
+$env:CHATANYWHERE_MODEL="claude-opus-4-6"
+$env:DG_AGENT_CASE_ROOT="D:\DG_Agent_v0.1\case_data"
+```
+
+如果 case 数据放在其他目录，把 `DG_AGENT_CASE_ROOT` 改成包含 `Case_001`、`Case_002` 等文件夹的路径。
+
+### 4.3 连接测试
 
 ```powershell
 python .\scripts\run_chatanywhere_smoke.py
 ```
 
-只构建 prompt preview，不调用模型：
+### 4.4 只生成 prompt preview，不调用模型
 
 ```powershell
 python .\scripts\test_prompt_with_cases.py --case case_006
 ```
 
-designer-only 生成测试：
+输出写入：
+
+```text
+tests/prompt_tests/
+```
+
+### 4.5 跑 designer-only
 
 ```powershell
 python .\scripts\run_model_test.py --case case_001
 ```
 
-完整四步链路 dry-run，只生成 prompt，不调用模型：
+输出写入：
+
+```text
+tests/model_tests/
+```
+
+### 4.6 跑完整四步链路 dry-run
+
+只生成 prompt，不调用模型：
 
 ```powershell
 python .\scripts\run_full_model_test.py --case case_006 --model claude-opus-4-6 --dry-run
 ```
 
-完整四步链路，调用模型并输出最终带题型建议的 wording：
+### 4.7 跑完整四步链路
 
 ```powershell
 python .\scripts\run_full_model_test.py --case case_006 --model claude-opus-4-6
 ```
 
-如果已经存在某个 case 的 designer output，`--dry-run` 会基于已有 designer output 生成 type review prompt 和 wording prompt；如果已经存在 wording output，也会生成 final type prompt。需要回到旧的 designer -> wording 流程时，可加 `--skip-type-setter`。
+完整链路会生成：
 
-检查 case006 wording prompt 是否包含当前引导语/结束语规则：
+- designer prompt
+- designer output
+- type review prompt / output
+- wording prompt / output
+- final type prompt / output
 
-```powershell
-Select-String -Path .\tests\model_tests\case_006_claude-opus-4-6_wording_prompt.md -Pattern "DG 题面编辑","Module Intro And Ending Naturalness","AI-Host Ending"
+## 5. 目录结构与文件作用
+
+```text
+DG_Agent_v0.1/
+├── README.md
+├── requirements.txt
+├── src/
+├── scripts/
+├── case_data/
+├── gold_data/
+├── references/
+├── skill/
+├── docs/
+└── tests/
 ```
 
-新增 case 建议放在：
+### 5.1 根目录
+
+| 文件 / 目录 | 作用 |
+|---|---|
+| `README.md` | 项目总说明，说明算法逻辑、技术栈、运行方式和文件结构 |
+| `requirements.txt` | Python 依赖 |
+| `.gitignore` | Git 忽略规则 |
+| `.deps/` | 本地依赖缓存目录，非核心业务代码 |
+| `.agents/` | 本地 agent / Codex 相关配置目录 |
+| `.codex/` | 本地 Codex 相关配置目录 |
+
+### 5.2 `src/`
+
+| 文件 | 作用 |
+|---|---|
+| `src/prompt.py` | 核心 prompt builder；定义数据类、读取规则、选择 case card、构建 designer system/user messages、构建对话修改 prompt |
+
+`src/prompt.py` 关键对象和函数：
+
+| 名称 | 作用 |
+|---|---|
+| `ChatMessage` | OpenAI-compatible message 数据结构 |
+| `ProjectFile` | 输入文件结构 |
+| `ProjectInfo` | 项目补充信息结构 |
+| `PromptBundle` | prompt messages 与 selected case ids 的封装 |
+| `CASE_SELECTION_RULES` | 当前关键词 case 匹配规则 |
+| `select_relevant_cases()` | 根据项目文本选择相关 case |
+| `build_system_prompt()` | 注入 generation logic、research rules、researcher rules |
+| `build_generation_prompt()` | 构建 designer 生成 prompt |
+| `build_chat_prompt()` | 构建自由对话修改 prompt |
+
+### 5.3 `scripts/`
+
+| 文件 | 作用 |
+|---|---|
+| `scripts/test_prompt_with_cases.py` | 从 `case_data` 读取 case 输入，生成 prompt preview，不调用模型 |
+| `scripts/run_model_test.py` | 调用模型跑 designer-only 生成 |
+| `scripts/run_full_model_test.py` | 跑完整链路：designer -> type review -> wording -> final type labels |
+| `scripts/run_chatanywhere_smoke.py` | 测试 ChatAnywhere / OpenAI-compatible API 是否可用 |
+| `scripts/build_demo_loop_report.py` | 从模型输出或 review 中提取 gap，生成 demo closed-loop report |
+| `scripts/analyze_gold_json.py` | 分析 `gold_data/final_dg_all.json`，生成模块、题型、媒体请求、常见 wording 统计 |
+| `scripts/ai_distill_gold_rules.py` | 从 gold data 小批量生成 AI-assisted rule candidates，默认可只写 prompt preview |
+
+### 5.4 `case_data/`
+
+本地测试 case 输入材料。每个 case 是一个项目文件夹：
 
 ```text
 case_data/
-  Case_005/
-    Brief.xxx
-    Proposal.xxx
-    客户内部资料.xxx
-    desk_research.xxx
-    Final Digital Diary DG.xxx
+├── Case_001/
+├── Case_002/
+├── Case_003/
+├── Case_004/
+├── Case_005/
+└── Case_006/
 ```
 
-生成时会读取 Brief / Proposal / 客户内部资料 / desk research 等输入材料，并自动排除文件名中包含 `Final Digital Diary`、`Final DG`、`最终` 或 `标答` 的文件。
+每个 case 通常包含：
 
-如果要给新 case 补充品类、品牌、人群等信息，可在 case 文件夹内添加 `case_info.json`：
+| 文件类型 | 作用 |
+|---|---|
+| `Brief` | 项目 brief |
+| `Proposal` | 项目方案，当前推荐首选输入 |
+| `客户内部资料` | 客户已有沉淀 |
+| `Desk Research` | 桌面研究材料 |
+| `Final Digital Diary DG` | 最终版 DG 标答；生成 prompt 时应排除，只用于评估或规则蒸馏 |
+| `case_info.json` | 可选；补充品类、品牌、目标人群、IDI 信息等 |
 
-```json
-{
-  "category": "品类",
-  "brand": "品牌",
-  "target_audience": "目标人群",
-  "has_idi": "是否有 IDI / 入户 / 后续访谈",
-  "extra_notes": "给模型的补充说明"
-}
-```
-
-注意：`DG_AGENT_CASE_ROOT` 指向包含 `Case_001`、`Case_002` 等原始材料文件夹的目录。当前仓库已包含 `case_data/Case_001` 到 `Case_006` 的本地测试材料；如果在其他目录运行，需要根据实际 case 文件位置调整输入路径。
-
-## 9. 当前最重要的判断
-
-只靠少量 case card、prompt 规则和本地离线 gold-data 摘要，仍然不能让模型稳定“学会研究员”。demo 阶段应把目标定为：
-
-- 证明端到端链路可行。
-- 暴露生成质量问题。
-- 收集研究员修改意见。
-- 把修改意见结构化成 skill / rules / eval set。
-
-真正提升质量的关键不是继续堆 prompt，而是建立：
-
-- 更稳定的材料结构化解析。
-- 更系统的 case library。
-- 数据库最终版 DG 标答接入。
-- 自动生成 vs 标答对比。
-- gap 聚类与规则候选生成。
-- 自动评估 rubric。
-- 模型 / skill / prompt / case library 的版本化回归测试。
-
-## 10. 闭环状态
-
-当前仓库已经补充一个本地 demo 闭环：
+新增 case 建议结构：
 
 ```text
-prompt 构建 -> designer draft -> wording pass -> 研究员 review -> gap 分类 -> 规则 / rubric / 训练样本候选 -> skill 迭代
+case_data/
+  Case_007/
+    【Brief】xxx.docx
+    【Proposal】xxx.pdf
+    【客户内部资料】xxx.pdf
+    【Desk Research】xxx.pptx
+    【Final Digital Diary DG】xxx.pdf
+    case_info.json
 ```
 
-说明见 [docs/closed_loop_status.md](docs/closed_loop_status.md)。
+### 5.5 `references/`
 
-可用脚本：
+早期全局规则和 case card 目录。当前更推荐以 `skill/dg-questionnaire-designer/references/` 为主，但这里仍保留历史和全局参考。
 
-```powershell
-python .\scripts\build_demo_loop_report.py --case case_001
+| 文件 / 目录 | 作用 |
+|---|---|
+| `references/generation_logic.md` | 题目生成流程规则 |
+| `references/research_rules.md` | 研究设计规则库 |
+| `references/researcher_logic_case001.md` | Case 001 研究员逻辑沉淀 |
+| `references/case_cards/` | 早期 case cards |
+| `references/case_cards/case_001_gum.md` | 口香糖 / gum 项目 case card |
+| `references/case_cards/case_002_chocolate.md` | 巧克力项目 case card |
+| `references/case_cards/case_003_wonton.md` | 馄饨 / 持续聆听项目 case card |
+| `references/case_cards/case_004_45plus_health.md` | 45+ 健康项目 case card |
+
+### 5.6 `skill/`
+
+Agent 行为规则和可版本化 skill 包。
+
+#### `skill/dg-questionnaire-designer/`
+
+| 文件 | 作用 |
+|---|---|
+| `SKILL.md` | designer skill 入口说明，定义何时触发、读哪些 reference、输出什么 |
+| `VERSION.json` | skill、rules、case library、rubric 版本记录 |
+| `references/agent_workflow.md` | 完整 Agent 工作流说明 |
+| `references/data_contracts.md` | 数据对象和工程接口契约 |
+| `references/eval_rubric.md` | designer 输出评估标准 |
+| `references/generation_logic.md` | designer 生成流程规则 |
+| `references/research_rules.md` | 研究设计规则库 |
+| `references/research_design_ai_agent_rules.md` | 从研究员 Word 指导中沉淀的高优先级规则 |
+| `references/case_001_gum.md` | designer case card |
+| `references/case_002_chocolate.md` | designer case card |
+| `references/case_003_wonton.md` | designer case card |
+| `references/case_004_45plus_health.md` | designer case card |
+| `scripts/prompt.py` | skill 内部 prompt helper 副本或实验脚本 |
+
+#### `skill/dg-question-wording-editor/`
+
+| 文件 | 作用 |
+|---|---|
+| `SKILL.md` | wording skill 入口说明 |
+| `VERSION.json` | wording skill 版本记录 |
+| `agents/openai.yaml` | wording agent 默认 system prompt 配置 |
+| `references/style_rules.md` | 受访者题面风格规则 |
+| `references/rewrite_patterns.md` | 坏例到好例的改写模式 |
+| `references/module_tone_guides.md` | 不同模块类型的语气指南 |
+| `references/wording_eval_rubric.md` | wording 输出评估标准 |
+
+#### `skill/dg-question-type-setter/`
+
+| 文件 | 作用 |
+|---|---|
+| `SKILL.md` | 题型标注 skill 入口说明 |
+| `VERSION.json` | 题型标注 skill 版本记录 |
+| `references/question_type_rules.md` | 平台题型判断规则，包括简答、单选、多选、打分、排序、AI-bot、开场白、结束画面、中场休息等 |
+
+### 5.7 `gold_data/`
+
+离线 gold data 和规则蒸馏材料。
+
+| 文件 / 目录 | 作用 |
+|---|---|
+| `gold_data/final_dg_all.json` | 数据库导出的历史最终版 DG 标答集合 |
+| `gold_data/reports/gold_data_inventory.md` | `analyze_gold_json.py` 生成的统计报告 |
+| `gold_data/reports/designer_patterns.json` | 面向 designer skill 的结构和任务模式摘要 |
+| `gold_data/reports/wording_patterns.json` | 面向 wording skill 的题面风格模式摘要 |
+| `gold_data/ai_distillation/` | AI-assisted rule mining 的 prompt、response 和候选规则输出 |
+
+注意：gold data 不应直接塞进生成 prompt。正确方式是离线蒸馏、人工 review，再把稳定规则写入 skill references。
+
+### 5.8 `docs/`
+
+工程化和产品化设计文档。
+
+| 文件 | 作用 |
+|---|---|
+| `docs/system_flow.md` | 完整 Agent 系统流程 |
+| `docs/demo_full_agent_mapping.md` | demo 阶段与完整 Agent 阶段的映射 |
+| `docs/ux.md` | Proposal-first 产品 UX 设计 |
+| `docs/engineering_interfaces.md` | 后续后端 API 和数据对象设计 |
+| `docs/data_training_iteration.md` | 数据驱动训练和自动迭代方法 |
+| `docs/eval_plan.md` | Agent 输出评估计划和评分维度 |
+| `docs/skill_iteration_method.md` | 如何把研究员反馈沉淀成 skill |
+| `docs/gold_data_skill_distillation.md` | 如何从 gold data 离线蒸馏规则 |
+| `docs/closed_loop_status.md` | 当前本地 demo 闭环能力与边界 |
+
+### 5.9 `tests/`
+
+本地测试输出、模型输出和闭环报告。
+
+| 目录 | 作用 |
+|---|---|
+| `tests/prompt_tests/` | prompt preview 输出 |
+| `tests/model_tests/` | 模型输入 prompt、designer output、wording output、type setter output、研究员 review |
+| `tests/loop_reports/` | `build_demo_loop_report.py` 生成的闭环报告 |
+
+这些不是传统单元测试，而是 demo / prompt / model run 的记录材料。
+
+## 6. 关键数据流
+
+### 6.1 Prompt 构建数据流
+
+```text
+case_data/Case_xxx
+-> scripts/test_prompt_with_cases.py
+-> load_case_inputs()
+-> project_info_for_case()
+-> src/prompt.py::build_generation_prompt()
+-> tests/prompt_tests/case_xxx_prompt_preview.md
 ```
 
-新 case 同样可以生成闭环报告：
+### 6.2 模型生成数据流
 
-```powershell
-python .\scripts\build_demo_loop_report.py --case case_005
+```text
+build_generation_prompt()
+-> ChatAnywhere / OpenAI-compatible chat completions
+-> tests/model_tests/case_xxx_model_designer_output.md
+-> build_wording_prompt()
+-> wording output
+-> build_type_setter_prompt()
+-> final type-labeled output
 ```
 
-这只能完成 demo 级闭环。公司数据库、公司后端、算法服务、历史最终版 DG 标答、批量评测、模型训练和生产回归门禁，仍需要进入工程环境后继续接入。
+### 6.3 规则迭代数据流
+
+```text
+model output / researcher review
+-> scripts/build_demo_loop_report.py
+-> tests/loop_reports/
+-> stable rule candidates
+-> skill references / eval rubric / case cards
+```
+
+### 6.4 Gold data 离线蒸馏数据流
+
+```text
+gold_data/final_dg_all.json
+-> scripts/analyze_gold_json.py
+-> gold_data/reports/
+-> scripts/ai_distill_gold_rules.py
+-> gold_data/ai_distillation/
+-> human review
+-> skill references
+```
+
+## 7. 当前边界
+
+当前可以做：
+
+- 从本地 case 材料构建 prompt。
+- 调用模型生成 designer draft。
+- 执行 designer -> type review -> wording -> final type labels 链路。
+- 保存 prompt 和模型输出。
+- 分析本地 gold data JSON。
+- 根据 review 生成 demo closed-loop report。
+- 维护 skill / rule / case card 版本。
+
+当前不能做：
+
+- 生产级 Web 上传和项目管理。
+- 稳定 OCR、复杂版面解析、图片理解和页码引用。
+- 公司数据库实时连接。
+- 公司后端权限、任务、审阅和日志系统。
+- embedding / reranker / auto evaluator / model registry。
+- 数据库最终版 DG 标答批量对比。
+- 自动训练、微调或模型发布。
+- 生产监控、灰度、回滚和质量 dashboard。
+
+## 8. 产品工程化路线
+
+### v0.1 Local Demo
+
+- 本地脚本链路。
+- prompt builder。
+- skill rules。
+- case cards。
+- 模型输出记录。
+- 人工 review 闭环。
+
+### v0.2 Web Demo
+
+- Proposal 上传。
+- 项目前置信息表。
+- 必填信息完整度校验。
+- 信息收集摘要。
+- 一键生成 DG 初稿。
+- 对话式局部修改。
+- 版本保存。
+
+### v0.3 Engineering Integration
+
+- 后端 API 服务化。
+- 文件解析服务。
+- 项目、权限、任务状态和日志。
+- review annotation。
+- 初版 evaluator。
+- case 检索。
+
+### v0.4 Data Eval
+
+- 接入数据库历史项目输入。
+- 接入 final DG gold answers。
+- batch generation。
+- auto eval。
+- gap taxonomy。
+- eval set。
+
+### v1.0 Production
+
+- 平台导出 adapter。
+- 人审工作台。
+- 质量 dashboard。
+- 回归门禁。
+- model / skill / prompt / case library 联合版本管理。
+- 生产监控和回滚。
+
+## 9. 新接手者建议阅读顺序
+
+1. `README.md`：先理解整体定位。
+2. `docs/demo_full_agent_mapping.md`：理解 demo 和完整 Agent 的边界。
+3. `docs/ux.md`：理解产品形态。
+4. `docs/engineering_interfaces.md`：理解未来 API 和数据对象。
+5. `src/prompt.py`：理解当前核心生成逻辑。
+6. `scripts/run_full_model_test.py`：理解完整本地链路如何执行。
+7. `skill/dg-questionnaire-designer/SKILL.md`：理解 designer agent。
+8. `skill/dg-question-wording-editor/SKILL.md`：理解 wording agent。
+9. `skill/dg-question-type-setter/SKILL.md`：理解题型标注 agent。
+10. `docs/data_training_iteration.md`：理解后续数据闭环和训练路线。
+
+## 10. 维护规则
+
+- 不要把大段原始客户材料直接写进 skill。
+- 新 case 先提炼 case card，再决定是否进入规则库。
+- Gold data 只用于离线蒸馏，不直接注入常规生成 prompt。
+- 每次改 skill / rules / prompt，应记录版本和影响。
+- 每次模型输出后，最好保留 prompt、output、review 和 gap report。
+- 稳定、高频、可泛化的研究逻辑进入 `research_rules.md`。
+- 流程级约束进入 `generation_logic.md`。
+- 题面自然化规则进入 `dg-question-wording-editor/references/`。
+- 题型判断规则进入 `dg-question-type-setter/references/question_type_rules.md`。
+
